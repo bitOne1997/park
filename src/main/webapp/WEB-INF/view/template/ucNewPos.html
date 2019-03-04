@@ -1,0 +1,91 @@
+
+
+<div class="modal-header">
+	<button type='button' class='close' ng-click="close()"
+		aria-hidden='true'>&times;</button>
+	<h3 class="modal-title text-center">手持终端设备</h3>
+</div>
+
+<div class="modal-body">
+	<form class="form-horizontal" role="form">
+		<div class="form-group">
+			<label class="col-sm-2 control-label">设备终端号</label>
+			<div class="col-sm-3">
+				<input type="text" class="form-control" placeholder="设备终端号"
+					ng-model="tempPos.num">
+			</div>
+			<label class="col-sm-2 control-label">设备类型</label>
+			<div class="col-sm-3">
+				<input type="text" class="form-control" placeholder="设备类型"
+					ng-model="tempPos.type">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label">设备型号</label>
+			<div class="col-sm-3">
+				<input type="text" class="form-control" placeholder="设备型号"
+					ng-model="tempPos.model">
+			</div>
+			<label class="col-sm-2 control-label">所属市</label>
+			<div class="col-sm-3">
+				<select class="form-control"
+					ng-options="zoneCenter.id as zoneCenter.name for zoneCenter in zoneCenters"
+					ng-model="zoneCenterId" ng-change="getArea()"></select>
+			</div>
+		</div>
+		<!--         <div class="form-group" hidden>
+            <label class="col-sm-2 control-label" >最后活动时间</label>
+            <div class="col-sm-3">
+               <input type="text" class="form-control" placeholder="YYYY-MM-DD hh:mm:ss" ng-model="tempPos.lasttime">
+            </div>
+        </div> -->
+		<!--         <div class="form-group" hidden>
+            <label class="col-sm-2 control-label" >添加时间</label>
+            <div class="col-sm-3">
+               <input type="text" class="form-control" placeholder="YYYY-MM-DD hh:mm:ss 空为当前时间" ng-model="tempPos.addtime">
+            </div>
+        </div> -->
+		<div class="form-group">
+			<label class="col-sm-2 control-label">所属区</label>
+			<div class="col-sm-3">
+				<select class="form-control"
+					ng-options="area.id as area.name for area in areas"
+					ng-change="getStreets()" ng-model="areaId"></select>
+			</div>
+			<label class="col-sm-2 control-label">所属路段</label>
+			<div class="col-sm-3">
+				<select class="form-control"
+					ng-options="street.id as street.name for street in streets"
+					ng-model="tempPos.streetid" ng-change="getParks(tempPos.streetid)"></select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">所属停车场</label>
+			<div class="col-sm-3">
+				<select class="form-control"
+					ng-options="park.id as park.name for park in parks"
+					ng-model="tempPos.parkid"></select>
+			</div>
+			<label class="col-sm-2 control-label">操作员</label>
+			<div class="col-sm-3">
+				<input type="text" class="form-control" placeholder="请输入备注信息"
+					ng-model="tempPos.operator">
+			</div>
+		</div>
+
+		<div class="alert alert-info" ng-show="loading || submitted">
+			<span ng-show='loading'> <i class="fa fa-spinner"></i></span> <span
+				ng-show='submitted'>{{result}}</span>
+		</div>
+
+	</form>
+</div>
+
+<div class="modal-footer">
+	<button ng-click="close()" type="button" class="btn btn-default"
+		data-dismiss="modal">取消</button>
+	<button ng-click="submit()" type="button" class="btn btn-primary">
+		确定</button>
+</div>
+

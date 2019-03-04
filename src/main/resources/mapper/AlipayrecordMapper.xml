@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.park.dao.AlipayrecordMapper" >
+  <resultMap id="BaseResultMap" type="com.park.model.Alipayrecord" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="out_trade_no" property="outTradeNo" jdbcType="VARCHAR" />
+    <result column="poschargeId" property="poschargeid" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="money" property="money" jdbcType="DOUBLE" />
+    <result column="aliTradeNo" property="alitradeno" jdbcType="VARCHAR" />
+    <result column="date" property="date" jdbcType="TIMESTAMP" />
+    <result column="userId" property="userid" jdbcType="VARCHAR" />
+    <result column="parkingId" property="parkingid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, out_trade_no, poschargeId, status, money, aliTradeNo, date, userId, parkingId
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from alipayRecord
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from alipayRecord
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.park.model.Alipayrecord" >
+    insert into alipayRecord (id, out_trade_no, poschargeId, 
+      status, money, aliTradeNo, 
+      date, userId, parkingId
+      )
+    values (#{id,jdbcType=INTEGER}, #{outTradeNo,jdbcType=VARCHAR}, #{poschargeid,jdbcType=INTEGER}, 
+      #{status,jdbcType=CHAR}, #{money,jdbcType=DOUBLE}, #{alitradeno,jdbcType=VARCHAR}, 
+      #{date,jdbcType=TIMESTAMP}, #{userid,jdbcType=VARCHAR}, #{parkingid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.park.model.Alipayrecord" >
+    insert into alipayRecord
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="outTradeNo != null" >
+        out_trade_no,
+      </if>
+      <if test="poschargeid != null" >
+        poschargeId,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="money != null" >
+        money,
+      </if>
+      <if test="alitradeno != null" >
+        aliTradeNo,
+      </if>
+      <if test="date != null" >
+        date,
+      </if>
+      <if test="userid != null" >
+        userId,
+      </if>
+      <if test="parkingid != null" >
+        parkingId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="outTradeNo != null" >
+        #{outTradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="poschargeid != null" >
+        #{poschargeid,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="money != null" >
+        #{money,jdbcType=DOUBLE},
+      </if>
+      <if test="alitradeno != null" >
+        #{alitradeno,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null" >
+        #{date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="parkingid != null" >
+        #{parkingid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.park.model.Alipayrecord" >
+    update alipayRecord
+    <set >
+      <if test="outTradeNo != null" >
+        out_trade_no = #{outTradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="poschargeid != null" >
+        poschargeId = #{poschargeid,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="money != null" >
+        money = #{money,jdbcType=DOUBLE},
+      </if>
+      <if test="alitradeno != null" >
+        aliTradeNo = #{alitradeno,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null" >
+        date = #{date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userid != null" >
+        userId = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="parkingid != null" >
+        parkingId = #{parkingid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.park.model.Alipayrecord" >
+    update alipayRecord
+    set out_trade_no = #{outTradeNo,jdbcType=VARCHAR},
+      poschargeId = #{poschargeid,jdbcType=INTEGER},
+      status = #{status,jdbcType=CHAR},
+      money = #{money,jdbcType=DOUBLE},
+      aliTradeNo = #{alitradeno,jdbcType=VARCHAR},
+      date = #{date,jdbcType=TIMESTAMP},
+      userId = #{userid,jdbcType=VARCHAR},
+      parkingId = #{parkingid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="getByAliTradeNO" resultMap="BaseResultMap">
+  	select * from alipayRecord where aliTradeNo=#{aliTradeNo} order by id desc
+  </select>
+   <select id="getByOutTradeNO" resultMap="BaseResultMap">
+  	select * from alipayRecord where out_trade_no=#{outTradeNO} order by id desc
+  </select>
+  <select id="getByPosChargeId" resultMap="BaseResultMap">
+  	select * from alipayRecord where poschargeId=#{poschargeId} order by id desc
+  </select>
+</mapper>

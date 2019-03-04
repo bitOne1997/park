@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.park.dao.ApiUsersDAO">
+	<resultMap id="ApiUsersMapper" type="ApiUser">
+		<id property="id" column="id" />
+		<result property="username" column="username" />
+		<result property="companyInfo" column="companyInfo"/>
+		<result property="contact" column="contact"/>
+		<result property="number" column="number"/>
+		<result property="tokenId" column="tokenId"/>
+	</resultMap> 
+	
+	
+
+	
+	
+	
+	<select id="count" resultType="int">
+		select count(*) from apiUsers
+	</select>
+	
+	<select id="get" resultMap="ApiUsersMapper">
+		select * from apiUsers limit #{param1}, #{param2}
+	</select>
+	
+	<insert id="insert" parameterType="ApiUser" keyProperty="id">
+		insert into apiUsers(username, companyInfo, contact, number, tokenId) values(#{username}, #{companyInfo}, #{contact}, #{number}, #{tokenId})
+	</insert>
+	
+	
+	<update id="update" parameterType="ApiUser">
+		update apiUsers set username=#{username}, companyInfo=#{companyInfo}, contact=#{contact}, number=#{number}
+		where id=#{id}
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		delete from apiUsers where id = #{id}
+	</delete>
+</mapper>

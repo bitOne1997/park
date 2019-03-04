@@ -1,0 +1,69 @@
+<script src="/park/script/service/textModalService.js"></script>
+
+<script src="/park/script/page.js"></script>
+
+<style>
+        .page-list .pagination {float:left;}
+        .page-list .pagination span {cursor: pointer;}
+        .page-list .pagination .separate span{cursor: default; border-top:none;border-bottom:none;}
+        .page-list .pagination .separate span:hover {background: none;}
+        .page-list .page-total {float:left; margin: 25px 20px;}
+        .page-list .page-total input, .page-list .page-total select{height: 26px; border: 1px solid #ddd;}
+        .page-list .page-total input {width: 40px; padding-left:3px;}
+        .page-list .page-total select {width: 50px;}
+</style>
+
+<div class="content-wrapper" ng-app="pageApp" ng-controller="pageCtrl">
+	<section class="content-header">
+          <h1>
+            页面管理
+            <small></small>
+          </h1>     
+    </section>
+    <section class="content">
+       <div class="row">
+            <div class="col-xs-12">
+              	<div class="box">
+	                <div class="box-header">
+	                  <h3 class="box-title"></h3>
+	                </div><!-- /.box-header -->
+	                <div class="box-body">  
+		                	<div class="btn-group">
+		                		<button #if(!$isAdmin) disabled#end ng-click="page.refresh()" type="button" class="btn bg-purple"><span class="glyphicon glyphicon-refresh"></span> 刷新</button>
+		                		<button #if(!$isAdmin) disabled#end ng-click="page.insert()" type="button" class="btn bg-olive"><span class="glyphicon glyphicon-pencil"></span> 添加</button>
+		                		<button #if(!$isAdmin) disabled#end ng-click="page.update()" type="button" class="btn bg-navy"><span class="glyphicon glyphicon-edit"></span> 更新</button>
+		                		<button #if(!$isAdmin) disabled#end ng-click="page.remove()" type="button" class="btn  bg-orange"><span class="glyphicon glyphicon-remove"></span> 删除</button>
+		                	</div>
+                	
+	                	<br/>   
+	                    <br/> 
+						<div>
+						 <table class="table table-hover  table-condensed" id='channelTable' style="font-size:12px">
+				            <tr>				            
+				             <th><span style=""><input type="checkbox" /></span></th>
+									<th><span >Id</span></th>		
+									<th><span>URI</span></th>
+									<th><span>页面key</span></th>
+									<th><span>描述</span></th>
+									
+				            </tr>
+				          <tbody id="channelBody"></tbody>
+				          	<tr  ng-repeat = "item in page.items">
+				          		<td ><input type="checkbox" ng-model="item.checked" ng-click="page.checked($index)"/></td>
+				          		<td ng-bind="item.id"></td>
+				          		<td ng-bind="item.uri"></td>
+				          		<td ng-bind="item.pageKey"></td>
+				          		<td ng-bind="item.description"></td>
+
+				          </table>
+    					</div>
+						<tm-pagination conf="paginationConf"></tm-pagination>
+    				</div>
+
+	            </div>
+            </div>
+        </div>
+
+    </section>
+						
+</div>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.park.dao.TokenUsageDAO">
+	<resultMap id="TokenUsageMapper" type="TokenUsage">
+		<id property="id" column="id" />
+		<result property="tokenId" column="tokenId" />
+		<result property="uri" column="uri"/>
+		<result property="date" column="date"/>
+	</resultMap> 
+	
+	<resultMap id="UserTokenUsageMapper" type="UserTokenUsage">
+		<id property="userId" column="userId" />
+		<result property="username" column="username" />
+		<result property="companyInfo" column="companyInfo"/>
+		<result property="tokenId" column="tokenId"/>
+		<result property="uri" column="uri"/>
+		<result property="count" column="count"/>
+	</resultMap> 
+	
+	<select id="count" resultType="int">
+		select count(distinct(tokenId)) from tokenUsage
+	</select>
+	
+	<select id="tokenCount" resultType="int">
+		select count(*) from tokenUsage where tokenId=#{param1}
+	</select>
+	
+	<select id="get" resultMap="UserTokenUsageMapper">
+		select u.id as userId, u.username, u.companyInfo, t.tokenId, t.uri, count(*) as count from tokenUsage as t 
+		left join apiUsers u on t.tokenId = u.tokenId 
+		group by t.tokenId
+		limit #{param1}, #{param2}
+	</select>
+	
+	<select id="getUsage" resultMap="UserTokenUsageMapper">
+		select u.id as userId, u.username, u.companyInfo, t.tokenId, t.uri, count(*) as count from tokenUsage as t 
+		left join apiUsers u on t.tokenId = u.tokenId 
+		where u.id = #{param1}
+		group by t.tokenId	
+	</select>
+	
+	<insert id="insertUsage" parameterType="TokenUsage" keyProperty="id">
+		insert into tokenUsage(tokenId, uri, date) values(#{tokenId}, #{uri}, #{date})
+	</insert>
+</mapper>

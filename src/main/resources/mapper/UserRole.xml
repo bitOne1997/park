@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.park.dao.UserRoleDAO">
+  	<resultMap id="UserRoleMapper" type="UserRole">
+		<id property="id" column="id" />
+		<result property="userId" column="userId" />
+		<result property="roleId" column="roleId"/>
+	</resultMap>   
+	
+	 <delete id="deleteUserRoleMap" parameterType="int">
+		delete from userRole where userId = #{param1}
+	</delete>
+
+</mapper>
+	
+          

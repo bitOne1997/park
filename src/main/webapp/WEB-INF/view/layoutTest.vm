@@ -1,0 +1,275 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>九比特停车</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="/park/bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/fontawesome/4.4.0/css/font-awesome.min.css">
+  
+    <!-- Theme style -->
+    <link rel="stylesheet" href="/park/dist/css/AdminLTE.css">
+    <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
+          page. However, you can choose any other skin. Make sure you
+          apply the skin class to the body tag so the changes take effect.
+    -->
+    <link rel="stylesheet" href="/park/dist/css/skins/skin-blue.min.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+      <!-- jQuery 2.1.4 -->
+    <script src="/park/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="/park/bootstrap/js/bootstrap.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="/park/dist/js/app.min.js"></script>
+    <script src="/park/script/layout.js"></script>
+
+    <script src="/park/dist/js/demo.js"></script> 
+
+    <script src="/park/plugins/angular/angular.min.js"></script>
+   	<script src="/park/plugins/angular/angular-animate.min.js"></script>
+    <script src="/park/plugins/angular/angular-cookies.min.js"></script>
+     <script src="/park/plugins/angular/angular-ui-router.min.js"></script>
+    <script src="/park/plugins/angular/ocLazyLoad.min.js"></script>  
+    <script src="/park/plugins/angular/ui-bootstrap-tpls.min.js"></script>
+
+    <script src="/park/dist/js/main.js"></script>
+    
+    <script src="/park/script/utility.js"></script>
+    <script src="/park/script/clickjs.js"></script>
+    <script src="/park/script/jquery.shCircleLoader-min.js"></script>
+    <script src="/park/script/jquery.json-2.4.min.js"></script>
+  </head>
+
+<body class="hold-transition skin-blue sidebar-mini">						 
+ <div class="wrapper">	
+  <!-- Main Header -->
+      <header class="main-header">
+        <!-- Logo -->
+        <a href="#" class="logo">
+          <!-- mini logo for sidebar mini 50x50 pixels -->
+          <span class="logo-mini"><b>N</b>BT</span>
+          <!-- logo for regular state and mobile devices -->
+          <span class="logo-lg"><b>城市停车云平台</b></span>
+        </a>
+
+        <!-- Header Navbar -->
+        <nav class="navbar navbar-static-top" role="navigation">
+          <!-- Sidebar toggle button-->
+          <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+            <span class="sr-only">Toggle navigation</span>
+          </a>
+          <!-- Navbar Right Menu -->
+          <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">          
+              <!-- User Account Menu -->
+              <li class="dropdown user user-menu">
+                <!-- Menu Toggle Button -->
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  <!-- The user image in the navbar-->
+                  <img src="/park/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+                  <!-- hidden-xs hides the username on small devices so only the image appears. -->
+                  <span class="hidden-xs">#if(!$isAdmin) 行业客户#else 管理员#end</span>
+                </a>
+              </li>
+
+            </ul>
+          </div>
+        </nav>
+      </header>
+      
+      <aside class="main-sidebar">
+
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+
+          <!-- Sidebar user panel (optional) -->
+          <div class="user-panel">
+            <div class="pull-left image">
+              <img src="/park/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+            </div>
+            <div class="pull-left info">
+              <p id="shenfen">#if(!$isAdmin) 行业客户 #else 管理员 #end</p>			
+              <!-- Status -->
+              <a href="#"><i class="fa fa-circle text-success"></i> 在线</a>
+            </div>
+          </div>
+
+          <!-- search form (Optional) -->
+          <form action="#" method="get" class="sidebar-form">
+
+          </form>
+          <!-- /.search form -->
+
+          <!-- Sidebar Menu -->
+          <ul class="sidebar-menu">
+            <li class="header">功能区</li>
+            <!-- Optionally, you can add icons to the links -->
+            
+			<li class="treeview active">
+				 <a href="/park/demo"><i class="fa fa-fw fa-cab"></i> <span>首页面</span> <i class="fa fa-angle-left pull-right"></i></a>
+				  <ul class="treeview-menu">
+					<li #if(!$isAdmin && !$park_parks) hidden#end><a href="/park/platformShow"><i class="fa fa-user-plus"></i>数据发布</a></li>
+				</ul>
+			</li>
+			
+			<li class="treeview active">
+				<a href="#"><i class="fa fa-fw fa-cab"></i> <span>用户管理</span> <i class="fa fa-angle-left pull-right"></i></a>
+				 <ul class="treeview-menu">
+				 <li #if(!$isAdmin) hidden#end><a href="/park/parkUsers"><i class="fa fa-user-plus"></i>用户管理</a></li>
+				</ul>
+            </li>
+			
+			<li class="treeview active">
+				<a href="#"><i class="fa fa-fw fa-cab"></i> <span>系统设置</span> <i class="fa fa-angle-left pull-right"></i></a>
+				<ul class="treeview-menu">
+				<li #if(!$isAdmin && !$park_parks) hidden#end><a href="/park/zoneCenter"><i class="fa fa-car"></i>市管理</a></li>
+				<li #if(!$isAdmin && !$park_parks) hidden#end><a href="/park/area"><i class="fa fa-car"></i>区管理</a></li>
+				<li #if(!$isAdmin && !$park_parks) hidden#end><a href="/park/street"><i class="fa fa-car"></i>街道路段管理</a></li>
+				<li #if(!$isAdmin && !$park_outsideParks) hidden#end><a href="/park/outsideParks"><i class="fa fa-car"></i>收费站点管理</a></li>
+				<li #if(!$isAdmin && !$park_fee_criterion_index) hidden#end ><a href="/park/fee/criterion/index"><i class="fa fa-file-text-o"></i>计费标准管理</a></li>
+				<li #if(!$isAdmin && !$park_hardware) hidden#end><a href="/park/pos"><i class="fa fa-gear"></i>手持终端管理</a></li>	
+				<li #if(!$isAdmin && !$park_parkUsers) hidden#end><a href="/park/feeOperator"><i class="fa fa-user-plus"></i>收费人员管理</a></li>
+				</ul>
+			</li>
+			
+			<li class="treeview active" hidden>
+			<a href="#"><i class="fa fa-fw fa-cab"></i> <span>基础信息</span> <i class="fa fa-angle-left pull-right"></i></a>
+			<ul class="treeview-menu">
+				<li #if(!$isAdmin && !$park_carportstatus) hidden#end><a href="/park/carportstatus"><i class="fa fa-area-chart"></i>泊位概况</a></li>
+				<li #if(!$isAdmin && !$park_carportstatus) hidden#end><a href="#"><i class="fa fa-area-chart"></i>收费员信息</a></li>
+			</ul>
+			</li>
+			
+			<li class="treeview active">
+				<a href="#"><i class="fa fa-fw fa-cab"></i> <span>今日概况</span> <i class="fa fa-angle-left pull-right"></i></a>
+				<ul class="treeview-menu">
+					<li hidden #if(!$isAdmin && !$park_pos_carportUsage) hidden#end><a href="/park/outsideParkStatus"><i class="fa fa-pie-chart"></i>收费站点状态</a></li>
+					<li hidden #if(!$isAdmin && !$park_parks) hidden#end><a href="/park/pos/carportUsage"><i class="fa fa-pie-chart"></i>今日停车简版</a></li>
+				    <li hidden #if(!$isAdmin && !$park_parks) hidden#end><a href="/park/outsideParkStatusAdmin"><i class="fa fa-pie-chart"></i>今日停车</a></li>
+					<li #if(!$isAdmin && !$park_parks) hidden#end><a href="/park/maptest"><i class="fa fa-pie-chart"></i>今日停车测试</a></li>
+					<li hidden #if(!$isAdmin && !$park_parks) hidden#end><a href="#"><i class="fa fa-pie-chart"></i>今日欠费</a></li>
+					<li hidden #if(!$isAdmin && !$park_parks) hidden#end><a href="#"><i class="fa fa-pie-chart"></i>终端状态</a></li>
+					<li hidden #if(!$isAdmin && !$park_businessCarport) hidden#end><a href="/park/businessCarport" ><i class="fa fa-car"></i>车位管理</a></li>
+				</ul>
+			</li>
+			<li class="treeview active">
+				<a href="#"><i class="fa fa-fw fa-cab"></i> <span>报表管理</span> <i class="fa fa-angle-left pull-right"></i></a>
+				<ul class="treeview-menu">
+				  <li #if(!$isAdmin && !$park_finance) hidden#end><a href="/park/finance"><i class="fa fa-area-chart"></i>财务概况</a></li>
+				  <li #if(!$isAdmin && !$park_operation) hidden#end><a href="/park/operation"><i class="fa fa-bar-chart"></i>财务运营分析</a></li>
+				  <li hidden><a href="/park/data"><i class="fa fa-line-chart"></i>停车数据分析</a></li>
+				  <li #if(!$isAdmin && !$park_pos_carportUsage) hidden#end><a href="/park/pos/charge/detail"><i class="fa fa-file-text-o"></i>计费详情</a></li>
+				  
+				</ul>
+			</li>
+            <li class="treeview active" hidden>
+              <a href="#"><i class="fa fa-fw fa-cab"></i> <span>停车管理</span> <i class="fa fa-angle-left pull-right"></i></a>
+              <ul class="treeview-menu">
+
+				<li #if(!$isAdmin && !$park_platformShow) hidden#end ><a href="/park/platformShowbk"><i class="fa fa-area-chart"></i>主界面</a></li>
+				
+                <li #if(!$isAdmin && !$park_parks) hidden#end><a href="/park/parks"><i class="fa fa-car"></i>停车场管理</a></li>
+				
+				<li #if(!$isAdmin && !$park_parkmap) hidden#end><a href="/park/parkmap"><i class="fa fa-map-marker"></i>停车场分布</a></li>
+                <li #if(!$isAdmin && !$park_channel) hidden#end><a href="/park/channel"><i class="fa fa-exchange"></i>出入口管理</a></li>
+
+                <li hidden><a href="/park/channel"><i class="fa fa-mars-stroke"></i>路边车位探测</a></li>
+                <li #if(!$isAdmin && !$park_channel) hidden#end><a href="/park/channel"><i class="fa fa-rub"></i>剩余泊位牌管理</a></li>
+                
+				
+				<li #if(!$isAdmin && !$park_qhq_carportstatus) hidden#end><a href="/park/qhq_carportstatus"><i class="fa fa-line-chart"></i>秦淮区状态图</a></li>
+                <li #if(!$isAdmin && !$$park_parks) hidden#end><a href="/park/hardware"><i class="fa fa-gear"></i>硬件设备管理</a></li>
+				
+              </ul>
+            </li>
+			
+			<li class="treeview active" hidden>
+                <a href="#"><i class="fa fa-dollar"></i> <span>计费管理</span> <i class="fa fa-angle-left pull-right"></i></a>
+                <ul class="treeview-menu">
+                  <li #if(!$isAdmin && !$park_pos_chargeDetail) hidden#end ><a href="/park/pos/chargeDetail"><i class="fa fa-credit-card"></i>费用明细</a></li>
+				  
+				 
+              </ul>
+            </li>
+            
+			  <li class="treeview active" >
+                <a href="#"><i class="fa fa-cog"></i> <span>运维管理</span> <i class="fa fa-angle-left pull-right"></i></a>
+                <ul class="treeview-menu">
+                  <li #if(!$isAdmin && !$park_repair) hidden#end><a href="/park/repair"><i class="fa fa-file"></i>工单管理</a></li>
+              </ul>
+            </li>
+			
+            <li class="treeview active" >
+                <a href="#"><i class="fa fa-fw fa-users"></i> <span>包月管理</span> <i class="fa fa-angle-left pull-right"></i></a>
+                <ul class="treeview-menu">
+                  <li hidden #if(!$isAdmin && !$park_users) hidden#end><a href="/park/users"><i class="fa fa-user"></i>App用户管理</a></li>
+                  <li hidden #if(!$isAdmin && !$park_parks) hidden#end><a href="/park/parkUsers"><i class="fa fa-user-plus"></i>网站用户管理</a></li>
+				  <li #if(!$isAdmin && !$park_monthUser) hidden#end><a href="/park/monthUser"><i class="fa fa-user-plus"></i>包月用户管理</a></li>
+                  <li hidden #if(!$isAdmin && !$park_api_user_index) hidden#end><a href="/park/api/user/index"><i class="fa fa-user-secret"></i>用户token管理</a></li>
+                  <li hidden #if(!$isAdmin && !$park_permission_roles) hidden#end><a href="/park/page/permission/roles"><i class="fa fa-user-secret"></i>角色管理</a></li>
+                  <li hidden #if(!$isAdmin && !$park_permission_role_allocate) hidden#end><a href="/park/page/permission/role/allocate"><i class="fa fa-user-secret"></i>角色分配管理</a></li>
+                  <li hidden #if(!$isAdmin && !$park_permission_pages) hidden#end><a href="/park/page/permission/pages"><i class="fa fa-user-secret"></i>页面管理</a></li>
+              </ul>
+            </li>
+
+            <li class="treeview active" hidden>
+                <a href="#"><i class="fa fa-fw fa-steam"></i> <span>流量管理</span> <i class="fa fa-angle-left pull-right"></i></a>
+                <ul class="treeview-menu">
+                  <li #if(!$isAdmin && !$park_dataUsage) hidden#end><a href="/park/dataUsage"><i class="fa fa-cc-diners-club"></i>流量卡管理</a></li>
+                  <li #if(!$isAdmin && !$park_chart) hidden#end><a href="/park/chart"><i class="fa fa-file-image-o"></i>流量图</a></li>
+                  <li #if(!$isAdmin && !$park_flow) hidden#end><a href="/park/flow"><i class="fa fa-plus-square"></i>流量诊断</a></li>               
+              </ul>
+            </li>			          
+			 <li class="treeview active" hidden>
+                <a href="#"><i class="fa fa-bar-chart"></i> <span>停车位利用率</span> <i class="fa fa-angle-left pull-right"></i></a>
+                <ul class="treeview-menu">
+                
+              </ul>
+            </li>
+          </ul><!-- /.sidebar-menu -->
+        </section>
+        <!-- /.sidebar -->
+      </aside>
+		
+		
+	  <div id="content">
+    	$screen_content
+	  <div>   
+	  
+
+      <footer class="main-footer" id="footer">
+        <!-- To the right -->
+        <div class="pull-right hidden-xs">
+         
+        </div>
+        <!-- Default to the left -->
+        <strong>Copyright &copy; 2016 <a href="#">Nine Bits</a>.</strong> All rights reserved.
+		<strong><a href="http://www.miitbeian.gov.cn/">苏ICP备15036890号
+        </a></strong> 
+      </footer>
+      
+
+      <!-- Control Sidebar -->
+      <div ng-include="'template/sidebar.html'"></div>
+      
+    </div><!-- ./wrapper -->
+    
+ </div>				 
+
+
+</script>
+
+ 
+</body>
+
+</html>

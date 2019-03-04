@@ -1,0 +1,53 @@
+<script src="/park/script/outsidePark.js?v=1.4"></script>
+<script src="/park/script/service/textModalService.js"></script>
+<script src="/park/script/outsideParkAngular.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="/park/css/button.css" />
+
+
+
+
+<div class="content-wrapper" >
+	<section class="content-header">
+          <h1>
+           运维管理</h1>       
+    </section>
+    <section class="content">
+       <div class="row">
+            <div class="col-xs-12">
+              	<div class="box">
+	               <!--  <div class="box-header">
+	                  <h3 class="box-title"></h3>
+	                </div> --><!-- /.box-header -->
+	                <div class="box-body" style="height:580px;padding: 150px 100px">
+										<a href="/park/repair"><button class="button park" style="vertical-align:middle"><span>工单管理 </span></button></a>
+										<a href="/park/dataUsage"><button class="button charge" style="vertical-align:middle"><span>流量卡管理 </span></button></a>
+										<a href="javascript:void(0);"><button class="button hardware" style="vertical-align:middle"><span>流量图 </span></button></a>
+						<!--/park/chart-->
+										<a href="javascript:void(0);"><button class="button poscharge" style="vertical-align:middle"><span>流量诊断 </span></button></a>
+						<!--/park/flow-->
+
+	                </div>
+
+	            </div>
+            </div>
+        </div>
+
+    </section>
+						
+</div>
+
+<div id='showMessage'>
+</div>
+
+<div id='showErrorMessage'>
+</div>
+
+<div id='showPicture'>
+</div>
+
+<script>
+$(document).ready(function(){
+	$.fn.park.initial();	 
+});
+
+</script>

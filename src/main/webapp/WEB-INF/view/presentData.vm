@@ -1,0 +1,262 @@
+<style>
+    .well {
+        min-height: 250px;
+        min-width: 1100px;
+    }
+
+    .panel .panel-body .row div {
+        background: #fff;
+        box-shadow: 0 0 3px rgba(0, 0, 0, 0.25);
+        float: left;
+        height: 160px;
+        margin: 30px 0 0 35px;
+        position: relative;
+        text-align: center;
+        width: 180px;
+    }
+
+    .panel .panel-body .row div h2 {
+        background: #08b;
+        background-image: radial-gradient(transparent 30%, rgba(0, 0, 0, 0.2));
+        border: 0 solid rgba(0, 0, 0, 0.2);
+        color: #fff;
+        font-size: 18px;
+        font-weight: bold;
+        position: relative;
+        text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.2);
+    }
+
+    .panel .panel-body .row div.folded:before, div.folded:after {
+        bottom: 26px;
+        box-shadow: 0 28px 8px rgba(0, 0, 0, 0.5);
+        content: "";
+        height: 28px;
+        position: absolute;
+        width: 48%;
+        z-index: -1;
+    }
+
+    .panel .panel-body .row div.folded:before {
+        left: 2%;
+        transform: rotate(-3deg);
+    }
+
+    .panel .panel-body .row div.folded:after {
+        right: 2%;
+        transform: rotate(3deg);
+    }
+
+    .panel .panel-body .row div.folded h2 {
+        border-width: 1px 1px 2px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+        margin: 0;
+        padding: 4px 20px;
+        position: absolute;
+        right: -14px;
+        top: 12px;
+    }
+
+    .panel .panel-body .row div.folded h3 {
+        /*     border-width: 1px 1px 2px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5); */
+        margin: 0;
+        padding: 5px 5px;
+        position: absolute;
+        left: 25%;
+        top: 50%;
+    }
+
+    .panel .panel-body .row div.folded span {
+        /*     border-width: 1px 1px 2px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5); */
+        margin: 0;
+        padding: 5px 5px;
+        position: absolute;
+        left: 80%;
+        top: 55%;
+    }
+
+    .panel .panel-body .row div.folded h2:after {
+        border-width: 7px;
+        border-style: solid;
+        border-color: #134 transparent transparent #134;
+        bottom: -15px;
+        content: "";
+        position: absolute;
+        right: -1px;
+    }
+
+</style>
+
+<div class="content-wrapper" ng-app="presentDataApp"
+     ng-controller="presentDataCtrl" style="height:1200px">
+    <section class="content-header">
+        <h1>今日数据</h1>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12" style="padding: 0 5px 0 5px;">
+                <div class="box">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="folded"><h2>今日应收金额</h2>
+                                    <h3 ng-bind="data.totalAmount|number:2"></h3><span>元</span></div>
+                                <div class="folded"><h2>今日实收金额</h2>
+                                    <h3 ng-bind="data.paidAmount|number:2"></h3><span>元</span></div>
+                                <div class="folded"><h2>今日欠费金额</h2>
+                                    <h3 ng-bind="((data.totalAmount-data.paidAmount)>0?(data.totalAmount-data.paidAmount):0)|number:2"></h3><span>元</span></div>
+                                <div class="folded"><h2>今日交易次数</h2>
+                                    <h3 ng-bind="data.totalCount"></h3><span>次</span></div>
+                                <div class="folded"><h2>运营站点数</h2>
+                                    <h3 ng-bind="(parkCountdata.totalCount?parkCountdata.totalCount:0)"></h3><span>个</span></div>
+                            </div>
+
+
+                            <div class="container" style="height:280px;">
+                                <div class="col-md-6">
+                                    <div style="height:280px;" pie-chart e-data="edata"></div>
+                                </div>
+                                <div class="col-md-6" style="margin-top:20px;">
+                                    <h4 style="margin-bottom:20px;display: inline-block">交易总额</h4>
+                                    <h3 style="display: inline-block" ng-bind="data.totalAmount|number:2"></h3><h4
+                                        style="display: inline-block">元，总订单数</h4>
+                                    <h3 style="display: inline-block" ng-bind="data.totalCount"></h3><h4
+                                        style="display: inline-block">笔。</h4>
+                                    <div class="media">
+                                        <div class="media-left">
+                                            <a href="#"> <img class="media-object"
+                                                              src="/park/img/cash.png" alt="支付宝">
+                                            </a>
+                                        </div>
+                                        <div class="media-body">
+                                            <div class="col-md-3">
+                                                <p>现金</p>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <span ng-bind="cashAmount|number:2">元</span>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <p>现金</p>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <span ng-bind="cashCount">笔</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="media">
+                                        <div class="media-left">
+                                            <a href="#"> <img class="media-object"
+                                                              src="/park/img/app.png" alt="app">
+                                            </a>
+                                        </div>
+                                        <div class="media-body">
+                                            <div class="col-md-3">
+                                                <p>APP</p>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <span ng-bind="data.appAmount">元</span>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <p>APP</p>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <span ng-bind="data.appCount">笔</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="media">
+                                        <div class="media-left">
+                                            <a href="#"> <img class="media-object"
+                                                              src="/park/img/huishang.png" alt="支付宝">
+                                            </a>
+                                        </div>
+                                        <div class="media-body">
+                                            <div class="col-md-3">
+                                                <p>微信</p>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <span ng-bind="data.wechartAmount">元</span>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <p>微信</p>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <span ng-bind="data.wechartCount">笔</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="media">
+                                        <div class="media-left">
+                                            <a href="#"> <img class="media-object"
+                                                              src="/park/img/alipay.png" alt="支付宝">
+                                            </a>
+                                        </div>
+                                        <div class="media-body">
+                                            <div class="col-md-3">
+                                                <p>支付宝</p>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <span ng-bind="data.alipayAmount">元</span>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <p>支付宝</p>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <span ng-bind="data.alipayCount">笔</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <table class="table table-bordered table-hover table-condensed table-striped text-center"
+                               style="font-size: 12px">
+                            <tr>
+                                <td>市</td>
+                                <td>应收额</td>
+                                <td>实收额</td>
+                                <td>欠费</td>
+                                <td>入场数</td>
+                                <td>出场数</td>
+                                <td>经营中心</td>
+                                <td>街道数</td>
+                                <td>站点总数</td>
+                                <td>在线站点</td>
+                                <td>总泊位</td>
+                                <td>在线泊位</td>
+                                <td>剩余泊位</td>
+                            </tr>
+                            <tr ng-repeat="zoneCenter in zoneCenters">
+                                <td><a href=' '>{{zoneCenter.zoneid|limitTo:5}}</a></td>
+                                <td>{{(zoneCenter.chargeMoney?zoneCenter.chargeMoney:0)|number:2}}</td>
+                                <td>{{(zoneCenter.paidMoney?zoneCenter.paidMoney:0)|number:2}}</td>
+                                <!-- <td>{{(zoneCenter.amountmoney-zoneCenter.realmoney)>0?(zoneCenter.amountmoney-zoneCenter.realmoney):0}}</td> -->
+                                <td>{{(zoneCenter.unPaidMoney?zoneCenter.unPaidMoney:0)|number:2}}</td>
+                                <td>{{zoneCenter.entranceDate}}</td>
+                                <td>{{zoneCenter.exitDate}}</td>
+                                <td>{{zoneCenter.areaid}}</td>
+                                <td>{{zoneCenter.streetId?zoneCenter.streetId:0}}</td>
+                                <td>{{zoneCenter.parkid}}</td>
+                                <td>0</td>
+                                <td>{{zoneCenter.portCount}}</td>
+                                <td>0</td>
+                                <td>{{zoneCenter.portLeftCount>0?zoneCenter.portLeftCount:0}}</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+</div>
+
+
+<script src="/park/script/presentData.js?v=1.7"></script>
+<script type="text/javascript" src="/park/assets/js/echarts.js"></script>

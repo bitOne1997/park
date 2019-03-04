@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.park.dao.PoschargedataMapper" >
+  <resultMap id="BaseResultMap" type="com.park.model.PoschargedataNew" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="cardNumber" property="cardnumber" jdbcType="VARCHAR" />
+    <result column="parkId" property="parkid" jdbcType="INTEGER" />
+    <result column="parkDesc" property="parkdesc" jdbcType="VARCHAR" />
+    <result column="portNumber" property="portnumber" jdbcType="VARCHAR" />
+    <result column="isEntrance" property="isentrance" jdbcType="BIT" />
+    <result column="operatorId" property="operatorid" jdbcType="VARCHAR" />
+    <result column="posId" property="posid" jdbcType="VARCHAR" />
+    <result column="chargeMoney" property="chargemoney" jdbcType="DOUBLE" />
+    <result column="paidMoney" property="paidmoney" jdbcType="DOUBLE" />
+    <result column="unPaidMoney" property="unpaidmoney" jdbcType="DOUBLE" />
+    <result column="givenMoney" property="givenmoney" jdbcType="DOUBLE" />
+    <result column="changeMoney" property="changemoney" jdbcType="DOUBLE" />
+    <result column="isOneTimeExpense" property="isonetimeexpense" jdbcType="BIT" />
+    <result column="paidCompleted" property="paidcompleted" jdbcType="BIT" />
+    <result column="isLargeCar" property="islargecar" jdbcType="BIT" />
+    <result column="entranceDate" property="entrancedate" jdbcType="TIMESTAMP" />
+    <result column="exitDate" property="exitdate" jdbcType="TIMESTAMP" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="rejectReason" property="rejectreason" jdbcType="VARCHAR" />
+    <result column="payType" property="paytype" jdbcType="TINYINT" />
+    <result column="discount" property="discount" jdbcType="DOUBLE" />
+    <result column="discountType" property="discounttype" jdbcType="TINYINT" />
+    <result column="other" property="other" jdbcType="DOUBLE" />
+    <result column="other2" property="other2" jdbcType="VARCHAR" />
+    <result column="outUrl" property="outurl" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, cardNumber, parkId, parkDesc, portNumber, isEntrance, operatorId, posId, chargeMoney, 
+    paidMoney, unPaidMoney, givenMoney, changeMoney, isOneTimeExpense, paidCompleted, 
+    isLargeCar, entranceDate, exitDate, url, rejectReason, payType, discount, discountType, 
+    other, other2, outUrl
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from posChargeData
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from posChargeData
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.park.model.PoschargedataNew" >
+    insert into posChargeData (id, cardNumber, parkId, 
+      parkDesc, portNumber, isEntrance, 
+      operatorId, posId, chargeMoney, 
+      paidMoney, unPaidMoney, givenMoney, 
+      changeMoney, isOneTimeExpense, paidCompleted, 
+      isLargeCar, entranceDate, exitDate, 
+      url, rejectReason, payType, 
+      discount, discountType, other, 
+      other2, outUrl)
+    values (#{id,jdbcType=INTEGER}, #{cardnumber,jdbcType=VARCHAR}, #{parkid,jdbcType=INTEGER}, 
+      #{parkdesc,jdbcType=VARCHAR}, #{portnumber,jdbcType=VARCHAR}, #{isentrance,jdbcType=BIT}, 
+      #{operatorid,jdbcType=VARCHAR}, #{posid,jdbcType=VARCHAR}, #{chargemoney,jdbcType=DOUBLE}, 
+      #{paidmoney,jdbcType=DOUBLE}, #{unpaidmoney,jdbcType=DOUBLE}, #{givenmoney,jdbcType=DOUBLE}, 
+      #{changemoney,jdbcType=DOUBLE}, #{isonetimeexpense,jdbcType=BIT}, #{paidcompleted,jdbcType=BIT}, 
+      #{islargecar,jdbcType=BIT}, #{entrancedate,jdbcType=TIMESTAMP}, #{exitdate,jdbcType=TIMESTAMP}, 
+      #{url,jdbcType=VARCHAR}, #{rejectreason,jdbcType=VARCHAR}, #{paytype,jdbcType=TINYINT}, 
+      #{discount,jdbcType=DOUBLE}, #{discounttype,jdbcType=TINYINT}, #{other,jdbcType=DOUBLE}, 
+      #{other2,jdbcType=VARCHAR}, #{outurl,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.park.model.PoschargedataNew" >
+    insert into posChargeData
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="cardnumber != null" >
+        cardNumber,
+      </if>
+      <if test="parkid != null" >
+        parkId,
+      </if>
+      <if test="parkdesc != null" >
+        parkDesc,
+      </if>
+      <if test="portnumber != null" >
+        portNumber,
+      </if>
+      <if test="isentrance != null" >
+        isEntrance,
+      </if>
+      <if test="operatorid != null" >
+        operatorId,
+      </if>
+      <if test="posid != null" >
+        posId,
+      </if>
+      <if test="chargemoney != null" >
+        chargeMoney,
+      </if>
+      <if test="paidmoney != null" >
+        paidMoney,
+      </if>
+      <if test="unpaidmoney != null" >
+        unPaidMoney,
+      </if>
+      <if test="givenmoney != null" >
+        givenMoney,
+      </if>
+      <if test="changemoney != null" >
+        changeMoney,
+      </if>
+      <if test="isonetimeexpense != null" >
+        isOneTimeExpense,
+      </if>
+      <if test="paidcompleted != null" >
+        paidCompleted,
+      </if>
+      <if test="islargecar != null" >
+        isLargeCar,
+      </if>
+      <if test="entrancedate != null" >
+        entranceDate,
+      </if>
+      <if test="exitdate != null" >
+        exitDate,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="rejectreason != null" >
+        rejectReason,
+      </if>
+      <if test="paytype != null" >
+        payType,
+      </if>
+      <if test="discount != null" >
+        discount,
+      </if>
+      <if test="discounttype != null" >
+        discountType,
+      </if>
+      <if test="other != null" >
+        other,
+      </if>
+      <if test="other2 != null" >
+        other2,
+      </if>
+      <if test="outurl != null" >
+        outUrl,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="cardnumber != null" >
+        #{cardnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="parkid != null" >
+        #{parkid,jdbcType=INTEGER},
+      </if>
+      <if test="parkdesc != null" >
+        #{parkdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="portnumber != null" >
+        #{portnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="isentrance != null" >
+        #{isentrance,jdbcType=BIT},
+      </if>
+      <if test="operatorid != null" >
+        #{operatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="posid != null" >
+        #{posid,jdbcType=VARCHAR},
+      </if>
+      <if test="chargemoney != null" >
+        #{chargemoney,jdbcType=DOUBLE},
+      </if>
+      <if test="paidmoney != null" >
+        #{paidmoney,jdbcType=DOUBLE},
+      </if>
+      <if test="unpaidmoney != null" >
+        #{unpaidmoney,jdbcType=DOUBLE},
+      </if>
+      <if test="givenmoney != null" >
+        #{givenmoney,jdbcType=DOUBLE},
+      </if>
+      <if test="changemoney != null" >
+        #{changemoney,jdbcType=DOUBLE},
+      </if>
+      <if test="isonetimeexpense != null" >
+        #{isonetimeexpense,jdbcType=BIT},
+      </if>
+      <if test="paidcompleted != null" >
+        #{paidcompleted,jdbcType=BIT},
+      </if>
+      <if test="islargecar != null" >
+        #{islargecar,jdbcType=BIT},
+      </if>
+      <if test="entrancedate != null" >
+        #{entrancedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="exitdate != null" >
+        #{exitdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="rejectreason != null" >
+        #{rejectreason,jdbcType=VARCHAR},
+      </if>
+      <if test="paytype != null" >
+        #{paytype,jdbcType=TINYINT},
+      </if>
+      <if test="discount != null" >
+        #{discount,jdbcType=DOUBLE},
+      </if>
+      <if test="discounttype != null" >
+        #{discounttype,jdbcType=TINYINT},
+      </if>
+      <if test="other != null" >
+        #{other,jdbcType=DOUBLE},
+      </if>
+      <if test="other2 != null" >
+        #{other2,jdbcType=VARCHAR},
+      </if>
+      <if test="outurl != null" >
+        #{outurl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.park.model.PoschargedataNew" >
+    update posChargeData
+    <set >
+      <if test="cardnumber != null" >
+        cardNumber = #{cardnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="parkid != null" >
+        parkId = #{parkid,jdbcType=INTEGER},
+      </if>
+      <if test="parkdesc != null" >
+        parkDesc = #{parkdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="portnumber != null" >
+        portNumber = #{portnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="isentrance != null" >
+        isEntrance = #{isentrance,jdbcType=BIT},
+      </if>
+      <if test="operatorid != null" >
+        operatorId = #{operatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="posid != null" >
+        posId = #{posid,jdbcType=VARCHAR},
+      </if>
+      <if test="chargemoney != null" >
+        chargeMoney = #{chargemoney,jdbcType=DOUBLE},
+      </if>
+      <if test="paidmoney != null" >
+        paidMoney = #{paidmoney,jdbcType=DOUBLE},
+      </if>
+      <if test="unpaidmoney != null" >
+        unPaidMoney = #{unpaidmoney,jdbcType=DOUBLE},
+      </if>
+      <if test="givenmoney != null" >
+        givenMoney = #{givenmoney,jdbcType=DOUBLE},
+      </if>
+      <if test="changemoney != null" >
+        changeMoney = #{changemoney,jdbcType=DOUBLE},
+      </if>
+      <if test="isonetimeexpense != null" >
+        isOneTimeExpense = #{isonetimeexpense,jdbcType=BIT},
+      </if>
+      <if test="paidcompleted != null" >
+        paidCompleted = #{paidcompleted,jdbcType=BIT},
+      </if>
+      <if test="islargecar != null" >
+        isLargeCar = #{islargecar,jdbcType=BIT},
+      </if>
+      <if test="entrancedate != null" >
+        entranceDate = #{entrancedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="exitdate != null" >
+        exitDate = #{exitdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="rejectreason != null" >
+        rejectReason = #{rejectreason,jdbcType=VARCHAR},
+      </if>
+      <if test="paytype != null" >
+        payType = #{paytype,jdbcType=TINYINT},
+      </if>
+      <if test="discount != null" >
+        discount = #{discount,jdbcType=DOUBLE},
+      </if>
+      <if test="discounttype != null" >
+        discountType = #{discounttype,jdbcType=TINYINT},
+      </if>
+      <if test="other != null" >
+        other = #{other,jdbcType=DOUBLE},
+      </if>
+      <if test="other2 != null" >
+        other2 = #{other2,jdbcType=VARCHAR},
+      </if>
+      <if test="outurl != null" >
+        outUrl = #{outurl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.park.model.PoschargedataNew" >
+    update posChargeData
+    set cardNumber = #{cardnumber,jdbcType=VARCHAR},
+      parkId = #{parkid,jdbcType=INTEGER},
+      parkDesc = #{parkdesc,jdbcType=VARCHAR},
+      portNumber = #{portnumber,jdbcType=VARCHAR},
+      isEntrance = #{isentrance,jdbcType=BIT},
+      operatorId = #{operatorid,jdbcType=VARCHAR},
+      posId = #{posid,jdbcType=VARCHAR},
+      chargeMoney = #{chargemoney,jdbcType=DOUBLE},
+      paidMoney = #{paidmoney,jdbcType=DOUBLE},
+      unPaidMoney = #{unpaidmoney,jdbcType=DOUBLE},
+      givenMoney = #{givenmoney,jdbcType=DOUBLE},
+      changeMoney = #{changemoney,jdbcType=DOUBLE},
+      isOneTimeExpense = #{isonetimeexpense,jdbcType=BIT},
+      paidCompleted = #{paidcompleted,jdbcType=BIT},
+      isLargeCar = #{islargecar,jdbcType=BIT},
+      entranceDate = #{entrancedate,jdbcType=TIMESTAMP},
+      exitDate = #{exitdate,jdbcType=TIMESTAMP},
+      url = #{url,jdbcType=VARCHAR},
+      rejectReason = #{rejectreason,jdbcType=VARCHAR},
+      payType = #{paytype,jdbcType=TINYINT},
+      discount = #{discount,jdbcType=DOUBLE},
+      discountType = #{discounttype,jdbcType=TINYINT},
+      other = #{other,jdbcType=DOUBLE},
+      other2 = #{other2,jdbcType=VARCHAR},
+      outUrl = #{outurl,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

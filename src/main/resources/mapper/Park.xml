@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.park.dao.ParkDAO">
+  	<resultMap id="ParkMapper" type="Park">
+		<id property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="streetId" column="streetId" />
+		<result property="portCount" column="portCount"/>
+		<result property="channelCount" column="channelCount"/>
+		<result property="portLeftCount" column="portLeftCount" />
+		<result property="feeCriterionId" column="feeCriterionId"/>
+		<result property="status" column="status" />
+		<result property="isFree" column="isFree"/>
+		<result property="floor" column="floor"/>
+		<result property="type" column="type"/>
+		<result property="position" column="position" />
+		<result property="longitude" column="longitude" />
+		<result property="latitude" column="latitude" />
+		<result property="alias" column="alias" />
+		<result property="mapAddr" column="mapAddr" />
+		<result property="date" column="date"/>
+		<result property="isDeleted" column="isDeleted"/>
+		<result property="contact" column="contact" />
+		<result property="number" column="number" />
+		<result property="pictureUri" column="pictureUri"/>
+		<result property="description" column="description"/>
+	</resultMap>    
+	
+	<resultMap id="ParkDetailMapper" type="com.park.model.ParkDetail">
+		<id property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="streetId" column="streetId" />
+		<result property="streetName" column="streetName" />
+		<result property="portCount" column="portCount"/>
+		<result property="channelCount" column="channelCount"/>
+		<result property="portLeftCount" column="portLeftCount" />
+		<result property="feeCriterionName" column="feeCriterionName"/>
+		<result property="feeCriterionId" column="feeCriterionId"/>
+		<result property="status" column="status" />
+		<result property="isFree" column="isFree"/>
+		<result property="floor" column="floor"/>
+		<result property="type" column="type"/>
+		<result property="longitude" column="longitude" />
+		<result property="latitude" column="latitude" />
+		<result property="alias" column="alias" />
+		<result property="mapAddr" column="mapAddr" />
+		<result property="position" column="position" />
+		<result property="date" column="date"/>
+		<result property="contact" column="contact" />
+		<result property="number" column="number" />
+		<result property="pictureUri" column="pictureUri"/>
+		<result property="description" column="description"/>
+	</resultMap> 
+
+
+	<select id="getParks" resultMap="ParkMapper">
+		select * from park
+	</select>
+	
+	<select id="nameToId" resultType="int">
+		select id from park where name = #{param1}
+	</select>
+	
+	<select id="getParkByName" resultMap="ParkDetailMapper">
+		select park.id, park.name, park.portCount, park.channelCount, portLeftCount, feeCriterion.name as feeCriterionName, 
+		feeCriterion.id as feeCriterionId, park.status, park.isFree, park.floor, park.type,
+		 park.longitude, park.latitude, park.alias, park.mapAddr, park.position, park.date,
+		  park.contact, park.number, park.pictureUri, park.description,park.streetId,street.name as streetName 
+		  from park left join feeCriterion on park.feeCriterionId = feeCriterion.id	
+		  left join street on street.id=park.streetId where park.name like #{param1} or park.position like #{param1}
+	</select>
+	
+	<select id="getParkById" resultMap="ParkMapper">
+		select p1.id,streetId,name,portCount,channelCount,portLeftCount,feeCriterionId,status,isfree,floor,type,position,date,
+		isDeleted,longitude,latitude,alias,mapAddr,contact,number,description,pictureUri,u2.parkId as parkId  
+		from park p1 
+		LEFT JOIN userPark u2 on p1.id=u2.parkId
+		where p1.id = #{id} GROUP BY p1.id
+	</select>		
+	<select id="getOutsideParkByStreetId" resultMap="ParkMapper">
+		select * from park where type=3 and streetId=#{streetId}
+	</select>
+	<select id="getParkDetail" resultMap="ParkDetailMapper">
+		select park.id, park.name, park.portCount, park.channelCount, portLeftCount, feeCriterion.name as feeCriterionName, 
+		feeCriterion.id as feeCriterionId, park.status, park.isFree, park.floor, park.type,
+		 park.longitude, park.latitude, park.alias, park.mapAddr, park.position, park.date,
+		  park.contact, park.number, park.pictureUri, park.description,park.streetId,street.name as streetName 
+		  from park left join feeCriterion on park.feeCriterionId = feeCriterion.id	
+		  left join street on street.id=park.streetId
+		order by id  limit #{low}, #{count}
+	</select>
+	
+	<select id="getOutsideParkDetail" resultMap="ParkDetailMapper">
+		select park.id, park.name, park.portCount, park.channelCount, portLeftCount, feeCriterion.name as feeCriterionName, 
+		feeCriterion.id as feeCriterionId, park.status, park.isFree, park.floor, park.type,
+		 park.longitude, park.latitude, park.alias, park.mapAddr, park.position, park.date,
+		  park.contact, park.number, park.pictureUri, park.description,park.streetId,street.name as streetName 
+		  from park left join feeCriterion on park.feeCriterionId = feeCriterion.id	
+		  left join street on street.id=park.streetId 
+		order by id  limit #{low}, #{count}
+	</select>
+	
+	
+	<select id="getParkDetailByKeywords" parameterType="String" resultMap="ParkMapper" statementType="STATEMENT">
+		  select * from park where park.position like '%${param1}%'
+	</select>
+	<select id="getParkCount"  resultType="int">
+		select count(*) from park
+	</select>
+	<select id="getOutsideParkCount"  resultType="int">
+		select count(*) from park 
+	</select>
+	<select id="getLastPark" resultMap="ParkMapper">
+		select * from park order by id desc limit 1;
+	</select>
+	<insert id="insertPark" parameterType="Park" keyProperty="id">
+		 insert into park
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="streetId != null" >
+        streetId,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="portCount != null" >
+        portCount,
+      </if>
+      <if test="channelCount != null" >
+        channelCount,
+      </if>
+      <if test="portLeftCount != null" >
+        portLeftCount,
+      </if>
+      <if test="feeCriterionId != null" >
+        feeCriterionId,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="isFree != null" >
+        isFree,
+      </if>
+      <if test="floor != null" >
+        floor,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="position != null" >
+        position,
+      </if>
+      <if test="date != null" >
+        date,
+      </if>
+      <if test="isDeleted != null" >
+        isDeleted,
+      </if>
+      <if test="longitude != null" >
+        longitude,
+      </if>
+      <if test="latitude != null" >
+        latitude,
+      </if>
+      <if test="alias != null" >
+        alias,
+      </if>
+      <if test="mapAddr != null" >
+        mapAddr,
+      </if>
+      <if test="contact != null" >
+        contact,
+      </if>
+      <if test="number != null" >
+        number,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="pictureUri != null" >
+        pictureUri,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="streetId != null" >
+        #{streetId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=CHAR},
+      </if>
+      <if test="portCount != null" >
+        #{portCount,jdbcType=INTEGER},
+      </if>
+      <if test="channelCount != null" >
+        #{channelCount,jdbcType=INTEGER},
+      </if>
+      <if test="portLeftCount != null" >
+        #{portLeftCount,jdbcType=INTEGER},
+      </if>
+      <if test="feeCriterionId != null" >
+        #{feeCriterionId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="isFree != null" >
+        #{isFree,jdbcType=INTEGER},
+      </if>
+      <if test="floor != null" >
+        #{floor,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=CHAR},
+      </if>
+      <if test="date != null" >
+        #{date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="longitude != null" >
+        #{longitude,jdbcType=DOUBLE},
+      </if>
+      <if test="latitude != null" >
+        #{latitude,jdbcType=DOUBLE},
+      </if>
+      <if test="alias != null" >
+        #{alias,jdbcType=CHAR},
+      </if>
+      <if test="mapAddr != null" >
+        #{mapAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="contact != null" >
+        #{contact,jdbcType=CHAR},
+      </if>
+      <if test="number != null" >
+        #{number,jdbcType=CHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=CHAR},
+      </if>
+      <if test="pictureUri != null" >
+        #{pictureUri,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+	
+	<update id="updatePark" parameterType="Park" >
+		 update park
+    <set >
+      <if test="streetId != null" >
+        streetId = #{streetId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=CHAR},
+      </if>
+      <if test="portCount != null" >
+        portCount = #{portCount,jdbcType=INTEGER},
+      </if>
+      <if test="channelCount != null" >
+        channelCount = #{channelCount,jdbcType=INTEGER},
+      </if>
+      <if test="portLeftCount != null" >
+        portLeftCount = #{portLeftCount,jdbcType=INTEGER},
+      </if>
+      <if test="feeCriterionId != null" >
+        feeCriterionId = #{feeCriterionId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="isFree != null" >
+        isFree = #{isFree,jdbcType=INTEGER},
+      </if>
+      <if test="floor != null" >
+        floor = #{floor,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="position != null" >
+        position = #{position,jdbcType=CHAR},
+      </if>
+      <if test="date != null" >
+        date = #{date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null" >
+        isDeleted = #{isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="longitude != null" >
+        longitude = #{longitude,jdbcType=DOUBLE},
+      </if>
+      <if test="latitude != null" >
+        latitude = #{latitude,jdbcType=DOUBLE},
+      </if>
+      <if test="alias != null" >
+        alias = #{alias,jdbcType=CHAR},
+      </if>
+      <if test="mapAddr != null" >
+        mapAddr = #{mapAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="contact != null" >
+        contact = #{contact,jdbcType=CHAR},
+      </if>
+      <if test="number != null" >
+        number = #{number,jdbcType=CHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=CHAR},
+      </if>
+      <if test="pictureUri != null" >
+        pictureUri = #{pictureUri,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+	</update>
+	
+	<update id="updateLeftPortCount">
+		update park set portLeftCount = #{portLeftCount} where id = #{id} 
+	</update>
+	
+	<delete id="deletePark" parameterType="int">
+		delete from park where id = #{id}
+	</delete>
+	     
+          
+</mapper>

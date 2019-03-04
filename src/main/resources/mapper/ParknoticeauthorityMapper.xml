@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.park.dao.ParknoticeauthorityMapper" >
+  <resultMap id="BaseResultMap" type="com.park.model.Parknoticeauthority" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="alipay" property="alipay" jdbcType="BIT" />
+    <result column="weixin" property="weixin" jdbcType="BIT" />
+    <result column="parkId" property="parkid" jdbcType="INTEGER" />
+    <result column="gongshang" property="gongshang" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, alipay, weixin, parkId, gongshang
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from parkNoticeAuthority
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from parkNoticeAuthority
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.park.model.Parknoticeauthority" >
+    insert into parkNoticeAuthority (id, alipay, weixin, parkId, 
+      gongshang)
+    values (#{id,jdbcType=INTEGER}, #{alipay,jdbcType=BIT}, #{weixin,jdbcType=BIT}, #{parkid,jdbcType=INTEGER}, 
+      #{gongshang,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.park.model.Parknoticeauthority" >
+    insert into parkNoticeAuthority
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="alipay != null" >
+        alipay,
+      </if>
+      <if test="weixin != null" >
+        weixin,
+      </if>
+      <if test="parkid != null" >
+        parkId,
+      </if>
+      <if test="gongshang != null" >
+        gongshang,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="alipay != null" >
+        #{alipay,jdbcType=BIT},
+      </if>
+      <if test="weixin != null" >
+        #{weixin,jdbcType=BIT},
+      </if>
+      <if test="parkid != null" >
+        #{parkid,jdbcType=INTEGER},
+      </if>
+      <if test="gongshang != null" >
+        #{gongshang,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.park.model.Parknoticeauthority" >
+    update parkNoticeAuthority
+    <set >
+      <if test="alipay != null" >
+        alipay = #{alipay,jdbcType=BIT},
+      </if>
+      <if test="weixin != null" >
+        weixin = #{weixin,jdbcType=BIT},
+      </if>
+      <if test="parkid != null" >
+        parkId = #{parkid,jdbcType=INTEGER},
+      </if>
+      <if test="gongshang != null" >
+        gongshang = #{gongshang,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.park.model.Parknoticeauthority" >
+    update parkNoticeAuthority
+    set alipay = #{alipay,jdbcType=BIT},
+      weixin = #{weixin,jdbcType=BIT},
+      parkId = #{parkid,jdbcType=INTEGER},
+      gongshang = #{gongshang,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+   <select id="getByParkId" resultType="com.park.model.Parknoticeauthority">
+  	select * from parkNoticeAuthority where parkId=#{parkId}
+  </select>
+</mapper>

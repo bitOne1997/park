@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.park.dao.MonthuserparkDAO" >
+  <resultMap id="BaseResultMap" type="com.park.model.Monthuserpark" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="monthUserId" property="monthuserid" jdbcType="INTEGER" />
+    <result column="parkId" property="parkid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, monthUserId, parkId
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from monthUserPark
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from monthUserPark
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByUserIdAndParkId" parameterType="com.park.model.Monthuserpark" >
+    delete from monthUserPark
+    where monthUserId=#{monthuserid} and parkId=#{parkid}
+  </delete>
+  <insert id="insert" parameterType="com.park.model.Monthuserpark" >
+    insert into monthUserPark (id, monthUserId, parkId
+      )
+    values (#{id,jdbcType=INTEGER}, #{monthuserid,jdbcType=INTEGER}, #{parkid,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.park.model.Monthuserpark" >
+    insert into monthUserPark
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="monthuserid != null" >
+        monthUserId,
+      </if>
+      <if test="parkid != null" >
+        parkId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="monthuserid != null" >
+        #{monthuserid,jdbcType=INTEGER},
+      </if>
+      <if test="parkid != null" >
+        #{parkid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.park.model.Monthuserpark" >
+    update monthUserPark
+    <set >
+      <if test="monthuserid != null" >
+        monthUserId = #{monthuserid,jdbcType=INTEGER},
+      </if>
+      <if test="parkid != null" >
+        parkId = #{parkid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.park.model.Monthuserpark" >
+    update monthUserPark
+    set monthUserId = #{monthuserid,jdbcType=INTEGER},
+      parkId = #{parkid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="getOwnParkName" resultType="HashMap">
+		select monthUserPark.id as id, park.name as parkname from monthUserPark 
+		left join park on monthUserPark.parkId = park.id 
+		where monthUserPark.monthUserId=#{userId}
+ </select>
+ <select id="getUsersByParkId" resultType="HashMap">
+		select mu.id,mu.cardNumber,mu.owner,mu.plateNumber,mu.plateColor,mu.certificateType,
+		mu.certificateNumber,mu.startTime,mu.endTime,mu.payment,mu.status from monthUser
+		as mu where mu.parkId=#{parkId}
+ </select>
+</mapper>

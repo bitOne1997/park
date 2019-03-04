@@ -1,0 +1,287 @@
+/*Global css*/
+.content {
+    width: 100%;
+    margin: 0 auto;
+    font-family: "SimSun";
+	min-width:960px;
+}
+
+input:focus {
+    border: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+/*header css*/
+header {
+    width: 100%;
+    height: 70px;
+    background-color: #0870ca;
+    border-bottom: 1px solid #003aa8;
+}
+
+.xt-logo {
+    height: 70px;
+    margin-left: 50px;
+    float: left;
+}
+
+.xt-admin {
+    width: 200px;
+    height: 70px;
+    background-color: #0264b6;
+    float: right;
+}
+
+.xt-admin .xt-user {
+    height: 70px;
+}
+
+.xt-admin .xt-user img {
+    float: left;
+    margin: 10px 0 0 26px;
+}
+
+.xt-admin .xt-user span {
+    float: left;
+    width: 60px;
+    color: #fff;
+    margin: 19px 0 0 6px;
+}
+
+.xt-admin .xt-user i.xt-exit {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    background: url("../img/spirit.png") no-repeat 0 0;
+    float: right;
+    margin: 25px 20px 0 0;
+    cursor: pointer;
+}
+
+/*top css*/
+.xt-top {
+    height: 42px;
+    background-color: #ececec;
+    border-bottom: 2px solid #fff;
+}
+
+.xt-crumbs {
+    width: 212px;
+    border-right: 2px dotted #c5c6c8;
+    margin-left: 40px;
+    float: left;
+}
+
+i.xt-location {
+    display: inline-block;
+    width: 10px;
+    height: 15px;
+    background: url("../img/spirit.png ") no-repeat -31px 0;
+    vertical-align: text-bottom;
+}
+
+.xt-crumbs span {
+    color: #5a657e;
+    line-height: 42px;
+    margin-left: 10px;
+}
+
+.xt-search {
+    float: right;
+}
+
+.xt-search div {
+    float: left;
+    margin-right: 25px;
+    line-height: 42px;
+}
+
+.xt-all, .xt-street, .xt-input {
+    height: 28px;
+    border: 1px solid #ced0da;
+    border-radius: 5px;
+    display: inline-block;
+    color: #a6abb3;
+    vertical-align: middle;
+    background-color: #fff;
+    text-align: center;
+    line-height: 28px;
+}
+
+.xt-all {
+    width: 68px;
+}
+
+.xt-street {
+    width: 116px;
+}
+
+.xt-input {
+    width: 132px;
+}
+
+.xt-search span b {
+    display: inline-block;
+    width: 7px;
+    height: 4px;
+    background: url("../img/spirit.png") no-repeat;
+}
+
+.xt-search span.xt-all b, .xt-search span.xt-street b {
+    background-position: -31px -22px;
+}
+
+.xt-search span.xt-input b {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    background: url("../img/spirit.png") no-repeat -56px -1px;
+    vertical-align: middle;
+}
+
+.xt-search span.xt-input input {
+    width: 104px;
+    border: none;
+}
+
+.xt-search .xt-btn {
+    background-color: #6bade3;
+    padding: 4px 14px;
+    border: 1px solid #1d7fd4;
+    border-radius: 5px;
+}
+
+.xt-search .xt-btn a {
+    color: #fff;
+}
+
+/*管理中心概况 css*/
+.xt-content_1 {
+    width: 95%;
+
+    margin: 15px auto 21px;
+    border: 1px solid #dcdcdc;
+    border-radius: 5px 5px 0 0;
+    background-color: #eff3f6;
+}
+
+.xt-survey {
+    width: 183px;
+    height: 37px;
+    line-height: 37px;
+    border: 1px solid #dcdcdc;
+    border-top: 2px solid #0870ca;
+    border-bottom: 1px solid transparent;
+    text-align: center;
+    font-size: 14px;
+    color: #5a657e;
+    margin: 4px 0 0 12px;
+    background-color: #fff;
+    display: inline-block;
+}
+
+.xt-survey i {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    background: url("../img/spirit.png") no-repeat 0 -62px;
+    vertical-align: text-bottom;
+    margin-right: 8px;
+}
+
+a.xt-refresh {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    background: url("../img/spirit.png") no-repeat -1px -29px;
+    float: right;
+    margin: 9px 22px 10px 0;
+}
+
+.xt-surveytable {
+
+    background-color: #fff;
+    padding-top: 20px;
+	padding-bottom:20px;
+}
+
+.xt-surveytable_1 table {
+    width: 95%;
+    margin: 0 auto;
+    border: 1px solid #dcdcdc;
+    color: #5a657e;
+
+}
+
+.xt-surveytable_1 table tr td {
+    text-align: center;
+    width: 198px;
+    line-height: 25px;
+}
+
+.xt-surveytable_1 table tr td:nth-child(odd) {
+    background-color: #eff3f6;
+    font-weight: bold;
+}
+
+.xt-surveytable_1 table tr td:nth-child(odd) span {
+    font-weight: normal;
+}
+
+.xt-surveytable_1 table tr td.xt-td {
+    background-color: #fff;
+}
+
+/*概况详细信息 css*/
+.xt-surveytable_2 table {
+    border: 1px solid #dcdcdc;
+    border-top: 2px solid #0870ca;
+    width: 95%;
+    margin: 0 auto;
+    color: #5a657e;
+}
+
+.xt-surveytable_2 table tr td {
+    text-align: center;
+    line-height: 25px;
+}
+
+.xt-surveytable_2 table tr td:first-child {
+    width: 102px;
+}
+
+.xt-surveytable_2 table thead tr td {
+    background-color: #f6f6f6;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.xt-surveytable_2 table thead tr td span {
+    font-weight: normal;
+}
+
+.xt-surveytable_2 table tbody tr:nth-child(odd) td:nth-child(2) {
+    background-color: #f8f8f8;
+}
+
+.xt-surveytable_2 table tbody tr:nth-child(even) {
+    background-color: #eff3f6;
+}
+
+/*footer css*/
+footer {
+    width: 100%;
+    background-color: #ececec;
+    color: #5a657e;
+    overflow: hidden;
+    margin-top: 23px;
+    border-bottom: 2px solid #0870ca;
+}
+
+footer p {
+    float: right;
+    padding: 17px 22px 19px;
+}

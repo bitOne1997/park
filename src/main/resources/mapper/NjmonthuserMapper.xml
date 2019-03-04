@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.park.dao.NjmonthuserMapper" >
+  <resultMap id="BaseResultMap" type="com.park.model.Njmonthuser" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="tradeDate" property="tradedate" jdbcType="TIMESTAMP" />
+    <result column="monthId" property="monthid" jdbcType="VARCHAR" />
+    <result column="monthType" property="monthtype" jdbcType="CHAR" />
+    <result column="cardNumber" property="cardnumber" jdbcType="VARCHAR" />
+    <result column="carNumber" property="carnumber" jdbcType="CHAR" />
+    <result column="carType" property="cartype" jdbcType="CHAR" />
+    <result column="memberName" property="membername" jdbcType="VARCHAR" />
+    <result column="effectiveTimes" property="effectivetimes" jdbcType="CHAR" />
+    <result column="tradeNumber" property="tradenumber" jdbcType="VARCHAR" />
+    <result column="monthStart" property="monthstart" jdbcType="TIMESTAMP" />
+    <result column="monthEnd" property="monthend" jdbcType="TIMESTAMP" />
+    <result column="rechargeBefore" property="rechargebefore" jdbcType="INTEGER" />
+    <result column="rechargeAfter" property="rechargeafter" jdbcType="INTEGER" />
+    <result column="rechargeMoney" property="rechargemoney" jdbcType="INTEGER" />
+    <result column="monthFee" property="monthfee" jdbcType="INTEGER" />
+    <result column="discount" property="discount" jdbcType="INTEGER" />
+    <result column="standardFees" property="standardfees" jdbcType="INTEGER" />
+    <result column="shouldCharge" property="shouldcharge" jdbcType="INTEGER" />
+    <result column="realPay" property="realpay" jdbcType="INTEGER" />
+    <result column="preferential" property="preferential" jdbcType="INTEGER" />
+    <result column="picturePath" property="picturepath" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, tradeDate, monthId, monthType, cardNumber, carNumber, carType, memberName, effectiveTimes, 
+    tradeNumber, monthStart, monthEnd, rechargeBefore, rechargeAfter, rechargeMoney, 
+    monthFee, discount, standardFees, shouldCharge, realPay, preferential, picturePath, 
+    description
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from njMonthUser
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from njMonthUser
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.park.model.Njmonthuser" >
+    insert into njMonthUser (id, tradeDate, monthId, 
+      monthType, cardNumber, carNumber, 
+      carType, memberName, effectiveTimes, 
+      tradeNumber, monthStart, monthEnd, 
+      rechargeBefore, rechargeAfter, rechargeMoney, 
+      monthFee, discount, standardFees, 
+      shouldCharge, realPay, preferential, 
+      picturePath, description)
+    values (#{id,jdbcType=INTEGER}, #{tradedate,jdbcType=TIMESTAMP}, #{monthid,jdbcType=VARCHAR}, 
+      #{monthtype,jdbcType=CHAR}, #{cardnumber,jdbcType=VARCHAR}, #{carnumber,jdbcType=CHAR}, 
+      #{cartype,jdbcType=CHAR}, #{membername,jdbcType=VARCHAR}, #{effectivetimes,jdbcType=CHAR}, 
+      #{tradenumber,jdbcType=VARCHAR}, #{monthstart,jdbcType=TIMESTAMP}, #{monthend,jdbcType=TIMESTAMP}, 
+      #{rechargebefore,jdbcType=INTEGER}, #{rechargeafter,jdbcType=INTEGER}, #{rechargemoney,jdbcType=INTEGER}, 
+      #{monthfee,jdbcType=INTEGER}, #{discount,jdbcType=INTEGER}, #{standardfees,jdbcType=INTEGER}, 
+      #{shouldcharge,jdbcType=INTEGER}, #{realpay,jdbcType=INTEGER}, #{preferential,jdbcType=INTEGER}, 
+      #{picturepath,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.park.model.Njmonthuser" >
+    insert into njMonthUser
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="tradedate != null" >
+        tradeDate,
+      </if>
+      <if test="monthid != null" >
+        monthId,
+      </if>
+      <if test="monthtype != null" >
+        monthType,
+      </if>
+      <if test="cardnumber != null" >
+        cardNumber,
+      </if>
+      <if test="carnumber != null" >
+        carNumber,
+      </if>
+      <if test="cartype != null" >
+        carType,
+      </if>
+      <if test="membername != null" >
+        memberName,
+      </if>
+      <if test="effectivetimes != null" >
+        effectiveTimes,
+      </if>
+      <if test="tradenumber != null" >
+        tradeNumber,
+      </if>
+      <if test="monthstart != null" >
+        monthStart,
+      </if>
+      <if test="monthend != null" >
+        monthEnd,
+      </if>
+      <if test="rechargebefore != null" >
+        rechargeBefore,
+      </if>
+      <if test="rechargeafter != null" >
+        rechargeAfter,
+      </if>
+      <if test="rechargemoney != null" >
+        rechargeMoney,
+      </if>
+      <if test="monthfee != null" >
+        monthFee,
+      </if>
+      <if test="discount != null" >
+        discount,
+      </if>
+      <if test="standardfees != null" >
+        standardFees,
+      </if>
+      <if test="shouldcharge != null" >
+        shouldCharge,
+      </if>
+      <if test="realpay != null" >
+        realPay,
+      </if>
+      <if test="preferential != null" >
+        preferential,
+      </if>
+      <if test="picturepath != null" >
+        picturePath,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="tradedate != null" >
+        #{tradedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="monthid != null" >
+        #{monthid,jdbcType=VARCHAR},
+      </if>
+      <if test="monthtype != null" >
+        #{monthtype,jdbcType=CHAR},
+      </if>
+      <if test="cardnumber != null" >
+        #{cardnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="carnumber != null" >
+        #{carnumber,jdbcType=CHAR},
+      </if>
+      <if test="cartype != null" >
+        #{cartype,jdbcType=CHAR},
+      </if>
+      <if test="membername != null" >
+        #{membername,jdbcType=VARCHAR},
+      </if>
+      <if test="effectivetimes != null" >
+        #{effectivetimes,jdbcType=CHAR},
+      </if>
+      <if test="tradenumber != null" >
+        #{tradenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="monthstart != null" >
+        #{monthstart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="monthend != null" >
+        #{monthend,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rechargebefore != null" >
+        #{rechargebefore,jdbcType=INTEGER},
+      </if>
+      <if test="rechargeafter != null" >
+        #{rechargeafter,jdbcType=INTEGER},
+      </if>
+      <if test="rechargemoney != null" >
+        #{rechargemoney,jdbcType=INTEGER},
+      </if>
+      <if test="monthfee != null" >
+        #{monthfee,jdbcType=INTEGER},
+      </if>
+      <if test="discount != null" >
+        #{discount,jdbcType=INTEGER},
+      </if>
+      <if test="standardfees != null" >
+        #{standardfees,jdbcType=INTEGER},
+      </if>
+      <if test="shouldcharge != null" >
+        #{shouldcharge,jdbcType=INTEGER},
+      </if>
+      <if test="realpay != null" >
+        #{realpay,jdbcType=INTEGER},
+      </if>
+      <if test="preferential != null" >
+        #{preferential,jdbcType=INTEGER},
+      </if>
+      <if test="picturepath != null" >
+        #{picturepath,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.park.model.Njmonthuser" >
+    update njMonthUser
+    <set >
+      <if test="tradedate != null" >
+        tradeDate = #{tradedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="monthid != null" >
+        monthId = #{monthid,jdbcType=VARCHAR},
+      </if>
+      <if test="monthtype != null" >
+        monthType = #{monthtype,jdbcType=CHAR},
+      </if>
+      <if test="cardnumber != null" >
+        cardNumber = #{cardnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="carnumber != null" >
+        carNumber = #{carnumber,jdbcType=CHAR},
+      </if>
+      <if test="cartype != null" >
+        carType = #{cartype,jdbcType=CHAR},
+      </if>
+      <if test="membername != null" >
+        memberName = #{membername,jdbcType=VARCHAR},
+      </if>
+      <if test="effectivetimes != null" >
+        effectiveTimes = #{effectivetimes,jdbcType=CHAR},
+      </if>
+      <if test="tradenumber != null" >
+        tradeNumber = #{tradenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="monthstart != null" >
+        monthStart = #{monthstart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="monthend != null" >
+        monthEnd = #{monthend,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rechargebefore != null" >
+        rechargeBefore = #{rechargebefore,jdbcType=INTEGER},
+      </if>
+      <if test="rechargeafter != null" >
+        rechargeAfter = #{rechargeafter,jdbcType=INTEGER},
+      </if>
+      <if test="rechargemoney != null" >
+        rechargeMoney = #{rechargemoney,jdbcType=INTEGER},
+      </if>
+      <if test="monthfee != null" >
+        monthFee = #{monthfee,jdbcType=INTEGER},
+      </if>
+      <if test="discount != null" >
+        discount = #{discount,jdbcType=INTEGER},
+      </if>
+      <if test="standardfees != null" >
+        standardFees = #{standardfees,jdbcType=INTEGER},
+      </if>
+      <if test="shouldcharge != null" >
+        shouldCharge = #{shouldcharge,jdbcType=INTEGER},
+      </if>
+      <if test="realpay != null" >
+        realPay = #{realpay,jdbcType=INTEGER},
+      </if>
+      <if test="preferential != null" >
+        preferential = #{preferential,jdbcType=INTEGER},
+      </if>
+      <if test="picturepath != null" >
+        picturePath = #{picturepath,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.park.model.Njmonthuser" >
+    update njMonthUser
+    set tradeDate = #{tradedate,jdbcType=TIMESTAMP},
+      monthId = #{monthid,jdbcType=VARCHAR},
+      monthType = #{monthtype,jdbcType=CHAR},
+      cardNumber = #{cardnumber,jdbcType=VARCHAR},
+      carNumber = #{carnumber,jdbcType=CHAR},
+      carType = #{cartype,jdbcType=CHAR},
+      memberName = #{membername,jdbcType=VARCHAR},
+      effectiveTimes = #{effectivetimes,jdbcType=CHAR},
+      tradeNumber = #{tradenumber,jdbcType=VARCHAR},
+      monthStart = #{monthstart,jdbcType=TIMESTAMP},
+      monthEnd = #{monthend,jdbcType=TIMESTAMP},
+      rechargeBefore = #{rechargebefore,jdbcType=INTEGER},
+      rechargeAfter = #{rechargeafter,jdbcType=INTEGER},
+      rechargeMoney = #{rechargemoney,jdbcType=INTEGER},
+      monthFee = #{monthfee,jdbcType=INTEGER},
+      discount = #{discount,jdbcType=INTEGER},
+      standardFees = #{standardfees,jdbcType=INTEGER},
+      shouldCharge = #{shouldcharge,jdbcType=INTEGER},
+      realPay = #{realpay,jdbcType=INTEGER},
+      preferential = #{preferential,jdbcType=INTEGER},
+      picturePath = #{picturepath,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

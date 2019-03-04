@@ -1,0 +1,163 @@
+<script src="/park/script/alipayInfo.js"></script>
+<script src="/park/script/service/textModalService.js"></script>
+<div class="content-wrapper" ng-app="alipayInfoApp" ng-controller="alipayInfoCtrl">
+	<section class="content-header">
+          <h1>
+			支付宝相关信息
+            <small></small>
+          </h1>
+       
+    </section>
+
+    <section class="content">
+       <div class="row">
+            <div class="col-xs-12">
+              	<div class="box">	               
+	             <div class="box-body"> 
+					<div class="btn-group">
+		                		<button #if(!$isAdmin) disabled#end  ng-click="refreshAlipayInfo()" type="button" class="btn bg-purple"><span class="glyphicon glyphicon-refresh"></span> 刷新</button>
+		                		<button #if(!$isAdmin) disabled#end  ng-click="insertAlipayInfo()" type="button" class="btn bg-olive"><span class="glyphicon glyphicon-pencil"></span> 添加支付宝信息</button>
+		                		<button #if(!$isAdmin) disabled#end  ng-click="updateAlipayInfo()" type="button" class="btn bg-navy"><span class="glyphicon glyphicon-edit"></span> 更新支付宝信息</button>
+		                		<button #if(!$isAdmin) disabled#end  ng-click="deleteAlipayInfo()" type="button" class="btn  bg-orange"><span class="glyphicon glyphicon-remove"></span> 删除支付宝信息</button>
+		                	</div>	
+				<div class="pull-right">		
+							                	
+	                	</div>
+	                    <br/>   
+	                    <br/>    	
+						<div>
+							  <table class="table table-striped table-bordered table-hover table-condensed" id='parkTable' style="font-size:12px">
+					          
+					            <tr class="success">					            
+					             <th><span style=""><input type="checkbox" /></div></th>
+										<th><span style="padding-left:15%">Id</div></th>								
+										<th><span style="padding-left:15%">商家名</div></th>
+										<th><span style="padding-left:15%">支付宝Id</div></th>
+										<th><span style="padding-left:15%">支付宝公钥</div></th>
+										<th hidden><span style="padding-left:15%">应用公钥</div></th>
+										<th hidden><span style="padding-left:15%">应用私钥</div></th>
+										<th><span style="padding-left:15%">应用id</div></th>
+										<th><span style="padding-left:15%">停车场id</div></th>
+										<th><span style="padding-left:15%">支付宝停车场外键</div></th>
+										<th><span style="padding-left:15%">其它</div></th>	
+															
+					            </tr>
+					          
+					          <tbody id="parkBody"></tbody>
+							  <tr ng-repeat="alipayInfo in alipayInfos" ng-click="selectChange($index)">
+							  <td ><input type="checkbox" ng-model="alipayInfo.checked" /></td>
+							  <td ng-bind="alipayInfo.id"></td>
+							  <td ng-bind="alipayInfo.merchant"></td>
+							  <td ng-bind="alipayInfo.alipayid"></td>
+							  <td ng-bind="alipayInfo.alipublickey"></td>
+							  <td hidden ng-bind="alipayInfo.publickey"></td>
+
+							  <td hidden ng-bind="alipayInfo.privatekey"></td>
+							  <td ng-bind="alipayInfo.appid"></td>
+							  <td ng-bind="alipayInfo.parkid"></td>
+							  <td ng-bind="alipayInfo.outparkkey"></td>
+							  <td ng-bind="alipayInfo.other"></td>
+							  </tr>
+					          </table>
+    					</div>
+    				</div>
+    				<div class="box-footer clearfix">
+      					<div id='pagination'></div>
+      				</div>
+	            </div>
+            </div>
+        </div>
+
+	<script id="alipayInfoModify" type="text/ng-template" >
+<div class="modal-header panel panel-info">
+    <div class="panel-heading">
+    <button type='button' class='close' ng-click="close()" aria-hidden='true'>
+        &times;
+    </button>
+    <h4 class="modal-title" >商家支付宝信息</h4>
+</div>
+</div>
+
+<div class="modal-body">
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            <label class="col-sm-2 control-label" >商家名</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" placeholder="商家名" ng-model="tempalipayInfo.merchant">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" >支付宝Id</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" placeholder="支付宝Id" ng-model="tempalipayInfo.alipayid">
+            </div>
+        </div>
+         <div class="form-group">
+             <label class="col-sm-2 control-label" >支付宝公钥</label>
+             <div class="col-sm-8">
+             <textarea type="text" class="form-control" placeholder="商家名" ng-model="tempalipayInfo.alipublickey"></textarea>
+        </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" >应用公钥</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" placeholder="应用公钥" ng-model="tempalipayInfo.publickey">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" >应用私钥</label>
+            <div class="col-sm-8">
+                <textarea type="text" class="form-control" placeholder="应用私钥" ng-model="tempalipayInfo.privatekey"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" >应用id</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" placeholder="应用id" ng-model="tempalipayInfo.appid">
+            </div>
+        </div>
+		<div class="form-group">
+            <label class="col-sm-2 control-label" >停车场id</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" placeholder="停车场id" ng-model="tempalipayInfo.parkid">
+            </div>
+        </div>
+		<div class="form-group">
+            <label class="col-sm-2 control-label" >支付宝停车场外键</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" placeholder="支付宝停车场外键" ng-model="tempalipayInfo.outparkkey">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" >其它</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" placeholder="其它" ng-model="tempalipayInfo.other">
+            </div>
+        </div>
+
+
+        <div class="alert alert-info" ng-show="loading || submitted">
+            <span  ng-show='loading' > <i class="fa fa-spinner"></i></span>
+            <span ng-show='submitted'>{{result}}</span>
+        </div>
+
+    </form>
+</div>
+
+<div class="modal-footer">
+    <button ng-click="close()" type="button" class="btn btn-default" data-dismiss="modal">
+        取消
+    </button>
+    <button ng-click="submit()"  type="button" class="btn btn-primary">
+        确定
+    </button>
+</div>
+</script>	
+		
+    </section>
+						
+</div>
+
+
+
+

@@ -1,0 +1,164 @@
+#set($layout = "loginlayout.vm")
+<html>
+<head>
+    <title> 路边停车 </title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/lb_style.css" />
+	<script src="/park/script/jquery.min.js"></script>
+	<script src="/park/script/qhq_carport.js"></script>
+</head>
+<body>
+<div class="container-fluid"> 
+	<div class="row lb-title"> 
+        <p>秦淮区停车泊位状态图 </p>
+    </div>
+	<div class="lb-main">
+                <div class="lb-car row">
+                <div class="col-xs-3">
+                    <div class="row">
+                        <div class="col-xs-3 col-xs-offset-3 row2">
+                            <img alt="车位" src="img/rcar.png">
+                            <p>27 <span class="remove">占用</span></p>
+                        </div>  
+                        <div class="col-xs-3 row2">
+                            <img alt="车位" src="img/rcar.png">
+                            <p>26 <span class="remove">占用</span></p>
+                        </div>  
+                        <div class="col-xs-3 row2">
+                            <img alt="车位" src="img/rcar.png">
+                            <p>25 <span class="remove">占用</span></p>
+                        </div>  
+                    </div>  
+                </div>  
+                <div class="col-xs-9">
+                    <div class="row">
+                        <div class="col-xs-1 row2">
+                            <img alt="车位" src="img/rcar.png">
+                            <p>24 <span class="remove">占用</span></p>
+                        </div>  
+                        <div class="col-xs-1 row2">
+                            <img alt="车位" src="img/rcar.png">
+                            <p>23 <span class="remove">占用</span></p>
+                        </div>  
+                        <div class="col-xs-1 row2">
+                            <img alt="车位" src="img/rcar.png">
+                            <p>22 <span class="remove">占用</span></p>
+                        </div>  
+                        <div class="col-xs-1 row2">
+                            <img alt="车位" src="img/gcar.png">
+                            <p>21 <span class="ok">可用</span></p>
+                        </div>  
+                        <div class="col-xs-1 row2">
+                            <img alt="车位" src="img/rcar.png">
+                            <p>20 <span class="remove">占用</span></p>
+                        </div>  
+                        <div class="col-xs-1 row2">
+                            <img alt="车位" src="img/gcar.png">
+                            <p>19 <span class="ok">可用</span></p>
+                        </div>  
+                        <div class="col-xs-1 row2">
+                            <img alt="车位" src="img/rcar.png">
+                            <p>18 <span class="remove">占用</span></p>
+                        </div>  
+                        <div class="col-xs-1 row2">
+                            <img alt="车位" src="img/rcar.png">
+                            <p>17 <span class="remove">占用</span></p>
+                        </div>  
+                        <div class="col-xs-1 row2">
+                            <img alt="车位" src="img/rcar.png">
+                            <p>16 <span class="remove">占用</span></p>
+                        </div>  
+                    </div>  
+                </div>  
+            </div>  
+    <div class="lb-road row">
+        <div class="col-xs-12">
+            <img alt="马路" src="img/road.png">
+        </div>  
+    </div> 
+	<div class="lb-road row">
+        <div class="col-xs-12">
+            <img alt="马路" src="img/road.png">
+        </div>  
+    </div> 
+    <div class="lb-car row" >
+        <div class="col-xs-3">
+            <div class="row">
+                <div class="col-xs-3 col-xs-offset-3 row1"  >
+                    <img alt="车位" src="img/rcar.png">
+                    <p>1 <span class="remove">占用</span></p>
+                </div>  
+                <div class="col-xs-3 row1"  >
+                    <img alt="车位" src="img/rcar.png">
+                    <p>2 <span class="remove">占用</span></p>
+                </div>  
+                <div class="col-xs-3 row1"  >
+                    <img alt="车位" src="img/rcar.png">
+                    <p>3 <span class="remove">占用</span></p>
+                </div>  
+            </div>  
+        </div>  
+        <div class="col-xs-9">
+            <div class="row">
+                <div class="col-xs-1 row1"  >
+                    <img alt="车位" src="img/rcar.png">
+                    <p>4 <span class="remove">占用</span></p>
+                </div>  
+                <div class="col-xs-1 row1"  >
+                    <img alt="车位" src="img/rcar.png">
+                    <p>5 <span class="remove">占用</span></p>
+                </div>  
+                <div class="col-xs-1 row1"  >
+                    <img alt="车位" src="img/rcar.png">
+                    <p>6 <span class="remove">占用</span></p>
+                </div>  
+                <div class="col-xs-1 row1"  >
+                    <img alt="车位" src="img/gcar.png">
+                    <p>7 <span class="ok">可用</span></p>
+                </div>  
+                <div class="col-xs-1 row1"  >
+                    <img alt="车位" src="img/rcar.png">
+                    <p>8 <span class="remove">占用</span></p>
+                </div>  
+                <div class="col-xs-1 row1"  >
+                    <img alt="车位" src="img/gcar.png">
+                    <p>9 <span class="ok">可用</span></p>
+                </div>  
+                <div class="col-xs-1 row1"  >
+                    <img alt="车位" src="img/rcar.png">
+                    <p>10 <span class="remove">占用</span></p>
+                </div>  
+                <div class="col-xs-1 row1"  > 
+                    <img alt="车位" src="img/rcar.png">
+                    <p>11 <span class="remove">占用</span></p>
+                </div>  
+                <div class="col-xs-1 row1"  >
+                    <img alt="车位" src="img/rcar.png">
+                    <p>12 <span class="remove">占用</span></p>
+                </div>  
+                <div class="col-xs-1 row1"  >
+                    <img alt="车位" src="img/rcar.png">
+                    <p>13 <span class="remove">占用</span></p>
+                </div>  
+                <div class="col-xs-1 row1"  >
+                    <img alt="车位" src="img/gcar.png">
+                    <p>14 <span class="ok">可用</span></p>
+                </div>  
+                <div class="col-xs-1 row1"  >
+                    <img alt="车位" src="img/rcar.png">
+                    <p>15 <span class="remove">占用</span></p>
+                </div>  
+            </div>  
+        </div>  
+    </div>  
+</div>
+ </div>
+<script >
+$().ready(function(){
+$.fn.carportstatus.initial();
+}
+)
+</script>
+</body>
+</html>

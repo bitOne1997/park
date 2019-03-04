@@ -1,0 +1,56 @@
+<script src="/park/script/service/textModalService.js"></script>
+
+<script src="/park/script/allocateRole.js"></script>
+
+<style>
+        .page-list .pagination {float:left;}
+        .page-list .pagination span {cursor: pointer;}
+        .page-list .pagination .separate span{cursor: default; border-top:none;border-bottom:none;}
+        .page-list .pagination .separate span:hover {background: none;}
+        .page-list .page-total {float:left; margin: 25px 20px;}
+        .page-list .page-total input, .page-list .page-total select{height: 26px; border: 1px solid #ddd;}
+        .page-list .page-total input {width: 40px; padding-left:3px;}
+        .page-list .page-total select {width: 50px;}
+</style>
+
+<div class="content-wrapper" ng-app="userApp" ng-controller="userCtrl">
+	<section class="content-header">
+          <h1>
+            用户角色分配管理
+            <small></small>
+          </h1>     
+    </section>
+    <section class="content">
+       <div class="row">
+            <div class="col-xs-12">
+              	<div class="box">
+	                <div class="box-header">
+	                  <h3 class="box-title"></h3>
+	                </div><!-- /.box-header -->
+	                <div class="box-body">  
+						<div>
+						 <table class="table table-hover table-striped table-condensed" id='channelTable' style="font-size:12px">
+								<tr class="info" style="height: 30px; line-height: 30px;">
+									<th><span >Id</span></th>		
+									<th><span>用户</span></th>
+									<th><span>角色管理</span></th>
+									
+				            </tr>
+				          <tbody id="channelBody"></tbody>
+				          	<tr  ng-repeat = "item in user.items">
+				          		<td ng-bind="item.id"></td>
+				          		<td ng-bind="item.username"></td>
+				          		<td><button class="btn-sm btn btn-info" ng-click="user.allocateRoles($index)">分配角色</button></td>
+								
+				          </table>
+    					</div>
+							<tm-pagination conf="paginationConf"></tm-pagination>
+    				</div>
+
+	            </div>
+            </div>
+        </div>
+
+    </section>
+						
+</div>

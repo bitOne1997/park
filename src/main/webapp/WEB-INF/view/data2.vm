@@ -1,0 +1,531 @@
+#set($layout = "loginlayout.vm")
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width" />
+<title>停车数据分析  - 智慧路边停车管理平台</title>
+<link rel="icon" href="/favicon.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+
+
+<link href="Style/layout.css" rel="stylesheet" />
+<link href="Style/Pagination.css" rel="stylesheet" />
+<link href="Style/jbox.css" rel="stylesheet" />
+<link href="Style/loadingbar.css" rel="stylesheet" />
+<link href="Style/index.css" rel="stylesheet" />
+
+<script src="Scripts/jquery-1.8.2.min.js"></script>
+<script src="Scripts/Common.js"></script>
+<script src="Scripts/jquery.pagination.js"></script>
+<script src="Scripts/jquery.jBox.src.js"></script>
+<script src="Scripts/modernizr-2.6.2.js"></script>
+
+</head>
+<body>
+<div class="mian-container">
+  <div class="page-content page_Mleft">
+    <div class="container-fluid">
+      <!-- Right -->
+
+
+      <!--搜索框部分-->
+      <div class="selectBox">
+        <div class="selectBoxLine">
+          <span class="word">年份：</span><select id="ddlYear" class="input_select">
+            <option value="2016" selected>2016</option>
+            <option value="2015">2015</option>
+            <option value="2014">2014</option>
+          </select>
+          <span class="word">月份：</span><select id="ddlMonth" class="input_select">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7" selected>7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+          </select><input type="button" value="统  计" id="btnSearch" onclick="search()" class="search">
+        </div>
+      </div>
+
+      <!--占比分析-->
+      <table class="Report_BannerT">
+        <tr>
+          <td id="report_count">
+            <div id="divParkingCountsAnalysis" class="tinfo"></div>
+          </td>
+          <td id="nodata_count" style="display:none;">
+            <div class="tinfo">
+              <div id="time_count" style="font-family:Microsoft YaHei;color:#444;vertical-align:top;margin-top:10px;text-align:center; font-size:18px;font-weight:bold;"></div>
+              <div style="font-family:Microsoft YaHei;margin-top:100px;vertical-align:bottom;text-align:center; color:#444;font-weight:bold;">暂无数据！</div>
+            </div>
+          </td>
+          <td id="report_analysis">
+            <div id="divParkingChannelAnalysis" class="tinfo"></div>
+          </td>
+          <td id="nodata_analysis" style="display:none;">
+            <div class="tinfo">
+              <div id="time_analysis" style="font-family:Microsoft YaHei;color:#444;vertical-align:top;margin-top:10px;text-align:center; font-size:18px;font-weight:bold;"></div>
+              <div style="font-family:Microsoft YaHei;margin-top:100px;vertical-align:bottom;text-align:center; color:#444;font-weight:bold;">暂无数据！</div>
+            </div>
+          </td>
+        </tr>
+      </table>
+
+      <!--当月停车明细统计-->
+      <div style="margin-bottom: 20px;">
+        <table id="tbOrder" class="indexData" style="width: 100%;">
+          <tr>
+            <th style="width: 10%;">日期</th>
+            <th style="width: 15%;">超时欠费订单总数</th>
+            <th style="width: 12%;">补缴数</th>
+            <th style="width: 10%;">未补缴数</th>
+            <th style="width: 8%;">补缴率</th>
+            <th style="width: 15%;">未启动缴费订单总数</th>
+            <th style="width: 12%;">补缴数</th>
+            <th style="width: 10%;">未补缴数</th>
+            <th style="width: 8%;">补缴率</th>
+          </tr>
+          <tr>
+            <td colspan="8" id="data">数据加载中...</td>
+          </tr>
+        </table>
+      </div>
+      <div style="display: none;position: absolute; margin-right: 20px;" id="divTitle">
+        <table class="indexData" style="width: 100%;">
+          <tr style="background-color: #fff;">
+            <th style="width: 10%;">日期</th>
+            <th style="width: 15%;">超时欠费订单总数</th>
+            <th style="width: 12%;">补缴数</th>
+            <th style="width: 10%;">未补缴数</th>
+            <th style="width: 8%;">补缴率</th>
+            <th style="width: 15%;">未启动缴费订单总数</th>
+            <th style="width: 12%;">补缴数</th>
+            <th style="width: 10%;">未补缴数</th>
+            <th style="width: 8%;">补缴率</th>
+          </tr>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- js 控制左边菜单栏-->
+<script type="text/javascript">     
+$(".sidebar-toggler").click(
+    function () {
+    if ($(".leftNav").width() == "216") {
+    $(".leftNav").css("width", "40");
+    $(".page-content").css("margin-left", "40px");
+    $(".sidebar-toggler").addClass("sidebar-toggler-closed");
+    $(".leftNav-menu  span").css("display", "none");
+    $(".sub-menu").css("display", "none");
+    $(".arrow").css("display", "none");
+    $(".sublock").css("padding", "10px");
+    $(".sub-menu a").css("width", "85px");
+    $(".sublock").css("width", "20px");
+    }
+    else {
+    $(".leftNav").css("width", "216px");
+    $(".page-content").css("margin-left", "216px");
+    $(".sidebar-toggler").removeClass("sidebar-toggler-closed");
+    $(".leftNav-menu span").css("display", "inline-block");
+    $(".arrow").css("display", "inline-block");
+    $(".sub-menu a").css("width", "130px");
+    $(".sub-menu a").css("padding", "10px 20px 10px 65px");
+    $(".sublock").css("width", "195px");
+    }
+    }
+);
+
+//加载线完成
+$("#loadingbar").css("display", "block")
+$("#loadingbar").width("100.4%").delay(1000);
+
+//2秒后隐藏loginbar函数
+setTimeout('UnShowLoginBar()', 1000);
+//隐藏loginbar函数
+function UnShowLoginBar() {
+  $("#loadingbar").css("display", "none");
+}
+
+$(document).ready(function (e) {
+    //收缩列表
+    if ($(".leftNav").width() == "40") {
+    $(".leftNav-menu  li").hover(
+      function () {
+      $(this).css("width", "200px");
+      }
+      )
+    }
+    $(".sub-menu").hide();
+    var nowF = "3";
+    var nowM = "132";
+
+    //加载一级菜单选中样式
+    if (nowF != "")
+    $(".main_menu #" + nowF).addClass("pitch_on");
+    else
+    $(".main_menu li:eq(0) a").addClass("pitch_on");
+
+    //点击列表效果
+    var sub_menu = $(".sub-menu");
+    var all_sublock = $(".sublock")
+      var li_arrow = $(".leftNav-menu li .arrow");
+    $(".leftNav-menu li a[class='sublock'] ").click(
+        function () {
+        sub_menu.slideUp(200);
+        li_arrow.removeClass("arrow_down");
+        if ($(this).attr("data-select") == "0") {
+        all_sublock.attr("data-select", "0");
+        $(this).attr("data-select", "1").next().stop(true, true).slideToggle(200);
+        $(this).find("i:eq(1)").toggleClass("arrow_down");
+        }
+        else if ($(this).attr("data-select") == "1") {
+        $(this).attr("data-select", "0");
+        }
+        return false;
+        }
+        );
+    //加载二、三级菜单选中样式
+    if (nowM != "") {
+      $(".sub-menu a[id=" + nowM + "]").addClass("sub-men-toggler");
+      var sub = $(".sub-menu a[id=" + nowM + "]").parent().parent().parent().find("a[class='sublock']");
+    }
+    else {
+      $(".sub-menu a:eq(0)").addClass("sub-men-toggler");
+      var sub = $(".sub-menu a:eq(0)").parent().parent().parent().find("a[class='sublock']");
+    }
+    $(sub).attr("data-select", "1").next().stop(true, true).show();
+    $(sub).find("i:eq(1)").toggleClass("arrow_down");
+    $(".leftNav-menuLi").hover(function (e) {
+        if ($(".leftNav").width() == "40") {
+        $(this).addClass("opened");
+        $(this).find("ul").css("display", "block");
+        $(this).find("ul").addClass("openedUl");
+        $(this).find("a").addClass("openedA");
+        $(this).find(".sublock  span").css("display", "inline-block");
+        $(this).find(".sublock  span").addClass("hoverSpan");
+        $(this).find(".sublock").css("width", "180px");
+        $(this).find(".sublock").css("border", "0");
+        $(this).find(".sub-menu a").css("padding", "10px 30px 10px 55px");
+        }
+        },
+        function () {
+        if ($(".leftNav").width() == "40") {
+        $(this).removeClass("opened");
+        $(this).find("ul").css("display", "none");
+        $(this).find("ul").removeClass("openedUl");
+        $(this).find("a").removeClass("openedA");
+        $(this).find(".sublock span").css("display", "none");
+        $(this).find(".sublock span").removeClass("hoverSpan");
+        $(this).find(".sublock").css("width", "20px");
+        $(this).find(".sublock").css({ "border-top": "1px solid #e9e9e9" });
+        }
+        }
+    )
+});
+
+//修改个人资料
+$("#userEdit").click(function () {
+    var userId = $.trim($("#userId").val());
+    var userName = $.trim($("#userName").val());
+    openNewWindow('/SystemArea/System/UserEdit?type=editPersonal&userId=' + userId + "&userName=" + userName, '', 870, 340);
+    return false;
+    });
+//修改密码
+$("#pwdEdit").click(function () {
+
+    openhtml("/SystemArea/System/UserPwdEdit?type=editPersonal", "密码修改", 492, 334);
+    return false;
+    });
+
+//用户退出
+$("#userexit").click(function () {
+
+    var submit = function (v, h, f) {
+    if (v == false) {
+    window.jBox.close();
+    return;
+    } else {
+
+    window.location.href = "/Home/Login?t=loginout";
+    }
+    }
+    jBox.confirm("提示：您确定退出吗?", "提示", submit, {
+showScrolling: false,
+buttons: {
+'确认': true,
+'取消': false
+}
+}, 290, 152);
+
+
+    });
+
+
+//获得用户还未读的通知公告数量
+function NoticeRead() {
+  $.ajax({
+type: "POST",
+url: "/OAArea/Notice/NoticeNotReadCounts",
+success: function (result) {
+if (result > 0) {
+$("#NoticeCounts").html(result);
+$("#LeftBracket").show();
+$("#RightBracket").show();
+$("#NoticeCounts").show();
+}
+else {
+$("#LeftBracket").hide();
+$("#RightBracket").hide();
+$("#NoticeCounts").hide();
+}
+}
+});
+}
+//获取设备异常数量
+function getAlarmCounts() {
+  $.ajax({
+type: "POST",
+url: "/SystemArea/System/GetEquipmentAlarmCounts",
+success: function (result) {
+if (result > 0) {
+$("#spanAlarmCounts").html(result);
+$("#spanAlarmCounts").addClass("remindCounts");                      
+$("#iconEquipmentAlarm").removeClass("equipmentAlarm");
+$("#iconEquipmentAlarm").addClass("equipmentAlarmTwinkle");
+}
+else {
+$("#spanAlarmCounts").html("");
+$("#spanAlarmCounts").removeClass("remindCounts");
+$("#iconEquipmentAlarm").removeClass("equipmentAlarmTwinkle");
+$("#iconEquipmentAlarm").addClass("equipmentAlarm");
+}
+}
+});
+}
+
+var objThead = $('.leftNav');
+//alert(objThead.offset().top);
+var headerTop = objThead.offset().top;
+var headerLeft = objThead.offset().left;
+$(window).scroll(function () {
+    var scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+    var scrollLeft = document.body.scrollLeft || document.documentElement.scrollLeft;
+    var left = headerLeft - scrollLeft;
+    if (scrollTop >= headerTop) {
+    $(".leftNav").css({
+      "left": left + "px",
+      "top": "24px",
+      "position": "fixed"
+      });
+    } else {
+    $(".leftNav").removeAttr("style");
+    }
+    });
+</script>
+
+<script type="text/javascript" src="Scripts/ECharts/echarts-plain.js"></script>
+<script type="text/javascript" src="Scripts/ECharts/macarons.js"></script>
+<script type="text/ecmascript">
+$(function () {
+            var timeYear = $("#ddlYear").val();
+            var timeMonth = $("#ddlMonth").val();
+
+            GetParkingCountsAnalysis(timeYear, timeMonth);
+            ParkingOrderMonthDetails(timeYear, timeMonth);
+            GetParkingChannelAnalysis(timeYear, timeMonth);
+        });
+
+        function search() {
+            var timeYear = $("#ddlYear").val();
+            var timeMonth = $("#ddlMonth").val();
+
+            GetParkingCountsAnalysis(timeYear, timeMonth);
+            ParkingOrderMonthDetails(timeYear, timeMonth);
+            GetParkingChannelAnalysis(timeYear, timeMonth);
+        }
+
+        function GetParkingCountsAnalysis(starttime, endtime) {
+            var myChart = echarts.init(document.getElementById("divParkingCountsAnalysis"));
+            $("#report_count").css("display", "");
+            $("#nodata_count").css("display", "none");
+            myChart.setTheme(macarons());
+            myChart.showLoading({ text: '正在查询数据...', effect: 'whirling' });
+            $.ajax({
+              
+                url: "/park/",
+             
+                success: function () {
+                    myChart.hideLoading();
+					var msg=[{value:1,name:'一次'},{value:1,name:'二至五次'},{value:0,name:'六至十次'},{value:0,name:'十次以上'}];
+                    if (msg != "nodata") {
+                        var option1 = {
+                            title: {
+                                text: '停车次数分析（' + starttime + '年' + endtime + '月）',
+                                x: 'center',
+                                textStyle: {
+                                    color: '#444',
+                                    fontWeight: 'bolder',
+                                    fontFamily: 'Microsoft YaHei'
+                                }
+                            },
+                            tooltip: {
+                                trigger: 'item',
+                                formatter: '{b} :<br/>{c}人 ({d}%)'
+                            },
+                            series: [
+                                {
+
+                                    type: 'pie',
+                                    radius: '60%',
+                                    itemStyle: {
+                                        normal: {
+                                            labelLine: { length: 10, show: false },
+                                            label: {
+                                                textStyle: {
+                                                    fontSize: 12,
+                                                    align: "center"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    selectedMode: 'multiple',
+                                    data: eval(msg)
+                                }
+                            ]
+                        };
+                        myChart.setOption(option1);
+                    }
+                    else {
+                        $("#report_count").css("display", "none");
+                        $("#nodata_count").css("display", "");
+                        $("#time_count").text("停车次数分析（" + starttime + "年" + endtime + "月）");
+                    }
+                }
+            });
+        }
+
+        function GetParkingChannelAnalysis(starttime, endtime) {
+            var myChart = echarts.init(document.getElementById("divParkingChannelAnalysis"));
+            $("#report_analysis").css("display", "");
+            $("#nodata_analysis").css("display", "none");
+            myChart.setTheme(macarons());
+            myChart.showLoading({ text: '正在查询数据...', effect: 'whirling' });
+            $.ajax({
+               
+                url: "/park/",
+              
+                success: function () {
+                    myChart.hideLoading();
+					var msg=[{value:5,name:'手机APP'},];
+                    if (msg != "nodata") {
+                        var option1 = {
+
+                            title: {
+                                text: '停车渠道分析（' + starttime + '年' + endtime + '月）',
+                                x: 'center',
+                                textStyle: {
+                                    color: '#444',
+                                    fontWeight: 'bolder',
+                                    fontFamily: 'Microsoft YaHei'
+                                }
+                            },
+                            tooltip: {
+                                trigger: 'item',
+                                formatter: '{b} :<br/>{c}次 ({d}%)'
+                            },
+                            series: [
+                                {
+                                    type: 'pie',
+                                    radius: '60%',
+                                    itemStyle: {
+                                        normal: {
+                                            labelLine: { length: 8, show: false },
+                                            label: {
+                                                textStyle: {
+                                                    fontSize: 12,
+                                                    align: "center"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    selectedMode: 'multiple',
+                                    data: eval(msg)
+                                }
+                            ]
+                        };
+                        myChart.setOption(option1);
+                    }
+                    else {
+                        $("#report_analysis").css("display", "none");
+                        $("#nodata_analysis").css("display", "");
+                        $("#time_analysis").text("停车渠道分析（" + starttime + "年" + endtime + "月）");
+                    }
+                }
+            });
+        }
+        //当月停车数据分析
+        function ParkingOrderMonthDetails(starttime, endtime) {
+            $("#tbOrder tr:gt(0)").remove();
+            $("#tbOrder").append('<tr><td colspan="8">数据加载中...</td></tr>');
+            $.ajax({
+     
+                url: "/park/",
+                data: { year: starttime, month: endtime },
+                success: function () {
+                    $("#tbOrder tr:gt(0)").remove();//删除第一行数据(不包括表头)
+					var msg={"ParkingDataAnalysis":[{"time":"2016-07-01","ArrearsOrderNumber":"0","ArrPayedNumber":"0","ArrUnPayNumber":"0","ArrPayRate":"0.00%","PeccFineCodeId":"0","PeccPayedNumber":"0","PeccUnPayNumber":"0","PeccPayRate":"0.00%"},{"time":"2016-07-02","ArrearsOrderNumber":"0","ArrPayedNumber":"0","ArrUnPayNumber":"0","ArrPayRate":"0.00%","PeccFineCodeId":"0","PeccPayedNumber":"0","PeccUnPayNumber":"0","PeccPayRate":"0.00%"},{"time":"2016-07-03","ArrearsOrderNumber":"0","ArrPayedNumber":"0","ArrUnPayNumber":"0","ArrPayRate":"0.00%","PeccFineCodeId":"0","PeccPayedNumber":"0","PeccUnPayNumber":"0","PeccPayRate":"0.00%"},{"time":"2016-07-04","ArrearsOrderNumber":"0","ArrPayedNumber":"0","ArrUnPayNumber":"0","ArrPayRate":"0.00%","PeccFineCodeId":"0","PeccPayedNumber":"0","PeccUnPayNumber":"0","PeccPayRate":"0.00%"},{"time":"2016-07-05","ArrearsOrderNumber":"0","ArrPayedNumber":"0","ArrUnPayNumber":"0","ArrPayRate":"0.00%","PeccFineCodeId":"0","PeccPayedNumber":"0","PeccUnPayNumber":"0","PeccPayRate":"0.00%"},{"time":"2016-07-06","ArrearsOrderNumber":"0","ArrPayedNumber":"0","ArrUnPayNumber":"0","ArrPayRate":"0.00%","PeccFineCodeId":"0","PeccPayedNumber":"0","PeccUnPayNumber":"0","PeccPayRate":"0.00%"},{"time":"2016-07-07","ArrearsOrderNumber":"0","ArrPayedNumber":"0","ArrUnPayNumber":"0","ArrPayRate":"0.00%","PeccFineCodeId":"0","PeccPayedNumber":"0","PeccUnPayNumber":"0","PeccPayRate":"0.00%"},{"time":"2016-07-08","ArrearsOrderNumber":"0","ArrPayedNumber":"0","ArrUnPayNumber":"0","ArrPayRate":"0.00%","PeccFineCodeId":"0","PeccPayedNumber":"0","PeccUnPayNumber":"0","PeccPayRate":"0.00%"},{"time":"2016-07-09","ArrearsOrderNumber":"0","ArrPayedNumber":"0","ArrUnPayNumber":"0","ArrPayRate":"0.00%","PeccFineCodeId":"0","PeccPayedNumber":"0","PeccUnPayNumber":"0","PeccPayRate":"0.00%"},{"time":"2016-07-10","ArrearsOrderNumber":"0","ArrPayedNumber":"0","ArrUnPayNumber":"0","ArrPayRate":"0.00%","PeccFineCodeId":"0","PeccPayedNumber":"0","PeccUnPayNumber":"0","PeccPayRate":"0.00%"},{"time":"2016-07-11","ArrearsOrderNumber":"0","ArrPayedNumber":"0","ArrUnPayNumber":"0","ArrPayRate":"0.00%","PeccFineCodeId":"0","PeccPayedNumber":"0","PeccUnPayNumber":"0","PeccPayRate":"0.00%"},{"time":"2016-07-12","ArrearsOrderNumber":"0","ArrPayedNumber":"0","ArrUnPayNumber":"0","ArrPayRate":"0.00%","PeccFineCodeId":"0","PeccPayedNumber":"0","PeccUnPayNumber":"0","PeccPayRate":"0.00%"},{"time":"2016-07-13","ArrearsOrderNumber":"0","ArrPayedNumber":"0","ArrUnPayNumber":"0","ArrPayRate":"0.00%","PeccFineCodeId":"0","PeccPayedNumber":"0","PeccUnPayNumber":"0","PeccPayRate":"0.00%"},{"time":"2016-07-14","ArrearsOrderNumber":"0","ArrPayedNumber":"0","ArrUnPayNumber":"0","ArrPayRate":"0.00%","PeccFineCodeId":"0","PeccPayedNumber":"0","PeccUnPayNumber":"0","PeccPayRate":"0.00%"},{"time":"2016-07-15","ArrearsOrderNumber":"0","ArrPayedNumber":"0","ArrUnPayNumber":"0","ArrPayRate":"0.00%","PeccFineCodeId":"0","PeccPayedNumber":"0","PeccUnPayNumber":"0","PeccPayRate":"0.00%"},{"time":"2016-07-16","ArrearsOrderNumber":"0","ArrPayedNumber":"0","ArrUnPayNumber":"0","ArrPayRate":"0.00%","PeccFineCodeId":"0","PeccPayedNumber":"0","PeccUnPayNumber":"0","PeccPayRate":"0.00%"},{"time":"2016-07-17","ArrearsOrderNumber":"0","ArrPayedNumber":"0","ArrUnPayNumber":"0","ArrPayRate":"0.00%","PeccFineCodeId":"0","PeccPayedNumber":"0","PeccUnPayNumber":"0","PeccPayRate":"0.00%"},{"time":"2016-07-18","ArrearsOrderNumber":"0","ArrPayedNumber":"0","ArrUnPayNumber":"0","ArrPayRate":"0.00%","PeccFineCodeId":"0","PeccPayedNumber":"0","PeccUnPayNumber":"0","PeccPayRate":"0.00%"},{"time":"2016-07-19","ArrearsOrderNumber":"0","ArrPayedNumber":"0","ArrUnPayNumber":"0","ArrPayRate":"0.00%","PeccFineCodeId":"0","PeccPayedNumber":"0","PeccUnPayNumber":"0","PeccPayRate":"0.00%"},{"time":"2016-07-20","ArrearsOrderNumber":"0","ArrPayedNumber":"0","ArrUnPayNumber":"0","ArrPayRate":"0.00%","PeccFineCodeId":"0","PeccPayedNumber":"0","PeccUnPayNumber":"0","PeccPayRate":"0.00%"},{"time":"2016-07-21","ArrearsOrderNumber":"0","ArrPayedNumber":"0","ArrUnPayNumber":"0","ArrPayRate":"0.00%","PeccFineCodeId":"0","PeccPayedNumber":"0","PeccUnPayNumber":"0","PeccPayRate":"0.00%"},{"time":"2016-07-22","ArrearsOrderNumber":"0","ArrPayedNumber":"0","ArrUnPayNumber":"0","ArrPayRate":"0.00%","PeccFineCodeId":"0","PeccPayedNumber":"0","PeccUnPayNumber":"0","PeccPayRate":"0.00%"},{"time":"2016-07-23","ArrearsOrderNumber":"0","ArrPayedNumber":"0","ArrUnPayNumber":"0","ArrPayRate":"0.00%","PeccFineCodeId":"0","PeccPayedNumber":"0","PeccUnPayNumber":"0","PeccPayRate":"0.00%"},{"time":"2016-07-24","ArrearsOrderNumber":"0","ArrPayedNumber":"0","ArrUnPayNumber":"0","ArrPayRate":"0.00%","PeccFineCodeId":"0","PeccPayedNumber":"0","PeccUnPayNumber":"0","PeccPayRate":"0.00%"},{"time":"2016-07-25","ArrearsOrderNumber":"0","ArrPayedNumber":"0","ArrUnPayNumber":"0","ArrPayRate":"0.00%","PeccFineCodeId":"0","PeccPayedNumber":"0","PeccUnPayNumber":"0","PeccPayRate":"0.00%"},{"time":"2016-07-26","ArrearsOrderNumber":"0","ArrPayedNumber":"0","ArrUnPayNumber":"0","ArrPayRate":"0.00%","PeccFineCodeId":"0","PeccPayedNumber":"0","PeccUnPayNumber":"0","PeccPayRate":"0.00%"},{"time":"2016-07-27","ArrearsOrderNumber":"0","ArrPayedNumber":"0","ArrUnPayNumber":"0","ArrPayRate":"0.00%","PeccFineCodeId":"0","PeccPayedNumber":"0","PeccUnPayNumber":"0","PeccPayRate":"0.00%"},{"time":"2016-07-28","ArrearsOrderNumber":"0","ArrPayedNumber":"0","ArrUnPayNumber":"0","ArrPayRate":"0.00%","PeccFineCodeId":"0","PeccPayedNumber":"0","PeccUnPayNumber":"0","PeccPayRate":"0.00%"},{"time":"2016-07-29","ArrearsOrderNumber":"0","ArrPayedNumber":"0","ArrUnPayNumber":"0","ArrPayRate":"0.00%","PeccFineCodeId":"0","PeccPayedNumber":"0","PeccUnPayNumber":"0","PeccPayRate":"0.00%"},{"time":"2016-07-30","ArrearsOrderNumber":"0","ArrPayedNumber":"0","ArrUnPayNumber":"0","ArrPayRate":"0.00%","PeccFineCodeId":"0","PeccPayedNumber":"0","PeccUnPayNumber":"0","PeccPayRate":"0.00%"},{"time":"2016-07-31","ArrearsOrderNumber":"0","ArrPayedNumber":"0","ArrUnPayNumber":"0","ArrPayRate":"0.00%","PeccFineCodeId":"0","PeccPayedNumber":"0","PeccUnPayNumber":"0","PeccPayRate":"0.00%"},{"time":"合计","ArrearsOrderNumber":"0","ArrPayedNumber":"0","ArrUnPayNumber":"0","ArrPayRate":"0.00%","PeccFineCodeId":"0","PeccPayedNumber":"0","PeccUnPayNumber":"0","PeccPayRate":"0.00%"}]};
+                    if (msg != "") {
+                        var order = msg.ParkingDataAnalysis;
+                        for (var i = 0; i < order.length; i++) {
+                            $("#tbOrder").append("<tr></tr>");
+                            $("#tbOrder tr").last().append("<td>" + order[i].time + "</td>");
+                            $("#tbOrder tr").last().append("<td>" + comdify(order[i].ArrearsOrderNumber) + "</td>");
+                            $("#tbOrder tr").last().append("<td>" + comdify(order[i].ArrPayedNumber) + "</td>");
+                            $("#tbOrder tr").last().append("<td>" + comdify(order[i].ArrUnPayNumber) + "</td>");
+                            $("#tbOrder tr").last().append("<td>" + comdify(order[i].ArrPayRate) + "</td>");
+                            $("#tbOrder tr").last().append("<td>" + comdify(order[i].PeccFineCodeId) + "</td>");
+                            $("#tbOrder tr").last().append("<td>" + comdify(order[i].PeccPayedNumber) + "</td>");
+                            $("#tbOrder tr").last().append("<td>" + order[i].PeccUnPayNumber + "</td>");
+                            $("#tbOrder tr").last().append("<td>" + order[i].PeccPayRate + "</td>");
+                        }
+                    }
+                    else
+                        $("#tbOrder").append('<tr><td colspan="8">暂无数据！</td></tr>');
+                }
+            });
+        }
+
+        //冻结表头
+        window.onscroll = function () {
+            var t = document.documentElement.scrollTop || document.body.scrollTop;
+            var top_div = $("#divTitle");
+            if (t >= 1000) {
+                top_div.show();
+                if ($.browser.mozilla) {
+                    top_div.offset({ top: t + 68 });
+                }
+                else {
+                    top_div.css("position", "fixed");
+                    top_div.css("margin-right", "20px");
+                    top_div.offset({ top: 88 });
+                }
+            } else {
+                top_div.hide();
+            }
+        }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,188 @@
+<script type="text/javascript"
+        src="http://api.map.baidu.com/api?v=2.0&ak=c7A2jm3enN7T0s5V8QbDHx85"></script>
+<script type="text/javascript"
+        src="http://api.map.baidu.com/library/TextIconOverlay/1.2/src/TextIconOverlay_min.js"></script>
+<script type="text/javascript"
+        src="http://api.map.baidu.com/library/MarkerClusterer/1.2/src/MarkerClusterer_min.js"></script>
+<link rel="stylesheet"
+      href="/park/css/SearchInfoWindow_min.css?v=0.6"/>
+<script type="text/javascript" src="/park/script/web_js.js"></script>
+<script type="text/javascript"
+        src="/park/script/jquery.SuperSlide.2.1.1.js"></script>
+<script src="/park/script/map.js?v=0.7" type="text/javascript"></script>
+<script src="/park/plugins/InfoBox_min.js"></script>
+<script src="/park/plugins/SearchInfoWindow_min.js?v=0.5"></script>
+
+<link rel="stylesheet" href="/park/css/jquery.jscrollpane.css"
+      type="text/css">
+
+<style>
+.anchorBL {
+	display: none;
+}
+  .nav > li > a:hover, .nav > li > a:active, .nav > li > a:focus {
+    color: #f5f3f3;
+    background: #435382;
+  }
+
+  .checkbox + .checkbox {
+    margin-top: 10px;
+  }
+
+  .checkbox label {
+    color: #eee;
+  }
+
+  input {
+    outline: none;
+  }
+
+  input[type=search] {
+    -webkit-appearance: textfield;
+    -webkit-box-sizing: content-box;
+    font-family: inherit;
+    font-size: 100%;
+  }
+
+  input::-webkit-search-decoration, input::-webkit-search-cancel-button {
+    display: none;
+  }
+
+  input[type=search] {
+    background: rgba(51, 122, 183, 0.6) url(https://static.tumblr.com/ftv85bp/MIXmud4tx/search-icon.png) no-repeat 9px center;
+    border: solid 1px #ccc;
+    text-align: center;
+  / padding: 6 px 10 px 6 px 10 px;
+    width: 225px;
+    height: 20px;
+    -webkit-border-radius: 0em;
+    -moz-border-radius: 0em;
+    border-radius: 0em;
+  }
+
+  input[type=search]:focus {
+    width: 225px;
+    background-color: #337ab7;
+    border-color: #66CC75;
+    -webkit-box-shadow: 0 0 5px rgba(109, 207, 246, .5);
+    -moz-box-shadow: 0 0 5px rgba(109, 207, 246, .5);
+    box-shadow: 0 0 5px rgba(109, 207, 246, .5);
+  }
+
+  input:-moz-placeholder {
+    color: #fff;
+  }
+
+  input::-webkit-input-placeholder {
+    color: #fff;
+  }
+.infoBoxContent{font-size:20px;}
+.infoBoxContent .title{background:#c7d9bc no-repeat;height:34px;width:270px;}
+.infoBoxContent .title strong{font-size:16px;line-height:34px;padding:0 10px 0 15px;}
+.infoBoxContent .title .price{color:#FFFF00;}
+.infoBoxContent .list{width:270px;height:150px;}
+.infoBoxContent .list ul{margin:0;padding:5px;list-style:none;}
+.infoBoxContent .list ul li {float:left;width:255px;border-bottom:solid 1px #4FA5FC;padding:5px 0;}
+.infoBoxContent .list ul .last{border:none;}
+.infoBoxContent .list ul img{width:53px;height:42px;margin-right:5px;}
+.infoBoxContent .list ul p{padding:0;margin:0;}
+.infoBoxContent .left{float:left;padding-left: 15px;
+}
+.infoBoxContent .rmb{float:right;color:#EB6100;font-size:20px;font-weight:bold;padding-right: 15px;}
+.infoBoxContent a{color:#0041D9;text-decoration:none;}
+</style>
+<div class="content-wrapper">
+  <section class="content-header">
+    <h1>停车场分布示意图</h1>
+  </section>
+  <div class="panel panel-info">
+    <div class="panel-body">
+      <div id="parkmap"
+           style="min-width: 850px; height: 610px; margin-bottom: 20px; position: relative; box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1)"></div>
+      <div class="small-box"
+           style="height: 110px; width: 245px; background: rgba(0, 0, 0, 0.4); margin-top: 0px; position: absolute; top: 90px; left: 180px;">
+        <div>
+
+          <!-- Nav tabs -->
+          <ul class="nav nav-pills" role="tablist">
+            <li role="presentation" class="active"><a href="#home"
+                                                      aria-controls="home" role="tab" data-toggle="tab"
+                                                      style="padding: 5px 46px;">设备</a></li>
+            <li role="presentation"><a href="#profile"
+                                       aria-controls="profile" role="tab" data-toggle="tab"
+                                       style="padding: 5px 47px;">人员</a></li>
+          </ul>
+
+          <!-- Tab panes -->
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="home">
+              <div class="checkbox col-md-4 col-xs-4 col-lg-4"
+                   style="padding: 0px 0px 0px 5px;">
+                <label> <input type="checkbox">地磁
+                </label>
+              </div>
+              <div class="checkbox col-md-4 col-xs-4 col-lg-4"
+                   style="padding: 0px;">
+                <label> <input type="checkbox">闸机
+                </label>
+              </div>
+              <div class="checkbox col-md-4 col-xs-4 col-lg-4"
+                   style="padding: 0px;">
+                <label> <input type="checkbox">停车场
+                </label>
+              </div>
+              <div class="checkbox col-md-4 col-xs-4 col-lg-4"
+                   style="padding: 0px 0px 0px 5px;">
+                <label> <input type="checkbox">地锁
+                </label>
+              </div>
+              <div class="checkbox col-md-6 col-xs-6 col-lg-6"
+                   style="padding: 0px;">
+                <label> <input type="checkbox">高位视频桩
+                </label>
+              </div>
+
+            </div>
+            <div role="tabpanel" class="tab-pane" id="profile">
+              <div class="checkbox col-md-4 col-xs-4 col-lg-4"
+                   style="padding: 0px 0px 0px 5px;">
+                <label> <input type="checkbox">收费员
+                </label>
+              </div>
+              <div class="checkbox col-md-4 col-xs-4 col-lg-4"
+                   style="padding: 0px;">
+                <label> <input type="checkbox">巡检员
+                </label>
+              </div>
+              <div class="checkbox col-md-4 col-xs-4 col-lg-4"
+                   style="padding: 0px;">
+                <label> <input type="checkbox">管理员
+                </label>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="small-box"
+           style="height: 293px; min-width: 245px; background: rgba(0, 0, 0, 0.4); margin-top: 0px; position: absolute; top: 210px; left: 180px;">
+        <input type="search"
+               placeholder="搜索">
+        <div style="height: 200px;"></div>
+        <div style="height: 30px; border: #c1cdd4 solid 1px"></div>
+        <div style="height: 30px; border: #c1cdd4 solid;border-width:0px 1px 1px 1px;"></div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<script>
+  $(document).ready(function () {
+    $.fn.map.initial();
+    $('#footer').remove();
+  });
+</script>

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.park.dao.UsersMapper" >
+  <resultMap id="BaseResultMap" type="com.park.model.Users" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="userName" property="username" jdbcType="CHAR" />
+    <result column="number" property="number" jdbcType="CHAR" />
+    <result column="passwd" property="passwd" jdbcType="CHAR" />
+    <result column="headerUri" property="headeruri" jdbcType="CHAR" />
+    <result column="nickname" property="nickname" jdbcType="CHAR" />
+    <result column="balance" property="balance" jdbcType="REAL" />
+    <result column="credit" property="credit" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    Id, userName, number, passwd, headerUri, nickname, balance, credit
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from users
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from users
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.park.model.Users" >
+    insert into users (Id, userName, number, 
+      passwd, headerUri, nickname, 
+      balance, credit)
+    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=CHAR}, #{number,jdbcType=CHAR}, 
+      #{passwd,jdbcType=CHAR}, #{headeruri,jdbcType=CHAR}, #{nickname,jdbcType=CHAR}, 
+      #{balance,jdbcType=REAL}, #{credit,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.park.model.Users" >
+    insert into users
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        Id,
+      </if>
+      <if test="username != null" >
+        userName,
+      </if>
+      <if test="number != null" >
+        number,
+      </if>
+      <if test="passwd != null" >
+        passwd,
+      </if>
+      <if test="headeruri != null" >
+        headerUri,
+      </if>
+      <if test="nickname != null" >
+        nickname,
+      </if>
+      <if test="balance != null" >
+        balance,
+      </if>
+      <if test="credit != null" >
+        credit,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=CHAR},
+      </if>
+      <if test="number != null" >
+        #{number,jdbcType=CHAR},
+      </if>
+      <if test="passwd != null" >
+        #{passwd,jdbcType=CHAR},
+      </if>
+      <if test="headeruri != null" >
+        #{headeruri,jdbcType=CHAR},
+      </if>
+      <if test="nickname != null" >
+        #{nickname,jdbcType=CHAR},
+      </if>
+      <if test="balance != null" >
+        #{balance,jdbcType=REAL},
+      </if>
+      <if test="credit != null" >
+        #{credit,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.park.model.Users" >
+    update users
+    <set >
+      <if test="username != null" >
+        userName = #{username,jdbcType=CHAR},
+      </if>
+      <if test="number != null" >
+        number = #{number,jdbcType=CHAR},
+      </if>
+      <if test="passwd != null" >
+        passwd = #{passwd,jdbcType=CHAR},
+      </if>
+      <if test="headeruri != null" >
+        headerUri = #{headeruri,jdbcType=CHAR},
+      </if>
+      <if test="nickname != null" >
+        nickname = #{nickname,jdbcType=CHAR},
+      </if>
+      <if test="balance != null" >
+        balance = #{balance,jdbcType=REAL},
+      </if>
+      <if test="credit != null" >
+        credit = #{credit,jdbcType=TINYINT},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.park.model.Users" >
+    update users
+    set userName = #{username,jdbcType=CHAR},
+      number = #{number,jdbcType=CHAR},
+      passwd = #{passwd,jdbcType=CHAR},
+      headerUri = #{headeruri,jdbcType=CHAR},
+      nickname = #{nickname,jdbcType=CHAR},
+      balance = #{balance,jdbcType=REAL},
+      credit = #{credit,jdbcType=TINYINT}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="getCount" resultType="int">
+  	select count(*) from users 
+  </select>
+  <select id="getByCount" resultType="com.park.model.Users">
+  	select * from users limit #{start},#{count}
+  </select>
+    <select id="getByUserName" resultType="com.park.model.Users">
+  	select * from users where userName=#{userName}
+  </select>
+  <select id="getByUserNameAndPassword" resultType="com.park.model.Users">
+  	select * from users where userName=#{userName} and passwd=#{password}
+  </select>
+</mapper>

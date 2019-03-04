@@ -1,0 +1,10 @@
+/target
+/log/*.log
+/tmp
+.project
+/.project
+.settings/
+/.classpath
+/.externalToolBuilders
+/.idea
+/.src/main/resources/conf/jdbc.properties

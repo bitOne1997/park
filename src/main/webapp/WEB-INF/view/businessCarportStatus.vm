@@ -1,0 +1,168 @@
+<script src="/park/script/businessCarportStatus.js?v=1.2"></script>
+<script src="/park/script/businessCarport.js?v=1.31"></script>
+<link href="/park/plugins/datepicker/datepicker.css" rel="stylesheet">
+<script src="/park/script/datepicker.js"></script>
+<script src="/park/script/highcharts.js"></script>
+<!--<script src="/park/script/exporting.js"></script>-->
+<script src="/park/script/HighchartTheme.js"></script>
+<script type="text/javascript" src="/park/script/highcharts-more.js"></script>
+
+<style>
+        .page-list .pagination {float:left;}
+        .page-list .pagination span {cursor: pointer;}
+        .page-list .pagination .separate span{cursor: default; border-top:none;border-bottom:none;}
+        .page-list .pagination .separate span:hover {background: none;}
+        .page-list .page-total {float:left; margin: 25px 20px;}
+        .page-list .page-total input, .page-list .page-total select{height: 26px; border: 1px solid #ddd;}
+        .page-list .page-total input {width: 40px; padding-left:3px;}
+        .page-list .page-total select {width: 50px;}
+</style>
+<div class="content-wrapper" ng-app="businessCarportStatusApp" ng-controller="businessCarportStatusCtrl">
+	<section class="content-header">
+          <h1>
+            车位状态        
+          </h1>        
+    </section>
+
+    <section class="content">
+       <div class="row">
+            <div class="col-xs-12">
+              	<div class="box">
+	              
+	                <div class="box-body">  		            
+	                	<div class="pull-right">
+	                	<select class="form-control" style="padding:1px;font-size:14px;height:35px" id="searchPark" ng-model="selectValue" ng-options="park.name for park in parks" ng-change="selectChange()">
+	                		 <option value=-1>所有停车场</option>
+						
+	                	</select>
+	                	</div>
+	                	
+	                	<br/>   
+	                    <br/> 
+						<div >
+							 <table class="table table-bordered table-hover" id='businessCarportTable' style="font-size:12px;vertical-align: middle;">
+					            <tr>
+										<th ></th>
+										<th ><span style="padding-left:15%">Id</span></th>		
+										<th><span style="padding-left:15%">停车场</span></th>
+										<th><span style="padding-left:15%">车位编号</span></th>
+										<th><span style="padding-left:15%">MAC</span></th>
+										<th><span style="padding-left:15%">状态</span></th>
+										<th><span style="padding-left:15%">违停车辆</span></th>
+										<th><span style="padding-left:15%">电量</span></th>
+										<th><span style="padding-left:15%">应收费用</span></th>
+										<th><span style="padding-left:15%">实际收费</span></th>
+										<th><span style="padding-left:15%">地磁计费</span></th>
+										<th><span style="padding-left:15%">位置</span></th>
+										<th><span style="padding-left:15%">消防通道占用</span></th>
+										<th><span style="padding-left:15%">日期</span></th>	
+					            </tr>
+					          <tbody id="businessCarportBody"></tbody>
+							  <tr ng-repeat="item in carportStatuses" >
+								<td><input type="checkbox" /></td>
+								<td style=" text-align: center;vertical-align: middle;" ng-if="$odd" class='success'>{{item.id}}</td>
+								<td style=" text-align: center;vertical-align: middle;" ng-if="$even" class='info'>{{item.id}}</td>
+								<td style=" text-align: center;vertical-align: middle;">{{item.parkName}}</td>
+								<td style=" text-align: center;vertical-align: middle;">{{item.carportNumber}}</td>
+								<td style=" text-align: center;vertical-align: middle;">{{item.mac}}</td>
+								<td ng-if="item.status==1" data=1><button type='button' class='btn btn-danger'>有车</button></td>
+								<td ng-if="item.status==0" data=0><button type='button' class='btn btn-success'>无车</button></td>
+								<td ng-if="item.cardNumber!=undefined" style="background:#1A42E6;color:#FFFFFF; text-align: center;vertical-align: middle;"><strong>{{item.cardNumber}}</strong></td>
+								<td ng-if="item.cardNumber==undefined">{{item.cardNumber}}</td>
+								<td style=" text-align: center;vertical-align: middle;" ng-if="item.usage<0.6">{{item.usage*100|number:2}}%<div class="progress"><div class='progress-bar progress-bar-success' role='progressbar' aria-valuenow='60' aria-valuemin='0' aria-valuemax='100' style="width:{{item.usage*100}}%">
+                                </div> </div></td>
+								<td style=" text-align: center;vertical-align: middle;" ng-if="item.usage>=0.6">{{item.usage*100|number:2}}%<div class="progress"><div class='progress-bar progress-bar-danger' role='progressbar' aria-valuenow='60' aria-valuemin='0' aria-valuemax='100' style="width:{{item.usage*100}}%">
+                                </div> </div></td>
+								<td style=" text-align: center;vertical-align: middle;">{{item.posCharge}}</td>
+								<td style=" text-align: center;vertical-align: middle;">{{item.posRealCharge}}</td>
+								<td style=" text-align: center;vertical-align: middle;">{{item.hardwareCharge}}</td>
+								<td style=" text-align: center;vertical-align: middle;">{{item.position}}</td>
+								<td style=" text-align: center;vertical-align: middle;">{{item.description}}</td>
+								<td style=" text-align: center;vertical-align: middle;">{{item.date}}</td>
+                              </tr>
+					          </table>
+    					</div>
+						<tm-pagination conf="paginationConf"></tm-pagination>
+    				</div>
+    				<div class="box-footer clearfix">
+      					<div id='pagination'></div>
+      				</div>
+	            </div>
+            </div>
+        </div>
+    </section>
+	<div class="modal fade" id="carportUsage" tabindex="-1" role="dialog" style="min-width:600px" aria-hidden='true'>
+	<div class='modal-dialog'>
+		<div class='modal-content'>
+		
+			<div class='modal-header'>
+				<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+				<h4 class='modal-title' >停车位</h4>
+			</div>
+			
+			<div class='modal-body'>
+				<div>
+					<ul id="myTab" class="nav nav-tabs">  						
+   						<li class="active"><a href="#usageTable" data-toggle="tab">表格</a></li>
+						<li ><a href="#usageChart" data-toggle="tab">图表</a></li>
+   					</ul>
+				</div>
+				<div class="tab-content">
+
+				<div class="tab-pane fade in active" id="usageTable">
+						<div class="form-group">
+							<label for="carportStartDateForTable" class="control-label">开始日期</label>
+							<input type="text" id="carportStartDateForTable"  class="form-control date">									
+						</div>
+						<div class="form-group">
+							<label for="carportEndDateForTable" class="control-label">结束日期</label>
+							<input type="text" id="carportEndDateForTable"  class="form-control date">									
+						</div>
+						<table class="table table-bordered table-hover" id='businessCarportTable' style="font-size:12px;vertical-align: middle;">
+							<thead>
+							<tr>
+								<th>ID</th>
+								<th>开始时间</th>
+								<th>结束时间</th>
+								<!--<th>应付</th>
+								<th>实付</th>-->
+							</tr>
+							</thead>
+							<tbody id="carportUsageTbody">
+							</tbody>
+						</table>
+					</div>
+					
+						<div class="tab-pane fade " id="usageChart">
+						<div class="form-group">
+							<label for="carportStartDate" class="control-label">开始日期</label>
+							<input type="text" id="carportStartDate"  class="form-control date">									
+						</div>
+						<div class="form-group">
+							<label for="carportEndDate" class="control-label">结束日期</label>
+							<input type="text" id="carportEndDate"  class="form-control date">									
+						</div>					
+						<div class="form-group" style="width:100%">
+						<div id = "carportUsageChart" >
+						</div>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+			
+			<div class='modal-footer'>
+				<button type='button' class='btn btn-default' data-dismiss='modal'>关闭</button>				
+			</div>
+			
+		</div>
+	</div>
+</div>
+
+<script>
+$(document).ready(function(){
+	$.fn.businessCarport.initial();
+});
+</script>
+</div>
+    

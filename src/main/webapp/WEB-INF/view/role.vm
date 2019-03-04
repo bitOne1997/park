@@ -1,0 +1,113 @@
+<script src="/park/script/service/textModalService.js"></script>
+
+<script src="/park/script/role.js?v=1.1"></script>
+
+<style>
+.page-list .pagination {
+	float: left;
+}
+
+.page-list .pagination span {
+	cursor: pointer;
+}
+
+.page-list .pagination .separate span {
+	cursor: default;
+	border-top: none;
+	border-bottom: none;
+}
+
+.page-list .pagination .separate span:hover {
+	background: none;
+}
+
+.page-list .page-total {
+	float: left;
+	margin: 25px 20px;
+}
+
+.page-list .page-total input, .page-list .page-total select {
+	height: 26px;
+	border: 1px solid #ddd;
+}
+
+.page-list .page-total input {
+	width: 40px;
+	padding-left: 3px;
+}
+
+.page-list .page-total select {
+	width: 50px;
+}
+</style>
+
+<div class="content-wrapper" ng-app="roleApp" ng-controller="roleCtrl">
+	<section class="content-header">
+		<h1>
+			角色管理 <small></small>
+		</h1>
+	</section>
+	<section class="content">
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="box">
+					<div class="box-header">
+						<h3 class="box-title"></h3>
+					</div>
+					<!-- /.box-header -->
+					<div class="box-body">
+						<div class="btn-group">
+							<button #if(!$isAdmin) disabled#end ng-click="role.refresh()"
+								type="button" class="btn btn-info"
+								style="border-radius: 25px; margin-right: 5px;">
+								<span class="glyphicon glyphicon-refresh"></span> 刷新
+							</button>
+							<button #if(!$isAdmin) disabled#end ng-click="role.insert()"
+								type="button" class="btn btn-primary"
+								style="border-radius: 25px; margin-right: 5px;">
+								<span class="glyphicon glyphicon-pencil"></span> 添加
+							</button>
+							<button #if(!$isAdmin) disabled#end ng-click="role.update()"
+								type="button" class="btn btn-warning"
+								style="border-radius: 25px; margin-right: 5px;">
+								<span class="glyphicon glyphicon-edit"></span> 更新
+							</button>
+							<button #if(!$isAdmin) disabled#end ng-click="role.remove()"
+								type="button" class="btn btn-danger"
+								style="border-radius: 25px; margin-right: 5px;">
+								<span class="glyphicon glyphicon-remove"></span> 删除
+							</button>
+						</div>
+
+						<br /> <br />
+						<div>
+							<table class="table table-hover table-striped table-condensed text-center"
+								id='channelTable' style="font-size: 12px">
+								<tr class="info" style="height: 30px; line-height: 30px;">
+									<th><span style=""><input type="checkbox" /></span></th>
+									<th><span>Id</span></th>
+									<th><span>名称</span></th>
+									<th><span>描述</span></th>
+									<th><span>页面管理</span></th>
+
+								</tr>
+								<tbody id="channelBody"></tbody>
+								<tr ng-repeat="item in role.items">
+									<td><input type="checkbox" ng-model="item.checked"
+										ng-click="role.checked($index)" /></td>
+									<td ng-bind="item.id"></td>
+									<td ng-bind="item.name"></td>
+									<td><button class="btn-sm btn btn-info"
+											ng-click="role.allocatePages($index)">分配页面</button></td>
+							</table>
+						</div>
+						<tm-pagination conf="paginationConf"></tm-pagination>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+	</section>
+
+</div>

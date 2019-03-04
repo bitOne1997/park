@@ -1,0 +1,716 @@
+#set($layout = "loginlayout.vm")
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width" />
+<title>财务概况分析 - 智慧路边停车管理平台</title>
+<link rel="icon" href="/favicon.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+
+
+<link href="Style/layout.css" rel="stylesheet" />
+<link href="Style/Pagination.css" rel="stylesheet" />
+<link href="Style/jbox.css" rel="stylesheet" />
+<link href="Style/loadingbar.css" rel="stylesheet" />
+<link href="Style/index.css" rel="stylesheet" />
+
+<script src="Scripts/jquery-1.8.2.min.js"></script>
+<script src="Scripts/Common.js"></script>
+<script src="Scripts/jquery.pagination.js"></script>
+<script src="Scripts/jquery.jBox.src.js"></script>
+<script src="Scripts/modernizr-2.6.2.js"></script>
+
+</head>
+<body>
+<div class="mian-container">
+  <div class="page-content page_Mleft">
+    <div class="container-fluid">
+      <!-- Right -->
+
+      <!--今日概况-->
+      <div class="Report_Survey">
+        <h1 class="dataH1">今日财务概况（截至 <label >2016-07-12 22:52:49</label>）</h1>
+        <div id="divSurey" style="text-align: left; margin-left: 30px; margin-top:20px;height:80px;">
+          <div class="dinfo" style="text-align: center;width: 24%;">
+            充值金额（元）<span class="ii"><img src="Images/Loading.gif" /></span>
+          </div>
+          <div class="dinfo" style="text-align: center;width: 24%;">
+            充值笔数（笔）<span class="ii"><img src="Images/Loading.gif" /></span>
+          </div>
+          <div class="dinfo" style="text-align: center;width: 24%;">
+            停车收入（元）<span class="ii"><img src="Images/Loading.gif" /></span>
+          </div>
+          <div class="dinfo" style="text-align: center;width: 24%;">
+            交易笔数（笔）<span class="ii"><img src="Images/Loading.gif" /></span>
+          </div>
+        </div>
+      </div>
+      <div class="selectBox">
+        <div class="selectBoxLine">
+          <span class="word">年份：</span><select id="ddlYear" class="input_select">
+            <option value="2016" selected>2016</option>
+            <option value="2015">2015</option>
+            <option value="2014">2014</option>
+          </select>
+          <span class="word">月份：</span><select id="ddlMonth" class="input_select">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7" selected>7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+          </select><input type="button" value="统  计" id="btnSearch" class="search">
+        </div>
+      </div>
+      <!--主要指标-->
+      <div id="divRechargePayReport" class="Report_Banner">
+      </div>
+      <!--占比分析-->
+      <table class="Report_BannerT">
+        <tr>
+          <td>
+            <div id="divRechargeTypePie" class="tinfo"></div>
+          </td>
+          <td>
+            <div id="divRechargeChannelPie" class="tinfo"></div>
+          </td>
+          <td>
+            <div id="divPayChannelPie" class="tinfo" style="width:380px;"></div>
+          </td>
+        </tr>
+      </table>
+      <!--交易行为分析-->
+      <div style="margin-bottom: 20px;">
+        <table id="tbOrder" class="indexData" style="width: 100%;">
+          <tr>
+            <th>日期</th>
+            <th>交易次数（笔）</th>
+            <th>停车收入（元）</th>
+            <th>缴费金额（元）</th>
+            <th>补缴金额（元）</th>
+          </tr>
+          <tr>
+            <td colspan="5">数据加载中...</td>
+          </tr>
+        </table>
+      </div>
+      <div style="display: none; position: absolute; margin-right:20px;" id="divTitle">
+        <table class="indexData" style="width: 100%;">
+          <tr style="background-color:#fff;">
+            <th>日期</th>
+            <th>交易次数（笔）</th>
+            <th>停车收入（元）</th>
+            <th>缴费金额（元）</th>
+            <th>补缴金额（元）</th>
+          </tr>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- js 控制左边菜单栏-->
+<script type="text/javascript">     
+$(".sidebar-toggler").click(
+    function () {
+    if ($(".leftNav").width() == "216") {
+    $(".leftNav").css("width", "40");
+    $(".page-content").css("margin-left", "40px");
+    $(".sidebar-toggler").addClass("sidebar-toggler-closed");
+    $(".leftNav-menu  span").css("display", "none");
+    $(".sub-menu").css("display", "none");
+    $(".arrow").css("display", "none");
+    $(".sublock").css("padding", "10px");
+    $(".sub-menu a").css("width", "85px");
+    $(".sublock").css("width", "20px");
+    }
+    else {
+    $(".leftNav").css("width", "216px");
+    $(".page-content").css("margin-left", "216px");
+    $(".sidebar-toggler").removeClass("sidebar-toggler-closed");
+    $(".leftNav-menu span").css("display", "inline-block");
+    $(".arrow").css("display", "inline-block");
+    $(".sub-menu a").css("width", "130px");
+    $(".sub-menu a").css("padding", "10px 20px 10px 65px");
+    $(".sublock").css("width", "195px");
+    }
+    }
+);
+
+//加载线完成
+$("#loadingbar").css("display", "block")
+$("#loadingbar").width("100.4%").delay(1000);
+
+//2秒后隐藏loginbar函数
+setTimeout('UnShowLoginBar()', 1000);
+//隐藏loginbar函数
+function UnShowLoginBar() {
+  $("#loadingbar").css("display", "none");
+}
+
+$(document).ready(function (e) {
+    //收缩列表
+    if ($(".leftNav").width() == "40") {
+    $(".leftNav-menu  li").hover(
+      function () {
+      $(this).css("width", "200px");
+      }
+      )
+    }
+    $(".sub-menu").hide();
+    var nowF = "3";
+    var nowM = "78";
+
+    //加载一级菜单选中样式
+    if (nowF != "")
+    $(".main_menu #" + nowF).addClass("pitch_on");
+    else
+    $(".main_menu li:eq(0) a").addClass("pitch_on");
+
+    //点击列表效果
+    var sub_menu = $(".sub-menu");
+    var all_sublock = $(".sublock")
+      var li_arrow = $(".leftNav-menu li .arrow");
+    $(".leftNav-menu li a[class='sublock'] ").click(
+        function () {
+        sub_menu.slideUp(200);
+        li_arrow.removeClass("arrow_down");
+        if ($(this).attr("data-select") == "0") {
+        all_sublock.attr("data-select", "0");
+        $(this).attr("data-select", "1").next().stop(true, true).slideToggle(200);
+        $(this).find("i:eq(1)").toggleClass("arrow_down");
+        }
+        else if ($(this).attr("data-select") == "1") {
+        $(this).attr("data-select", "0");
+        }
+        return false;
+        }
+        );
+    //加载二、三级菜单选中样式
+    if (nowM != "") {
+      $(".sub-menu a[id=" + nowM + "]").addClass("sub-men-toggler");
+      var sub = $(".sub-menu a[id=" + nowM + "]").parent().parent().parent().find("a[class='sublock']");
+    }
+    else {
+      $(".sub-menu a:eq(0)").addClass("sub-men-toggler");
+      var sub = $(".sub-menu a:eq(0)").parent().parent().parent().find("a[class='sublock']");
+    }
+    $(sub).attr("data-select", "1").next().stop(true, true).show();
+    $(sub).find("i:eq(1)").toggleClass("arrow_down");
+    $(".leftNav-menuLi").hover(function (e) {
+        if ($(".leftNav").width() == "40") {
+        $(this).addClass("opened");
+        $(this).find("ul").css("display", "block");
+        $(this).find("ul").addClass("openedUl");
+        $(this).find("a").addClass("openedA");
+        $(this).find(".sublock  span").css("display", "inline-block");
+        $(this).find(".sublock  span").addClass("hoverSpan");
+        $(this).find(".sublock").css("width", "180px");
+        $(this).find(".sublock").css("border", "0");
+        $(this).find(".sub-menu a").css("padding", "10px 30px 10px 55px");
+        }
+        },
+        function () {
+        if ($(".leftNav").width() == "40") {
+        $(this).removeClass("opened");
+        $(this).find("ul").css("display", "none");
+        $(this).find("ul").removeClass("openedUl");
+        $(this).find("a").removeClass("openedA");
+        $(this).find(".sublock span").css("display", "none");
+        $(this).find(".sublock span").removeClass("hoverSpan");
+        $(this).find(".sublock").css("width", "20px");
+        $(this).find(".sublock").css({ "border-top": "1px solid #e9e9e9" });
+        }
+        }
+    )
+});
+
+//修改个人资料
+$("#userEdit").click(function () {
+    var userId = $.trim($("#userId").val());
+    var userName = $.trim($("#userName").val());
+    openNewWindow('/SystemArea/System/UserEdit?type=editPersonal&userId=' + userId + "&userName=" + userName, '', 870, 340);
+    return false;
+    });
+//修改密码
+$("#pwdEdit").click(function () {
+
+    openhtml("/SystemArea/System/UserPwdEdit?type=editPersonal", "密码修改", 492, 334);
+    return false;
+    });
+
+//用户退出
+$("#userexit").click(function () {
+
+    var submit = function (v, h, f) {
+    if (v == false) {
+    window.jBox.close();
+    return;
+    } else {
+
+    window.location.href = "/Home/Login?t=loginout";
+    }
+    }
+    jBox.confirm("提示：您确定退出吗?", "提示", submit, {
+showScrolling: false,
+buttons: {
+'确认': true,
+'取消': false
+}
+}, 290, 152);
+
+
+    });
+
+
+//获得用户还未读的通知公告数量
+function NoticeRead() {
+  $.ajax({
+type: "POST",
+url: "/OAArea/Notice/NoticeNotReadCounts",
+success: function (result) {
+if (result > 0) {
+$("#NoticeCounts").html(result);
+$("#LeftBracket").show();
+$("#RightBracket").show();
+$("#NoticeCounts").show();
+}
+else {
+$("#LeftBracket").hide();
+$("#RightBracket").hide();
+$("#NoticeCounts").hide();
+}
+}
+});
+}
+//获取设备异常数量
+function getAlarmCounts() {
+  $.ajax({
+type: "POST",
+url: "/SystemArea/System/GetEquipmentAlarmCounts",
+success: function (result) {
+if (result > 0) {
+$("#spanAlarmCounts").html(result);
+$("#spanAlarmCounts").addClass("remindCounts");                      
+$("#iconEquipmentAlarm").removeClass("equipmentAlarm");
+$("#iconEquipmentAlarm").addClass("equipmentAlarmTwinkle");
+}
+else {
+$("#spanAlarmCounts").html("");
+$("#spanAlarmCounts").removeClass("remindCounts");
+$("#iconEquipmentAlarm").removeClass("equipmentAlarmTwinkle");
+$("#iconEquipmentAlarm").addClass("equipmentAlarm");
+}
+}
+});
+}
+
+
+</script>
+
+<!-- 今日财务概况 -->
+<script type="text/javascript">
+function GetNowSurey() {
+  $.ajax({
+
+url: "/park/",
+success: function () {
+var msg={"RechargeCount":"2311","RechargePrice":"107653","PayCount":"13221","PayPrice":"49376"};
+if (msg != "") {
+var info =msg;
+$("#divSurey span:eq(0)").text(comdify(info.RechargePrice));
+$("#divSurey span:eq(1)").text(comdify(info.RechargeCount));
+$("#divSurey span:eq(2)").text(comdify(info.PayPrice));
+$("#divSurey span:eq(3)").text(comdify(info.PayCount));
+}
+}
+});
+}
+</script>
+<script type="text/javascript" src="Scripts/ECharts/echarts-plain.js"></script>
+<script type="text/javascript" src="Scripts/ECharts/macarons.js"></script>
+<!-- 主要财务指标 -->
+<script type="text/javascript">
+function GetRechargePayReport() {
+  var timeYear = $("#ddlYear").val();
+  var timeMonth = $("#ddlMonth").val();
+  if (timeYear == '' || timeMonth == '')
+    return;
+  var myChart = echarts.init(document.getElementById("divRechargePayReport"));
+  myChart.setTheme(macarons());
+  myChart.showLoading({ text: '正在查询数据...', effect: 'whirling' });
+  $.ajax({
+
+url: "/park/",
+
+success: function () {
+var msg={"MonthFinance":[{"Time":"1","RechargeCount":"0","RechargePrice":"0","PayCount":"0","PayPrice":"0"},{"Time":"2","RechargeCount":"0","RechargePrice":"0","PayCount":"0","PayPrice":"0"},{"Time":"3","RechargeCount":"0","RechargePrice":"0","PayCount":"0","PayPrice":"0"},{"Time":"4","RechargeCount":"0","RechargePrice":"0","PayCount":"0","PayPrice":"0"},{"Time":"5","RechargeCount":"0","RechargePrice":"0","PayCount":"0","PayPrice":"0"},{"Time":"6","RechargeCount":"0","RechargePrice":"0","PayCount":"0","PayPrice":"0"},{"Time":"7","RechargeCount":"0","RechargePrice":"0","PayCount":"0","PayPrice":"0"},{"Time":"8","RechargeCount":"0","RechargePrice":"0","PayCount":"0","PayPrice":"0"},{"Time":"9","RechargeCount":"0","RechargePrice":"0","PayCount":"0","PayPrice":"0"},{"Time":"10","RechargeCount":"0","RechargePrice":"0","PayCount":"0","PayPrice":"0"},{"Time":"11","RechargeCount":"0","RechargePrice":"0","PayCount":"0","PayPrice":"0"},{"Time":"12","RechargeCount":"0","RechargePrice":"0","PayCount":"0","PayPrice":"0"},{"Time":"13","RechargeCount":"0","RechargePrice":"0","PayCount":"0","PayPrice":"0"},{"Time":"14","RechargeCount":"0","RechargePrice":"0","PayCount":"0","PayPrice":"0"},{"Time":"15","RechargeCount":"0","RechargePrice":"0","PayCount":"0","PayPrice":"0"},{"Time":"16","RechargeCount":"0","RechargePrice":"0","PayCount":"0","PayPrice":"0"},{"Time":"17","RechargeCount":"0","RechargePrice":"0","PayCount":"0","PayPrice":"0"},{"Time":"18","RechargeCount":"0","RechargePrice":"0","PayCount":"0","PayPrice":"0"},{"Time":"19","RechargeCount":"0","RechargePrice":"0","PayCount":"0","PayPrice":"0"},{"Time":"20","RechargeCount":"0","RechargePrice":"0","PayCount":"0","PayPrice":"0"},{"Time":"21","RechargeCount":"0","RechargePrice":"0","PayCount":"0","PayPrice":"0"},{"Time":"22","RechargeCount":"0","RechargePrice":"0","PayCount":"0","PayPrice":"0"},{"Time":"23","RechargeCount":"0","RechargePrice":"0","PayCount":"0","PayPrice":"0"},{"Time":"24","RechargeCount":"0","RechargePrice":"0","PayCount":"0","PayPrice":"0"},{"Time":"25","RechargeCount":"0","RechargePrice":"0","PayCount":"0","PayPrice":"0"},{"Time":"26","RechargeCount":"0","RechargePrice":"0","PayCount":"0","PayPrice":"0"},{"Time":"27","RechargeCount":"0","RechargePrice":"0","PayCount":"0","PayPrice":"0"},{"Time":"28","RechargeCount":"0","RechargePrice":"0","PayCount":"0","PayPrice":"0"},{"Time":"29","RechargeCount":"0","RechargePrice":"0","PayCount":"0","PayPrice":"0"},{"Time":"30","RechargeCount":"0","RechargePrice":"0","PayCount":"0","PayPrice":"0"},{"Time":"31","RechargeCount":"0","RechargePrice":"0","PayCount":"0","PayPrice":"0"}]};
+myChart.hideLoading();
+if (msg != "") {
+var info = msg.MonthFinance;
+var dd = [];//日期
+var pp = [];//消费金额
+var pc = [];//消费笔数
+var rp = [];//充值金额
+var rc = [];//充值笔数
+for (var i = 0; i < info.length; i++) {
+dd.push(info[i].Time);
+pp.push(info[i].PayPrice);
+pc.push(info[i].PayCount);
+rp.push(info[i].RechargePrice);
+rc.push(info[i].RechargeCount);
+}
+var option = {
+title: {
+text: timeYear + '年' + timeMonth + '月主要指标走势',
+      x: '22',
+      textStyle: {
+color: '#474747',
+       fontSize: '16',
+       fontFamily: 'Microsoft YaHei'
+      }
+       },
+tooltip: {
+trigger: 'axis',
+         formatter: '{b}日<br>{a}：{c}元<br>{a2}：{c2}笔<br>{a1}：{c1}元<br>{a3}：{c3}笔'
+         },
+legend: {
+data: ['充值金额', '消费金额', '充值笔数', '交易笔数'],
+      x: 'right',
+      selectedMode: false
+        },
+xAxis: [{
+name: '日期',
+      type: 'category',
+      data: dd,
+      axisLine: {
+lineStyle: {
+color: '#e2e2e2', width: 1, type: 'solid'
+           }
+      },
+axisLabel: {
+interval: '0'
+           }
+       }
+       ],
+         yAxis: [
+         {
+type: 'value',
+      name: '金额',
+      axisLabel: {
+formatter: '{value} 元'
+      },
+axisLine: {
+lineStyle: {
+color: '#e2e2e2', width: 1, type: 'solid'
+           }
+          }
+         },
+         {
+type: 'value',
+      name: '笔数',
+      axisLabel: {
+formatter: '{value} 笔'
+      },
+axisLine: {
+lineStyle: {
+color: '#e2e2e2', width: 1, type: 'solid'
+           }
+          }
+         }
+       ],
+         series: [
+         {
+name: '充值金额',
+      type: 'bar',
+      data: rp
+         },
+         {
+name: '消费金额',
+      type: 'bar',
+      data: pp
+         },
+         {
+name: '充值笔数',
+      type: 'line',
+      yAxisIndex: 1,
+      data: rc
+         }
+       ,
+         {
+name: '交易笔数',
+      type: 'line',
+      yAxisIndex: 1,
+      data: pc
+         }
+       ]
+};
+myChart.setOption(option);
+}
+}
+});
+GetRechargeType(timeYear, timeMonth);
+GetRechargeChannel(timeYear, timeMonth);
+GetPayChannel(timeYear, timeMonth);
+GetMonthFinanceReport(timeYear, timeMonth);
+}
+</script>
+<!-- 财务指标分布 -->
+<script type="text/javascript">
+//充值方式
+function GetRechargeType(year, month) {
+  var myChart = echarts.init(document.getElementById("divRechargeTypePie"));
+  myChart.setTheme(macarons());
+  myChart.showLoading({ text: '正在查询数据...', effect: 'whirling' });
+  $.ajax({
+
+url: "/park/",
+
+
+success: function () {
+myChart.hideLoading();
+var msg={"RechargeType":[{"RechargePrice":"1000.00","RechargeType":"1","RechargeTypeStr":"支付宝WAP"},{"RechargePrice":"1000.00","RechargeType":"2","RechargeTypeStr":"财付通WAP"},{"RechargePrice":"1000.00","RechargeType":"3","RechargeTypeStr":"微信支付"}]};
+var dd = [];
+if (msg != "") {
+var Recharge = msg.RechargeType;
+
+for (var i = 0; i < Recharge.length; i++) {
+dd.push({ name: Recharge[i].RechargeTypeStr, value: Recharge[i].RechargePrice });
+}
+}
+var option2 = {
+title: {
+text: '充值方式分布（' + year + '年' + month + '月）',
+x: 'center',
+textStyle: {
+color: '#444',
+       fontWeight: 'bolder'
+}
+},
+tooltip: {
+trigger: 'item',
+         formatter: '{b} :<br/>{c}元 ({d}%)'
+         },
+series: [
+{
+name: '充值方式',
+      type: 'pie',
+      radius: '70%',
+      itemStyle: {
+normal: {
+labelLine: { length: 10, show: false },
+           label: {
+textStyle: {
+fontSize: 12,
+          align: "center"
+           }
+           }
+        }
+      },
+selectedMode: 'multiple',
+              data: eval(dd)
+}
+]
+};
+myChart.setOption(option2);
+}
+});
+}
+//充值渠道
+function GetRechargeChannel(year, month) {
+  var myChart = echarts.init(document.getElementById("divRechargeChannelPie"));
+  myChart.setTheme(macarons());
+  myChart.showLoading({ text: '正在查询数据...', effect: 'whirling' });
+  $.ajax({
+
+url: "/park/",
+
+success: function () {
+myChart.hideLoading();
+var msg={"RechargeChannel":[{"Time":"","RechargeType":"","RechargeChannel":"1","RechargePrice":"3000.00","RechargeCount":"3","RechargeChannelStr":"手机APP"}]};
+var dd = [];
+if (msg != "") {
+var Recharge = msg.RechargeChannel;
+
+for (var i = 0; i < Recharge.length; i++) {
+dd.push({ name: Recharge[i].RechargeChannelStr, value: Recharge[i].RechargePrice });
+}
+}
+var option2 = {
+title: {
+text: '充值渠道分布（' + year + '年' + month + '月）',
+x: 'center',
+textStyle: {
+color: '#444',
+       fontWeight: 'bolder'
+}
+},
+tooltip: {
+trigger: 'item',
+         formatter: '{b} :<br/>{c}元 ({d}%)'
+         },
+series: [
+{
+name: '充值渠道',
+      type: 'pie',
+      radius: '70%',
+      itemStyle: {
+normal: {
+labelLine: { length: 5, show: false },
+           label: {
+textStyle: {
+fontSize: 12,
+          align: "center"
+           }
+           }
+        }
+      },
+selectedMode: 'multiple',
+              data: eval(dd)
+}
+]
+};
+myChart.setOption(option2);
+}
+});
+}
+//消费渠道
+function GetPayChannel(year, month) {
+  var myChart = echarts.init(document.getElementById("divPayChannelPie"));
+  myChart.setTheme(macarons());
+  myChart.showLoading({ text: '正在查询数据...', effect: 'whirling' });
+  $.ajax({
+
+url: "/park/",
+success: function () {
+myChart.hideLoading();
+var msg={"OrderChannel":[{"AreaId":"11","OrderCount":"4","PayPrice":"0","ApplyMethod":"1","CantonId":"2","ApplyMethodStr":"手机APP"}]};
+var dd = [];
+if (msg != "") {
+var Order = msg.OrderChannel;
+
+for (var i = 0; i < Order.length; i++) {
+dd.push({ name: Order[i].ApplyMethodStr, value: Order[i].PayPrice });
+}
+}
+var option2 = {
+title: {
+text: '交易方式分布（' + year + '年' + month + '月）',
+x: 'center',
+textStyle: {
+color: '#444',
+       fontWeight: 'bolder'
+}
+},
+tooltip: {
+trigger: 'item',
+         formatter: '{b} :<br/>{c}元 ({d}%)'
+         },
+series: [
+{
+name: '交易方式',
+      type: 'pie',
+      radius: '70%',
+      itemStyle: {
+normal: {
+labelLine: { length: 5, show: false },
+           label: {
+textStyle: {
+fontSize: 12,
+          align: "center"
+           }
+           }
+        }
+      },
+selectedMode: 'multiple',
+              data: eval(dd)
+}
+]
+};
+myChart.setOption(option2);
+}
+});
+}
+</script>
+<!-- 交易行为分析 -->
+<script type="text/javascript">
+function GetMonthFinanceReport(year, month) {
+  $("#tbOrder tr:gt(0)").remove();
+  $("#tbOrder").append('<tr><td colspan="5">数据加载中...</td></tr>');
+  $.ajax({
+
+url: "/park/",
+
+success: function () {
+$("#tbOrder tr:gt(0)").remove();
+var msg={"FinanceReport":[{"Time":"2016-07-01","OrderCount":"0","PayPrice":"0","PaymentPrice":"0","ArrearsPrice":"0","RefundPrice":"0"},{"Time":"2016-07-02","OrderCount":"0","PayPrice":"0","PaymentPrice":"0","ArrearsPrice":"0","RefundPrice":"0"},{"Time":"2016-07-03","OrderCount":"0","PayPrice":"0","PaymentPrice":"0","ArrearsPrice":"0","RefundPrice":"0"},{"Time":"2016-07-04","OrderCount":"0","PayPrice":"0","PaymentPrice":"0","ArrearsPrice":"0","RefundPrice":"0"},{"Time":"2016-07-05","OrderCount":"0","PayPrice":"0","PaymentPrice":"0","ArrearsPrice":"0","RefundPrice":"0"},{"Time":"2016-07-06","OrderCount":"0","PayPrice":"0","PaymentPrice":"0","ArrearsPrice":"0","RefundPrice":"0"},{"Time":"2016-07-07","OrderCount":"0","PayPrice":"0","PaymentPrice":"0","ArrearsPrice":"0","RefundPrice":"0"},{"Time":"2016-07-08","OrderCount":"0","PayPrice":"0","PaymentPrice":"0","ArrearsPrice":"0","RefundPrice":"0"},{"Time":"2016-07-09","OrderCount":"0","PayPrice":"0","PaymentPrice":"0","ArrearsPrice":"0","RefundPrice":"0"},{"Time":"2016-07-10","OrderCount":"0","PayPrice":"0","PaymentPrice":"0","ArrearsPrice":"0","RefundPrice":"0"},{"Time":"2016-07-11","OrderCount":"0","PayPrice":"0","PaymentPrice":"0","ArrearsPrice":"0","RefundPrice":"0"},{"Time":"2016-07-12","OrderCount":"0","PayPrice":"0","PaymentPrice":"0","ArrearsPrice":"0","RefundPrice":"0"},{"Time":"2016-07-13","OrderCount":"0","PayPrice":"0","PaymentPrice":"0","ArrearsPrice":"0","RefundPrice":"0"},{"Time":"2016-07-14","OrderCount":"0","PayPrice":"0","PaymentPrice":"0","ArrearsPrice":"0","RefundPrice":"0"},{"Time":"2016-07-15","OrderCount":"0","PayPrice":"0","PaymentPrice":"0","ArrearsPrice":"0","RefundPrice":"0"},{"Time":"2016-07-16","OrderCount":"0","PayPrice":"0","PaymentPrice":"0","ArrearsPrice":"0","RefundPrice":"0"},{"Time":"2016-07-17","OrderCount":"0","PayPrice":"0","PaymentPrice":"0","ArrearsPrice":"0","RefundPrice":"0"},{"Time":"2016-07-18","OrderCount":"0","PayPrice":"0","PaymentPrice":"0","ArrearsPrice":"0","RefundPrice":"0"},{"Time":"2016-07-19","OrderCount":"0","PayPrice":"0","PaymentPrice":"0","ArrearsPrice":"0","RefundPrice":"0"},{"Time":"2016-07-20","OrderCount":"0","PayPrice":"0","PaymentPrice":"0","ArrearsPrice":"0","RefundPrice":"0"},{"Time":"2016-07-21","OrderCount":"0","PayPrice":"0","PaymentPrice":"0","ArrearsPrice":"0","RefundPrice":"0"},{"Time":"2016-07-22","OrderCount":"0","PayPrice":"0","PaymentPrice":"0","ArrearsPrice":"0","RefundPrice":"0"},{"Time":"2016-07-23","OrderCount":"0","PayPrice":"0","PaymentPrice":"0","ArrearsPrice":"0","RefundPrice":"0"},{"Time":"2016-07-24","OrderCount":"0","PayPrice":"0","PaymentPrice":"0","ArrearsPrice":"0","RefundPrice":"0"},{"Time":"2016-07-25","OrderCount":"0","PayPrice":"0","PaymentPrice":"0","ArrearsPrice":"0","RefundPrice":"0"},{"Time":"2016-07-26","OrderCount":"0","PayPrice":"0","PaymentPrice":"0","ArrearsPrice":"0","RefundPrice":"0"},{"Time":"2016-07-27","OrderCount":"0","PayPrice":"0","PaymentPrice":"0","ArrearsPrice":"0","RefundPrice":"0"},{"Time":"2016-07-28","OrderCount":"0","PayPrice":"0","PaymentPrice":"0","ArrearsPrice":"0","RefundPrice":"0"},{"Time":"2016-07-29","OrderCount":"0","PayPrice":"0","PaymentPrice":"0","ArrearsPrice":"0","RefundPrice":"0"},{"Time":"2016-07-30","OrderCount":"0","PayPrice":"0","PaymentPrice":"0","ArrearsPrice":"0","RefundPrice":"0"},{"Time":"2016-07-31","OrderCount":"0","PayPrice":"0","PaymentPrice":"0","ArrearsPrice":"0","RefundPrice":"0"}]};
+if (msg != "") {
+var order = msg.FinanceReport;
+var ordercount = 0;
+var payprice = 0;
+var paymentprice = 0;
+var arrearsprice = 0;
+for (var i = 0; i < order.length; i++) {
+$("#tbOrder").append("<tr></tr>");
+$("#tbOrder tr").last().append("<td>" + order[i].Time + "</td>");
+$("#tbOrder tr").last().append("<td>" + comdify(order[i].OrderCount) + "</td>");
+$("#tbOrder tr").last().append("<td>" + comdify(order[i].PayPrice) + "</td>");
+$("#tbOrder tr").last().append("<td>" + comdify(order[i].PaymentPrice) + "</td>");
+$("#tbOrder tr").last().append("<td>" + comdify(order[i].ArrearsPrice) + "</td>");
+ordercount = ordercount + parseFloat(order[i].OrderCount);
+payprice = payprice + parseFloat(order[i].PayPrice);
+paymentprice = paymentprice + parseFloat(order[i].PaymentPrice);
+arrearsprice = arrearsprice + parseFloat(order[i].ArrearsPrice);
+}
+$("#tbOrder").append("<tr></tr>");
+$("#tbOrder tr").last().append("<td>合计</td>");
+$("#tbOrder tr").last().append("<td>" + comdify(ordercount) + "</td>");
+$("#tbOrder tr").last().append("<td>" + comdify(payprice) + "</td>");
+$("#tbOrder tr").last().append("<td>" + comdify(paymentprice) + "</td>");
+$("#tbOrder tr").last().append("<td>" + comdify(arrearsprice) + "</td>");
+}
+else
+$("#tbOrder").append('<tr><td colspan="5">暂无数据！</td></tr>');
+}
+});
+}
+</script>
+<script type="text/javascript">
+$(document).ready(function () {
+    GetNowSurey();
+    $("#btnSearch").click(function () {
+      GetRechargePayReport();
+      });
+    $("#btnSearch").click();
+    });
+//冻结表头
+window.onscroll = function () {
+  var t = document.documentElement.scrollTop || document.body.scrollTop;
+  var top_div = $("#divTitle");
+  if (t >= 1000) {
+    top_div.show();
+    if ($.browser.mozilla) {
+      top_div.offset({ top: t + 68 });
+    }
+    else {
+      top_div.css("position", "fixed");
+      top_div.css("margin-right", "20px");
+      top_div.offset({ top: 88 });
+    }
+  } else {
+    top_div.hide();
+  }
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,60 @@
+
+<div class="modal-header">
+	<button type='button' class='close' ng-click="close()"
+		aria-hidden='true'>&times;</button>
+	<h3 class="modal-title text-center">月卡用户附属停车场设置</h3>
+
+</div>
+
+<div class="modal-body">
+	<form class="form-horizontal" role="form">
+		<div class="form-group">
+			<label class="col-sm-2 control-label">所属市</label>
+			<div class="col-sm-3">
+				<select class="form-control"
+					ng-options="zoneCenter.id as zoneCenter.name for zoneCenter in zoneCenters"
+					ng-model="zoneCenterId" ng-change="getArea(zoneCenterId)"></select>
+			</div>
+			<label class="col-sm-2 control-label">所属区</label>
+			<div class="col-sm-3">
+				<select class="form-control"
+					ng-options="area.id as area.name for area in areas"
+					ng-change="getStreets(areaId)" ng-model="areaId"></select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">所属路段</label>
+			<div class="col-sm-3">
+				<select class="form-control"
+					ng-options="street.id as street.name for street in streets"
+					ng-model="tempPos.streetid" ng-change="getParks(tempPos.streetid)"></select>
+			</div>
+			<label class="col-sm-2 control-label">停车场</label>
+			<div class="col-sm-3">
+				<select class="form-control"
+					ng-options="park.id as park.name for park in parks"
+					ng-model="parkid"></select>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label">附属停车场</label>
+			<div class="col-sm-8">
+				<textarea rows=5 class="form-control" ng-model=parkNames></textarea>
+			</div>
+		</div>
+	</form>
+	<div class="alert alert-info" ng-show="showResult || showLoader">
+		<span ng-show='showLoader'> <i class="fa fa-spinner"></i></span> <span
+			ng-show='showResult'>{{result}}</span>
+	</div>
+</div>
+<div class="modal-footer">
+
+	<button ng-click="add()" type="button" class="btn btn-primary">
+		增加</button>
+	<button ng-click="deletePark()" type="button" class="btn btn-primary">
+		删除</button>
+	<button ng-click="close()" type="button" class="btn btn-default"
+		data-dismiss="modal">关闭</button>
+</div>

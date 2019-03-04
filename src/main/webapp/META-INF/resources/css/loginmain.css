@@ -1,0 +1,60 @@
+body {
+	min-width: 1024px;
+}
+
+.float-fix:after {
+	content: "";
+	display: block;
+	height: 0;
+	visibility: hidden;
+	clear: left;
+}
+
+.my-container {
+	width: 800px;
+	height: 500px;
+	margin: 7% auto;
+	background: rgba(204, 204, 204, 0.8);
+	box-shadow: 8px 5px 15px #000;
+}
+
+.my-container img {
+	width: 250px;
+	margin: 5% auto;
+	padding-top: 0;
+}
+
+.my-container p {
+	text-align: center;
+}
+
+.my-container .am-form {
+	width: 360px;
+	margin: 0 auto;
+}
+
+#singIn {
+	background-image: url(../img/bg.jpg);
+	background-size: 100%;
+}
+
+#singIn .am-btn-default {
+	color: #fff;
+	background-color: #007cc2;
+}
+
+#singIn .am-form input[type=text], #singIn .am-form-field {
+	background-color: rgba(255, 255, 255, 0.3);
+	color: #000;
+}
+
+#singIn .checkbox {
+	color: #555;
+}
+
+body, html {
+	min-height: 0
+}
+#footer div p a{
+	color:#fff;
+}

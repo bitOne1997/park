@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.park.dao.FeecriteriontoparkMapper" >
+  <resultMap id="BaseResultMap" type="com.park.model.Feecriteriontopark" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="parkId" property="parkid" jdbcType="INTEGER" />
+    <result column="criterionId" property="criterionid" jdbcType="INTEGER" />
+    <result column="carType" property="cartype" jdbcType="INTEGER" />
+    <result column="other" property="other" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, parkId, criterionId, carType, other
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from feeCriterionToPark
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from feeCriterionToPark
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.park.model.Feecriteriontopark" >
+    insert into feeCriterionToPark (id, parkId, criterionId, 
+      carType, other)
+    values (#{id,jdbcType=INTEGER}, #{parkid,jdbcType=INTEGER}, #{criterionid,jdbcType=INTEGER}, 
+      #{cartype,jdbcType=INTEGER}, #{other,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.park.model.Feecriteriontopark" >
+    insert into feeCriterionToPark
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="parkid != null" >
+        parkId,
+      </if>
+      <if test="criterionid != null" >
+        criterionId,
+      </if>
+      <if test="cartype != null" >
+        carType,
+      </if>
+      <if test="other != null" >
+        other,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="parkid != null" >
+        #{parkid,jdbcType=INTEGER},
+      </if>
+      <if test="criterionid != null" >
+        #{criterionid,jdbcType=INTEGER},
+      </if>
+      <if test="cartype != null" >
+        #{cartype,jdbcType=INTEGER},
+      </if>
+      <if test="other != null" >
+        #{other,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.park.model.Feecriteriontopark" >
+    update feeCriterionToPark
+    <set >
+      <if test="parkid != null" >
+        parkId = #{parkid,jdbcType=INTEGER},
+      </if>
+      <if test="criterionid != null" >
+        criterionId = #{criterionid,jdbcType=INTEGER},
+      </if>
+      <if test="cartype != null" >
+        carType = #{cartype,jdbcType=INTEGER},
+      </if>
+      <if test="other != null" >
+        other = #{other,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.park.model.Feecriteriontopark" >
+    update feeCriterionToPark
+    set parkId = #{parkid,jdbcType=INTEGER},
+      criterionId = #{criterionid,jdbcType=INTEGER},
+      carType = #{cartype,jdbcType=INTEGER},
+      other = #{other,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="getByPark" resultType="java.util.HashMap" >
+  select feeCriterionToPark.id,feeCriterionToPark.parkId,feeCriterionToPark.criterionId,feeCriterionToPark.carType,
+  feeCriterionToPark.other,feeCriterion.name from feeCriterionToPark left join feeCriterion on feeCriterion.id=feeCriterionToPark.criterionId
+    where feeCriterionToPark.parkId=#{parkId}
+  </select>
+  
+   <select id="getByParkAndType" resultMap="BaseResultMap" >
+  select * from feeCriterionToPark where parkId=#{parkId} and carType=#{carType}
+  </select>
+</mapper>

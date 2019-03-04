@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.park.dao.CarportStatusDetailDAO">
+	<resultMap id="CarportStatusDetailMapper" type="CarportStatusDetail">
+		<id property="id" column="id" />
+		<result property="carportId" column="carportId" />
+		<result property="startTime" column="startTime"/>
+		<result property="endTime" column="endTime"/>
+		<result property="charged" column="charged"/>
+		<result property="expense" column="expense"/>
+		<result property="actualExpense" column="actualExpense"/>
+	</resultMap> 
+	
+ 	<select id="count" resultType="int">
+		select count(*) from carportStatusDetail
+	</select> 
+	
+	<select id="getByCarportId" resultMap="CarportStatusDetailMapper">
+		select * from carportStatusDetail where carportId = #{param1} order by startTime desc
+	</select>
+	
+	<select id="getDayCarportStatusDetail" resultMap="CarportStatusDetailMapper">
+		<![CDATA[
+		select * from carportStatusDetail where carportId = #{param1} and startTime < #{param3} and startTime > #{param2}
+		]]>
+	</select>
+	
+	<select id="getLatestDetailByCarportId" resultMap="CarportStatusDetailMapper">
+		select * from carportStatusDetail where carportId = #{param1} order by startTime desc limit 0, 1
+	</select>
+	
+	<select id="getDetailByCarportId" resultMap="CarportStatusDetailMapper">
+		select * from carportStatusDetail where carportId = #{param1} order by startTime desc
+	</select>
+	 <select id="getDetailByParkIdAndDateRange" resultType="java.util.HashMap">
+	 	SELECT c.id,c.carportId,c.startTime,c.endTime,c.charged,c.expense,c.actualExpense,businessCarport.carportNumber FROM carportStatusDetail as c LEFT JOIN businessCarport ON businessCarport.id=c.`carportId` 
+	 	WHERE businessCarport.parkId=#{parkId} AND c.`startTime` BETWEEN #{startDate} AND #{endDate}
+	 </select>   
+	<select id="limitGet" resultMap="CarportStatusDetailMapper">
+		select * from carportStatusDetail limit #{param1}, #{param2}
+	</select>
+	
+	<insert id="insert" parameterType="CarportStatusDetail" keyProperty="id">
+		insert into carportStatusDetail(carportId, startTime, endTime, charged, expense, actualExpense) values(#{carportId}, #{startTime}, #{endTime}, #{charged}, #{expense}, #{actualExpense})
+	</insert>
+	
+	<update id="update" parameterType="CarportStatusDetail" >
+		update carportStatusDetail set startTime = #{startTime}, endTime = #{endTime}, charged = #{charged}, expense = #{expense}, actualExpense = #{actualExpense} where id = #{id}
+	</update>
+</mapper>

@@ -1,0 +1,50 @@
+<script src="/park/script/service/textModalService.js"></script>
+<link rel="stylesheet" type="text/css" href="/park/css/button.css"/>
+
+
+<div class="content-wrapper">
+  <section class="content-header">
+    <h1>
+      停车场管理</h1>
+  </section>
+  <section class="content">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="box">
+          <!--  <div class="box-header">
+             <h3 class="box-title"></h3>
+           </div> --><!-- /.box-header -->
+          <div class="box-body" style="height:580px;padding: 150px 150px">
+            <a href="/park/outsideParks"><button class="button park" style="vertical-align:middle"><span>停车场管理 </span></button></a>
+            <a href="/park/fee/criterion/index"><button class="button charge" style="vertical-align:middle"><span>计费标准 </span></button></a>
+            <!--<a href="/park/monthUser"><button class="button hardware" style="vertical-align:middle"><span>月卡用户 </span></button></a>-->
+            <!--<a href="/park/monthUser/order"><button class="button poscharge" style="vertical-align:middle"><span>预约用户 </span></button></a>-->
+            <!--<a href="/park/feeOperator"><button class="button charge" style="vertical-align:middle"><span>收费员管理 </span></button></a>-->
+            <!--<a href="/park/feeOperator/2"><button class="button hardware" style="vertical-align:middle"><span>巡检员管理 </span></button></a>-->
+            <!--<a href="/park/pos"><button class="button poscharge" style="vertical-align:middle"><span>POS机管理 </span></button></a>-->
+            <a href="#"><button class="button park" style="vertical-align:middle"><span>更多信息 </span></button></a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+</div>
+
+<div id='showMessage'>
+</div>
+
+<div id='showErrorMessage'>
+</div>
+
+<div id='showPicture'>
+</div>
+
+<script>
+  $(document).ready(function () {
+    $.fn.park.initial();
+  });
+
+</script>

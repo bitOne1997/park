@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.park.dao.CarportDAO">
+  	<resultMap id="CarportMapper" type="Carport">
+		<id property="Id" column="Id" />
+		<result property="name" column="name" />
+		<result property="isout" column="isout" />
+		<result property="province" column="province"/>
+		<result property="city" column="city" />
+		<result property="district" column="district"/>
+		<result property="street" column="street" />
+		<result property="longitude" column="longitude" />
+		<result property="latitude" column="latitude" />
+		<result property="uid" column="uid" />
+		<result property="parkId" column="parkId"/>
+		<result property="price" column="price" />
+		<result property="unit" column="unit" />
+		<result property="tenancy" column="tenancy" />
+		<result property="contact" column="contact" />
+		<result property="number" column="number" />
+		<result property="description" column="description" />
+		<result property="date" column="date"/>
+	</resultMap>    
+
+
+	<select id="getCarportById" parameterType="int" resultMap="CarportMapper">
+		select * from carport where Id=#{param1}
+	</select>
+	
+
+	<select id="getCarports" resultMap="CarportMapper">
+		select * from carport
+	</select>
+	
+	<select id="getSpecifyCarports" resultMap="CarportMapper">
+		select * from carport order by ${field} ${order} limit #{start}, #{counts}
+	</select>
+	
+	<select id="getConditionCarports" resultMap="CarportMapper">
+		select * from carport where ${queryCondition} order by ${field} ${order} limit #{start}, #{counts}
+	</select>
+	
+	<insert id="insertCarport" parameterType="Carport" keyProperty="id">
+	    insert into carport(name,isout,province,city,district,street,longitude,latitude,uid, parkId,price,unit,tenancy,contact,number,description,date) 
+	    values (#{name}, #{isout},#{province},#{city},#{district},#{street},#{longitude},#{latitude},#{uid}, #{parkId},#{price},#{unit}, #{tenancy},#{contact},#{number},#{description},#{date})
+	</insert>
+       
+          
+</mapper>

@@ -1,0 +1,15 @@
+<script src="/park/script/registerUser.js"></script>
+
+<div>
+	<p> username: <input type="text" name="userName" /></p>
+	<p> phone number: <input type="text" name="number" /></p>
+	<p> password: <input type="text" name="passwd" /></p>
+	<button id="submit_btn">submit</button>
+</div>
+
+<script>
+$(document).ready(function(){
+	$("div").register_user.initial();
+});
+
+</script>

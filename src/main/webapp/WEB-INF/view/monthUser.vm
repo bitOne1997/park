@@ -1,0 +1,268 @@
+<script src="/park/script/monthUser.js?v=1.55"></script>
+<script src="/park/script/tm.pagination.js?v=1.1"></script>
+<script src="/park/script/utility.js"></script>
+<script src="/park/script/service/textModalService.js"></script>
+<script src="/park/css/stylexh.css" charset="utf-8"></script>
+<style>
+.page-list .pagination {
+	float: left;
+}
+
+.page-list .pagination span {
+	cursor: pointer;
+}
+
+.page-list .pagination .separate span {
+	cursor: default;
+	border-top: none;
+	border-bottom: none;
+}
+
+.page-list .pagination .separate span:hover {
+	background: none;
+}
+
+.page-list .page-total {
+	float: left;
+	margin: 25px 20px;
+}
+
+.page-list .page-total input, .page-list .page-total select {
+	height: 26px;
+	border: 1px solid #ddd;
+}
+
+.page-list .page-total input {
+	width: 40px;
+	padding-left: 3px;
+}
+
+.page-list .page-total select {
+	width: 50px;
+}
+
+</style>
+<div class="content-wrapper" ng-app="monthUserApp"
+	ng-controller="monthUserCtrl">
+	<section class="content-header">
+		<h1>
+			月卡用户 <small></small>
+		</h1>
+
+	</section>
+
+	<section class="content">
+		<div class="row">
+			<div class="col-xs-12" style="padding: 0 5px 0 5px;">
+				<div class="box">
+					<div class="box-header">
+						<h3 class="box-title"></h3>
+					</div>
+					<!-- /.box-header -->
+					<div class="box-body" style="padding: 0px;">
+						<div class="btn-group" style="margin-left: 10px;">
+							<button ng-click="refreshUser()" type="button"
+								class="btn btn-info"
+								style="border-radius: 25px; margin-right: 5px;">
+								<span class="glyphicon glyphicon-refresh"></span> 刷新
+							</button>
+							<button ng-click="insertUser()" type="button"
+								class="btn btn-primary"
+								style="border-radius: 25px; margin-right: 5px;">
+								<span class="glyphicon glyphicon-pencil"></span> 开卡
+							</button>
+							<button ng-click="updateUser()" type="button"
+								class="btn btn-warning"
+								style="border-radius: 25px; margin-right: 5px;">
+								<span class="glyphicon glyphicon-edit"></span> 续费
+							</button>
+							<button ng-click="deleteUser()" type="button"
+								class="btn  btn-danger"
+								style="border-radius: 25px; margin-right: 5px;">
+								<span class="glyphicon glyphicon-remove"></span> 删除
+							</button>
+							<button ng-click="updateUserPark()" type="button"
+								class="btn  bg-maroon"
+								style="border-radius: 25px; margin-right: 5px;">
+								<span class="glyphicon glyphicon-edit"></span> 所属停车场
+							</button>
+<!-- 							<button type="button" class="btn  btn-default"
+								style="border-radius: 25px; margin-right: 5px;">
+								<a href="/park/similarcarnumber"> 相似车牌管理</a>
+							</button> -->
+						</div>
+						<div class="pull-right">
+							<select class="form-control"
+								style="padding: 1px; font-size: 14px; height: 35px"
+								ng-options="park.id as park.name for park in parks"
+								ng-model="selectedParkid"
+								ng-change="selectChanged(selectedParkid)">
+								#if($isAdmin)
+								<option value=-1>所有停车场</option>#end
+							</select>
+						</div>
+						<br /> <br />
+						<div>
+							<table
+								class="table table-bordered table-hover table-condensed table-striped text-center"
+								style="font-size: 12px">
+								<tr class="info" style="height: 30px; line-height: 30px;">
+									<th><span style=""> <input type="checkbox" />
+									</span></th>
+									<!-- 									<th hidden><span>Id </span></th>
+ -->
+									<th><span>停车场名 </span></th>
+									<!-- 									<th hidden><span>楼层 </span></th>
+ -->
+									<th><span>车主 </span></th>
+									<th><span>车牌号 </span></th>
+									<!-- 									<th hidden><span>车牌颜色 </span></th>
+ -->
+									<th><span>描述 </span></th>
+									<th hidden><span>电话号码</span></th>
+									<th><span>开始时间</span></th>
+									<th><span>结束时间</span></th>
+									<!-- 									<th hidden><span>支付金额</span></th>
+ -->
+									<th><span>车位类型</span></th>
+								</tr>
+
+								<tbody id="parkBody"></tbody>
+								<tr ng-repeat="user in users">
+									<td><input type="checkbox" ng-model="user.checked"
+										ng-click="selectChange($index)" /></td>
+									<td ng-bind="user.id" hidden></td>
+									<td ng-bind="user.parkname"></td>
+									<td ng-bind="user.cardnumber" hidden></td>
+									<td ng-bind="user.owner"></td>
+									<td ng-bind="user.platenumber"></td>
+									<td ng-bind="user.platecolor" hidden></td>
+									<td ng-bind="user.certificatetype"></td>
+									<td ng-bind="user.certificatenumber" hidden></td>
+									<td ng-bind="user.starttime"></td>
+									<td ng-bind="user.endtime"></td>
+									<td ng-bind="user.payment | currency:'￥'" hidden></td>
+									<td ng-if="user.status==1">租用车位</td>
+									<td ng-if="user.status==0">产权车位</td>
+								</tr>
+							</table>
+						</div>
+						<tm-pagination conf="paginationConf"></tm-pagination>
+						<div class="box-footer clearfix">
+
+							<div id='pagination'></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+
+
+	<script type="text/ng-template" id="modifyUser">
+<div class='modal-content' style="min-width:800px;margin-left:-100px;">
+
+<div class="modal-header">
+    <button type='button' class='close' ng-click="close()" aria-hidden='true'>
+        &times;
+    </button>
+    <h3 class="modal-title text-center">月卡用户</h3>
+</div>
+
+<div class="modal-body">
+    <form class="form-horizontal" role="form">
+<div class="form-group">
+    <label class="col-sm-2 control-label" >停车场 <span class="required">*</span></label>
+    <div class="col-sm-3">
+    <select class="form-control" ng-options="park.id as park.name for park in parks" ng-model="tempUser.parkid"></select>
+    </div>
+    <label class="col-sm-2 control-label" >车牌号 <span class="required">*</span></label>
+    <div class="col-sm-3">
+    <input type="text" class="form-control" placeholder="请输入车牌号" ng-model="tempUser.platenumber">
+    </div>
+    </div>
+      <div class="form-group">
+    <label class="col-sm-2 control-label" >开始时间 <span class="required">*</span></label>
+    <div class="col-sm-3">
+    <input type="text" class="form-control" placeholder="YYYY-MM-DD hh:mm:ss" ng-model="tempUser.starttime">
+    </div>
+    <label class="col-sm-2 control-label" >结束时间 <span class="required">*</span></label>
+    <div class="col-sm-3">
+    <input type="text" class="form-control" placeholder="YYYY-MM-DD hh:mm:ss" ng-model="tempUser.endtime">
+    </div>
+    </div>
+     <div class="form-group">
+
+    <label class="col-sm-2 control-label" >车主 <span class="required">*</span></label>
+    <div class="col-sm-3">
+    <input type="text" class="form-control" placeholder="请输入车主姓名" ng-model="tempUser.owner">
+    </div>
+    <label class="col-sm-2 control-label" >类型</label>
+    <div class="col-sm-3">
+    <select ng-model="tempUser.type" ng-options="status.value as status.text for status in orderTypes" class="form-control">
+    </select>
+      </div>
+    </div>
+ 
+
+
+    
+    <div class="form-group">
+    <label class="col-sm-2 control-label" >描述</label>
+    <div class="col-sm-3">
+    <input type="text" class="form-control" placeholder="请输入描述" ng-model="tempUser.certificatetype">
+    </div>
+    <label class="col-sm-2 control-label" >楼层</label>
+    <div class="col-sm-3">
+    <input type="text" class="form-control" placeholder="请输入楼层" ng-model="tempUser.cardnumber">
+    </div>
+    </div>
+  <div class="form-group">
+
+    </div>
+    <div class="form-group">
+    <label class="col-sm-2 control-label" >电话号码</label>
+    <div class="col-sm-3">
+    <input type="text" class="form-control" placeholder="请输入证件号码" ng-model="tempUser.certificatenumber">
+    </div>
+    <label class="col-sm-2 control-label" >车牌颜色</label>
+    <div class="col-sm-3">
+    <input type="text" class="form-control" placeholder="请输入车牌颜色" ng-model="tempUser.platecolor">
+    </div>
+    </div>
+<div class="form-group">
+
+    </div>
+    <div class="form-group">
+    <label class="col-sm-2 control-label" >支付金额</label>
+    <div class="col-sm-3">
+    <input type="text" class="form-control" placeholder="请输入支付金额" ng-model="tempUser.payment">
+    </div>
+    <label class="col-sm-2 control-label" >车位类型</label>
+    <div class="col-sm-3">
+    <select ng-model="tempUser.status" ng-options="status.value as status.text for status in statuses" class="form-control">
+    </select>
+    </div>
+
+        </div>
+        <div class="alert alert-info" ng-show="(showResult || showLoader)">
+            <span  ng-show='showLoader'  skip-ng-show= "yes" ng-activity-indicator= "CircledGrey"></span>
+            <span ng-show='showResult'>{{result}}</span>
+        </div>
+
+    </form>
+</div>
+
+<div class="modal-footer">
+    <button ng-click="close()" type="button" class="btn btn-default" data-dismiss="modal">
+        取消
+    </button>
+    <button ng-click="submit()"  type="button" class="btn btn-primary">
+        确定
+    </button>
+</div>
+</div>
+</script>
+</div>

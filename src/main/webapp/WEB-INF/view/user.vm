@@ -1,0 +1,65 @@
+<script src="/park/script/user.js"></script>
+
+<div class="content-wrapper">
+	<section class="content-header">
+          <h1>
+           APP用户管理
+            <small></small>
+          </h1>       
+    </section>
+
+    <section class="content">
+       <div class="row">
+            <div class="col-xs-12">
+              	<div class="box">
+	                <div class="box-header">
+	                  <h3 class="box-title"></h3>
+	                </div><!-- /.box-header -->
+	                <div class="box-body">  
+		                	<div class="btn-group">
+		                		<button #if(!$isAdmin) disabled#end id="refresh" type="button" class="btn bg-purple"><span class="glyphicon glyphicon-refresh"></span> 刷新</button>
+		                		<button #if(!$isAdmin) disabled#end id='addUser' type="button" class="btn bg-olive"><span class="glyphicon glyphicon-pencil"></span> 添加</button>
+		                		<button #if(!$isAdmin) disabled#end id='updateUser' type="button" class="btn bg-navy"><span class="glyphicon glyphicon-edit"></span> 更新</button>
+		                		<button #if(!$isAdmin) disabled#end id='deleteUser' type="button" class="btn  bg-orange"><span class="glyphicon glyphicon-remove"></span> 删除</button>
+		                	</div>
+	                	<div class="pull-right">
+	                	<select class="form-control" style="padding:1px;font-size:14px;height:35px" id="searchPark">
+	                		#if($isAdmin) <option value=-1>所有停车场</option>#end           		
+	                	</select>
+	                	</div>
+	                	
+	                	<br/>   
+	                    <br/> 
+						<div>
+							 <table class="table table-bordered"  style="font-size:12px" id='accessTable' >
+					            <tr>
+					             	<th><span style=""><input type="checkbox" /></div></th>
+										<th ><span style="padding-left:15%">Id</div></th>		
+										<th><span style="padding-left:15%">用户名</div></th>
+										<th><span style="padding-left:15%">联系电话</div></th>
+					            </tr>
+					          	<tbody id="userBody">		
+								</tbody>
+					          </table>
+    					</div>
+    				</div>
+    				<div class="box-footer clearfix">
+      					<div id='pagination'></div>
+      				</div>
+	            </div>
+            </div>
+        </div>
+
+    </section>
+						
+</div>
+
+
+
+
+<script>
+$(document).ready(function(){
+	$("#userBody").user.initial();
+});
+
+</script>

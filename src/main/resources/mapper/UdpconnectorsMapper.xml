@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.park.dao.UdpconnectorsMapper" >
+  <resultMap id="BaseResultMap" type="com.park.model.Udpconnectors" >
+    <result column="ip" property="ip" jdbcType="CHAR" />
+    <result column="port" property="port" jdbcType="CHAR" />
+    <result column="lastDate" property="lastdate" jdbcType="DATE" />
+  </resultMap>
+  <insert id="insert" parameterType="com.park.model.Udpconnectors" >
+    insert into udpConnectors (ip, port, lastDate)
+    values (#{ip,jdbcType=CHAR}, #{port,jdbcType=CHAR}, #{lastdate,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.park.model.Udpconnectors" >
+    insert into udpConnectors
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ip != null" >
+        ip,
+      </if>
+      <if test="port != null" >
+        port,
+      </if>
+      <if test="lastdate != null" >
+        lastDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ip != null" >
+        #{ip,jdbcType=CHAR},
+      </if>
+      <if test="port != null" >
+        #{port,jdbcType=CHAR},
+      </if>
+      <if test="lastdate != null" >
+        #{lastdate,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+</mapper>

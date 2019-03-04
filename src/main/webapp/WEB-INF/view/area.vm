@@ -1,0 +1,127 @@
+
+<script src="/park/script/operationArea.js?v=1.2"></script>
+<script src="/park/script/service/textModalService.js"></script>
+<style>
+.page-list .pagination {
+	float: left;
+}
+
+.page-list .pagination span {
+	cursor: pointer;
+}
+
+.page-list .pagination .separate span {
+	cursor: default;
+	border-top: none;
+	border-bottom: none;
+}
+
+.page-list .pagination .separate span:hover {
+	background: none;
+}
+
+.page-list .page-total {
+	float: left;
+	margin: 25px 20px;
+}
+
+.page-list .page-total input, .page-list .page-total select {
+	height: 26px;
+	border: 1px solid #ddd;
+}
+
+.page-list .page-total input {
+	width: 40px;
+	padding-left: 3px;
+}
+
+.page-list .page-total select {
+	width: 50px;
+}
+</style>
+<div class="content-wrapper" ng-app="areaApp" ng-controller="areaCtrl">
+	<section class="content-header">
+		<h1>
+			区管理 <small></small>
+		</h1>
+
+	</section>
+
+	<section class="content">
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="box">
+					<div class="box-body">
+						<div class="btn-group">
+							<button #if(!$isAdmin) disabled#end id="refresh"
+								ng-click="refreshArea()" type="button" class="btn btn-info">
+								<span class="glyphicon glyphicon-refresh"></span> 刷新
+							</button>
+							<button #if(!$isAdmin) disabled#end id='addUser'
+								ng-click="insertArea()" type="button" class="btn btn-primary">
+								<span class="glyphicon glyphicon-pencil"></span> 添加区
+							</button>
+							<button #if(!$isAdmin) disabled#end id='updateUser'
+								ng-click="updateArea()" type="button" class="btn btn-warning">
+								<span class="glyphicon glyphicon-edit"></span> 更新区信息
+							</button>
+							<button #if(!$isAdmin) disabled#end id='deleteUser'
+								ng-click="deleteArea()" type="button" class="btn btn-danger">
+								<span class="glyphicon glyphicon-remove"></span> 删除区
+							</button>
+						</div>
+						<div class="pull-right"></div>
+						<br /> <br />
+						<div>
+							<table
+								class="table table-bordered table-striped table-hover table-condensed"
+								id='parkTable' style="font-size: 12px">
+
+								<tr class="info" style="height: 30px; line-height: 30px;">
+									<th><span><input type="checkbox" /> </span></th>
+									<th><span>Id </span></th>
+									<th><span>区编号 </span></th>
+									<th><span>区名称 </span></th>
+									<th><span>所属市 </span></th>
+									<th><span>联系人 </span></th>
+									<th><span>联系电话 </span></th>
+									<th><span>添加时间 </span></th>
+									<th><span>备注 </span></th>
+
+								</tr>
+
+								<tbody id="parkBody"></tbody>
+								<tr ng-repeat="area in areas">
+									<td><input type="checkbox" ng-model="area.checked"
+										ng-click="selectChange($index)" /></td>
+									<td ng-bind="area.id"></td>
+									<td ng-bind="area.number"></td>
+									<td ng-bind="area.name"></td>
+									<td ng-bind="area.zoneCenterName"></td>
+									<td ng-bind="area.contact"></td>
+									<td ng-bind="area.phone"></td>
+									<td ng-bind="area.date"></td>
+									<td ng-bind="area.other"></td>
+
+								</tr>
+							</table>
+						</div>
+						<tm-pagination conf="paginationConf"></tm-pagination>
+					</div>
+					<div class="box-footer clearfix">
+						<div id='pagination'></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</section>
+
+</div>
+
+
+
+
+<script>
+	
+</script>

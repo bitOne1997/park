@@ -1,0 +1,19 @@
+/*body{width:1673px;background-color:#ECF0F5;}*/
+.xx-park-info{min-width:1200px;margin:0 auto;background-color:#F1F9FF}
+.xx-park-ch{min-width:200px;max-width:260px;margin:0 auto;}
+.xx-park-ch .xx-park-head{display:block;background-color:#D7E9F5;padding:5px;border-radius:10px;}
+.xx-park-ch .xx-park-name{height:190px;min-width:200px;max-width:260px;margin:0 auto;overflow-y:scroll;border:2px solid #D7E9F5;border-radius:10px;}
+.xx-park-ch .xx-park-name ul{margin:0;padding:0 0 0 25px;}
+.xx-park-ch .xx-park-name li,.xx-park-name p{margin:2px;padding:0;}
+.xx-park-ch .xx-park-name li{height:35px;background-color:#D7E9F5;border-radius:5px;}
+.xx-park-ch .xx-park-name li:hover{background-color:#F39C12;cursor:pointer;}
+.xx-park-ch .xx-park-name p{padding-left:10px;line-height:35px;font-size:14px;}
+.xx-park-ch .xx-park-name .xx-park-firstli{color:#000;font-weight:bold;background-color:#00C0EF}
+.xx-park-ch .xx-park-name .xx-park-firstli span{margin-right:5px;}
+/*表格样式*/
+.float-fix:after{display:block;clear:both;visibility:hidden;height:0;overflow:hidden;content:".";}
+.xx-list{width:1042px;border:1px solid #d7e9f5;background-color:#f1f9ff;}
+.xx-list ul{margin:0;padding:0;}
+.xx-list li{float:left;width:200px;height:40px;padding-left:10px;line-height:40px;list-style:none;border:1px solid #d7e9f5;}
+.xx-list li span,
+.xx-list li p{display:inline-block;}

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.park.dao.ChannelDAO">
+	<resultMap id="ChannelMapper" type="Channel">
+		<id property="id" column="id" />
+		<result property="parkId" column="parkId" />
+		<result property="macId" column="macId" />
+		<result property="channelId" column="channelId" />
+		<result property="channelFlag" column="channelFlag" />		
+		<result property="date" column="date"/>		
+		<result property="status" column="status" />
+		<result property="isEffective" column="isEffective"/>
+		<result property="description" column="description"/>
+		<result property="isDeleted" column="isDeleted"/>
+	</resultMap> 
+	
+	<resultMap id="ChannelDetailMapper" type="com.park.model.ChannelDetail">
+		<id property="id" column="channel_Id" />
+		<result property="parkId" column="channel_parkId" />
+		<result property="parkName" column="park_name" />
+		<result property="channelId" column="channel_channelId" />
+		<result property="macId" column="channel_macId" />
+		<result property="mac" column="hardware_mac" />
+		<result property="channelFlag" column="channel_flag" />		
+		<result property="date" column="channel_date"/>		
+		<result property="status" column="channel_status" />
+		<result property="description" column="channel_description"/>
+	</resultMap> 
+	<select id= "getByRangeAllDay" resultMap="ChannelDetailMapper">
+		select channel.id,
+		channel.parkId,
+		park.name as parkName,
+		channel.macId,
+		hardware.mac,
+		channelId,
+		channelFlag,
+		channel.date,
+		channel.`status`,
+		channel.description 
+		from channel LEFT JOIN park on channel.parkId = park.Id 
+		LEFT JOIN hardware on channel.macId=hardware.id
+	</select>
+	
+	<select id= "getByRangeDay" resultMap="ChannelMapper">
+		select channel.id,channel.parkId,park.name,hardware.mac,channelId,channelFlag,channel.date,channel.`status`,channel.description,isEffective,channel.isDeleted 
+		from channel LEFT JOIN park on channel.parkId = park.Id 
+		LEFT JOIN hardware on channel.id=hardware.id 
+		where parkId=#{parkId} and channel.date BETWEEN #{startDate} and #{endDate} limit 70000
+	</select>
+	
+	<select id="getChannels" resultMap="ChannelMapper">
+		select * from channel
+	</select>
+	
+	<select id="getChannelById" resultMap="ChannelMapper">
+		select * from channel where id = #{id}
+	</select>
+	
+	<select id="getChannelDetail" resultMap="ChannelDetailMapper">
+		select channel.id as channel_Id, channel.parkId as channel_parkId, park.name as park_name, 
+		channel.macId as channel_macId, hardware.mac as hardware_mac, channel.channelId as channel_channelId, 
+		channel.channelFlag as channel_flag, channel.status as channel_status, 
+		channel.description as channel_description, channel.date as channel_date
+		from channel 
+		left join park on channel.parkId = park.Id
+		left join hardware on channel.macId = hardware.id
+		limit #{low}, #{count}
+	</select>
+	
+	<select id="getChannelDetailByChannelFlag" resultMap="ChannelDetailMapper">
+		select channel.id as channel_Id, channel.parkId as channel_parkId, park.name as park_name, 
+		channel.macId as channel_macId, hardware.mac as hardware_mac, channel.channelId as channel_channelId, 
+		channel.channelFlag as channel_flag, channel.status as channel_status, 
+		channel.description as channel_description, channel.date as channel_date
+		from channel 
+		left join park on channel.parkId = park.Id
+		left join hardware on channel.macId = hardware.id
+		where hardware.type = #{macType}
+		limit #{low}, #{count}
+	</select>
+	
+	<select id="getChannelDetailByKeywords" resultMap="ChannelDetailMapper" statementType="STATEMENT">
+		select channel.id as channel_Id, channel.parkId as channel_parkId, park.name as park_name, 
+		channel.macId as channel_macId, hardware.mac as hardware_mac, channel.channelId as channel_channelId, 
+		channel.channelFlag as channel_flag, channel.status as channel_status, 
+		channel.description as channel_description, channel.date as channel_date
+		from channel left join park on channel.parkId = park.Id
+		left join hardware on channel.macId = hardware.id
+		where park.name like '%${keywords}%' or hardware.mac like '%${keywords}%' or 
+		channel.description like '%${keywords}%'
+	</select>
+	<select id="getChannelDetailByDate" resultMap="ChannelDetailMapper">
+		select channel.id as channel_Id, channel.parkId as channel_parkId, park.name as park_name, 
+		channel.macId as channel_macId, hardware.mac as hardware_mac, channel.channelId as channel_channelId, 
+		channel.channelFlag as channel_flag, channel.status as channel_status, 
+		channel.description as channel_description, channel.date as channel_date
+		from channel 
+		left join park on channel.parkId = park.Id
+		left join hardware on channel.macId = hardware.id
+		where channel.date not between #{startday} and #{endday} 
+	</select>
+<select id="getParkChannelDetail" resultMap="ChannelDetailMapper">
+ 		select channel.id as channel_Id, channel.parkId as channel_parkId, park.name as park_name, 
+		channel.macId as channel_macId, hardware.mac as hardware_mac, channel.channelId as channel_channelId, 
+		channel.channelFlag as channel_flag, channel.status as channel_status, 
+		channel.description as channel_description, channel.date as channel_date from channel 
+ 		left join park on channel.parkId = park.Id  
+ 		left join hardware on channel.macId = hardware.id 
+ 		where park.Id = #{parkId}
+ 		limit #{low}, #{count}
+	</select>
+	
+	<select id="getChannelCount"  resultType="int">
+		select count(*) from channel
+	</select>
+	
+	<select id="getChannelCountByChannelFlag"  resultType="int">
+		select count(*) from channel left join hardware on channel.macId = hardware.id
+		where hardware.type = #{macType}
+	</select>
+	
+	<select id="getChannelIdByMacId"  resultType="int">
+		select id from channel where macId=#{macId}
+	</select>
+	
+	<insert id="insertChannel" parameterType="Channel" keyProperty="id">
+		insert into channel(parkId, macId, channelId, channelFlag, date, status, isEffective, description, isDeleted) values(#{parkId}, #{macId}, #{channelId}, #{channelFlag}, #{date}, #{status}, #{isEffective}, #{description}, #{isDeleted})
+	</insert>
+	
+	<update id="updateChannel" parameterType="Channel" >
+		update channel set macId = #{macId}, channelId = #{channelId}, channelFlag = #{channelFlag}, date = #{date}, status = #{status}, isEffective = #{isEffective}, description = #{description}, isDeleted = #{isDeleted} where id = #{id}
+	</update>
+	<update	id="updateDateByHardwareMac">
+	{call updatechannelDateByhardwareMac(#{mac,jdbcType=CHAR,mode=IN})}
+	</update>
+	<delete id="deleteChannel" parameterType="int">
+		delete from channel where id = #{id}
+	</delete>
+		<delete id="deleteByParkId" parameterType="int">
+		delete from channel where parkId = #{parkId}
+	</delete>
+	
+</mapper>

@@ -1,0 +1,50 @@
+<script src="/park/script/access.js"></script>
+
+<div  id="access">
+<div class="row" >
+<div class="box grid_12" style="width:100%">
+        <div class="box-head" style="height:40px"><h2 >出入口实时流量管理</h2></div>       
+              <div class="input-group col-md-3 pull-right" >
+			  <span class="input-group-addon" style="height:26px"><span class="glyphicon glyphicon-search"> </span> </span>
+	        	<select class='form-control' style="padding:1px;font-size:14px;height:28px" id='searchPark'>
+								#if($isAdmin)<option value=-1>所有停车场</option>#end
+				</select>				
+	   </div>	   
+        <div class="box-content no-pad" >
+         <ul class="table-toolbar" #if(!$isAdmin) hidden#end>         
+            <li id="refresh" ><a  href="#" ><img src="img/icons/basic/refresh.png" style="width:18px;height:auto;" alt="" /> 刷新</a></li>
+            <li><a href="#"><img src="img/icons/basic/plus.png" alt="" /> 添加</a></li>           
+            <li><a href="#"><img src="img/icons/basic/up.png" alt="" /> 更新</a></li>
+            <li  id="deleteAccess"><a href="#"><img src="img/icons/basic/delete.png" alt="" /> 删除</a></li>
+          </ul>
+          <table class="display table table-hover  table-condensed"  style="font-size:12px" id='accessTable' >
+           <thead>
+            <tr>
+             <th><span style=""><input type="checkbox" /></div></th>
+					<th ><span style="padding-left:15%">Id</div></th>		
+					<th><span style="padding-left:15%">车库</div></th>
+					<th><span style="padding-left:15%">进出口</div></th>
+					<th><span style="padding-left:15%">出入日期</div></th>	
+            </tr>
+          </thead>
+          	<tbody id="accessBody">		
+			</tbody>
+          </table>
+		    </div>
+		    <div id='pagination'></div>
+        </div>
+        </div>
+	<div>
+	
+<div id='showMessage'>
+</div>
+
+<div id='showErrorMessage'>
+</div>
+
+<script>
+$(document).ready(function(){
+	$("#access_body").access.initial();
+});
+
+</script>

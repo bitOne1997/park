@@ -1,0 +1,192 @@
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+
+<script src="https://use.fontawesome.com/a416e9e97f.js"></script>
+<script type="text/javascript"
+        src="http://api.map.baidu.com/api?v=2.0&ak=u1q1g4e2kT3rG5xIY8R9HprMfmcSt6PK"></script>
+<script type="text/javascript" src="/park/script/demo1.js"></script>
+<script type="text/javascript" src="/park/script/demo1angular.js"></script>
+<script src="/park/script/outsideParkStatusAdmin1.js?v=1.3"></script>
+<style>
+
+  #grad1 {
+    background: -webkit-linear-gradient(left top, red, blue);
+    /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(bottom right, red, blue);
+    /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(bottom right, red, blue);
+    /* Firefox 3.6 - 15 */
+    background: linear-gradient(to bottom right, #43cea2, #185a9d);
+    /* 标准的语法 */
+  }
+</style>
+<div class="content-wrapper" ng-app="outsideParkStatus1App"
+     ng-controller="outsideParkStatus1Ctrl">
+  <section class="content-header">
+    <h1 style="width:180px;">停车场交易概况
+    </h1>
+    <!-- <button type="button" class="btn bg-purple" style="margin-left:200px;margin-top:-28px;">
+    	返回
+    </button> -->
+  </section>
+  <section class="content">
+    <div class="row">
+      <div class="small-box"
+           style="height: 50px; min-width: 850px;margin-top: 10px;">
+        <form class="form-horizontal" role="form">
+          <div class="form-group ">
+            <div class="col-md-3">
+              <select class="form-control">
+                <option value="">南京市</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <select class="form-control">
+                <option value="">江宁区</option>
+
+              </select>
+            </div>
+            <div class="col-md-3">
+              <select class="form-control">
+                <option value="">金盛路段</option>
+
+              </select>
+            </div>
+            <div class="col-md-3">
+              <select class="form-control">
+                <option value="">碧水湾停车场</option>
+
+              </select>
+            </div>
+          </div>
+        </form>
+
+      </div>
+
+      <div class="col-md-3">
+        <div class="box box-info" style="height: 400px;">
+          <div class="box-header with-border">
+            <h3 class="box-title">信息统计</h3>
+          </div>
+          <!-- /.box-header -->
+          <div class="box-body">
+            <div class="media">
+              <div class="media-left">
+                <a href="#"> </a>
+              </div>
+              <div class="media-body">
+                <h4>停车场信息</h4>
+
+                <div class="col-md-6">
+                  <p>今日应收金额</p>
+                  <p>在线泊位总数</p>
+                  <p>规划泊位总数</p>
+                  <p>今日应收金额</p>
+
+                </div>
+                <div class="col-md-6">
+                  <p>元</p>
+                  <p>123个</p>
+                  <p>123个</p>
+                  <p>123个</p>
+
+                </div>
+              </div>
+            </div>
+            <hr size=2 style="color:#999;border-top: 1px dotted #999;">
+            <div class="media">
+              <div class="media-left">
+                <a href="#"> </a>
+              </div>
+              <div class="media-body">
+                <h4>收支明细</h4>
+
+                <div class="col-md-6">
+                  <span>微信</span><br>
+                  <span>支付宝</span><br>
+                  <span>工商银行</span><br>
+                  <span>徽商银行</span><br>
+
+                </div>
+                <div class="col-md-6">
+                  <span>123元</span><br>
+                  <span>234元</span><br>
+                  <span>345元</span><br>
+                  <span>567元</span><br>
+                </div>
+              </div>
+            </div>
+            <!--<div class="media">-->
+            <!--<div class="media-left">-->
+            <!--<a href="#"> </a>-->
+            <!--</div>-->
+            <!--<div class="media-body">-->
+            <!--<div class="col-md-6">-->
+            <!--<p>规划泊位总数</p>-->
+            <!--</div>-->
+            <!--<div class="col-md-6">-->
+            <!--<span>个</span>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--<div class="media">-->
+            <!--<div class="media-left">-->
+            <!--<a href="#"> </a>-->
+            <!--</div>-->
+            <!--<div class="media-body">-->
+            <!--<div class="col-md-6">-->
+            <!--<p>今日应收金额</p>-->
+            <!--</div>-->
+            <!--<div class="col-md-6">-->
+            <!--<span>元</span>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--</div>-->
+          </div>
+          <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+      </div>
+      <div class="col-md-9">
+        <section>
+          <div class="col-md-12">
+            <div class="well" style="height: 400px;" id="grad1">
+              <div class="col-md-3"><input type="text" placeholder="选取时间" class="form-control">
+              </div>
+              <button type="submit" class="btn btn-default" style="border-radius: 5px;">查看</button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+</div>
+<script>
+  var map = new BMap.Map("container");
+  var point = new BMap.Point(116.331398, 39.897445);
+  map.centerAndZoom(point, 12);
+
+  function myFun(result) {
+    var cityName = result.name;
+    map.setCenter(cityName);
+  }
+  var myCity = new BMap.LocalCity();
+  myCity.get(myFun);
+  /* map.setMapStyle({
+   styleJson:[
+   {
+   "featureType": "land",
+   "elementType": "all",
+   "stylers": {
+   "color": "#3c8dbc"
+   }
+   },
+   {
+   "featureType": "water",
+   "elementType": "all",
+   "stylers": {
+   "visibility": "off"
+   }
+   }
+   ]
+   }); */
+</script>

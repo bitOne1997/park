@@ -1,0 +1,423 @@
+#set($layout = "loginlayout.vm")
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>系统管理界面</title>
+  <link rel="stylesheet" href="css/rest.css"/>
+  <link rel="stylesheet" href="css/index.css"/>
+  <!--<link rel="stylesheet" href="css/bootstrap.css">-->
+  <script src="/park/script/outsideParkStatus1.js?v=1.0"></script>
+</head>
+<body>
+<div class="content" ng-app="outsideParkStatus1App" ng-controller="outsideParkStatus1Ctrl">
+
+  <!--top start-->
+  <div class="xt-top" hidden>
+    <div class="xt-crumbs" hidden>
+      <i class="xt-location"></i>
+      <span>基础信息 ＞ 泊位概况</span>
+    </div>
+    <div class="xt-search" hidden>
+      <div><span>分中心：</span><span class="xt-all">全选 <b></b></span></div>
+      <div><span>街道：</span><span class="xt-street">东城某某街道 <b></b></span></div>
+
+    </div>
+  </div>
+  <!--top end-->
+
+  <!--管理中心概况 start-->
+  <div class="xt-content_1">
+    <div class="xt-survey">
+      <p><i></i>管理中心概况</p>
+    </div>
+    <a href="#" ng-click="showBack()" style="padding-left:30px">返回上级区域
+    </a>
+    <div class="xt-surveytable">
+      <div class="xt-surveytable_1" ng-show="isShow==1">
+        <table border="1">
+          <tbody>
+          <tr>
+            <td>市数</td>
+            <td>{{zoneCenters.length}}</td>
+            <td>应收金额</td>
+            <td>{{show1AmountMoney|number:2}}</td>
+            <td>实收金额</td>
+            <td>{{show1RealMoney|number:2}}</td>
+            <td>欠费金额</td>
+            <td>{{show1Arrearage|number:2}}</td>
+          </tr>
+          <tr>
+            <td>规划中心总数<span></span></td>
+            <td>{{show1AreaCount}}</td>
+            <td>规划街道总数<span></span></td>
+            <td>{{show1StreetCount}}</td>
+            <td>规划站点数<span></span></td>
+            <td>{{show1ParkCount}}</td>
+            <td>规划泊位总数<span></span></td>
+            <td>{{show1CarportCount}}</td>
+          </tr>
+          <tr>
+            <td>在线站点数<span></span></td>
+            <td>{{show1Onlineparkcount}}</td>
+            <td>在线泊位总数<span></span></td>
+            <td>{{show1Onlinecarportcount}}</td>
+            <td>在停车辆总数<span></span></td>
+            <td>{{(show1EntranceCount-show1OutCount)>0?(show1EntranceCount-show1OutCount):0}}</td>
+
+            <td>入场车辆总数<span></span></td>
+            <td>{{show1EntranceCount}}</td>
+          </tr>
+          <tr>
+            <td>出场车辆总数<span></span></td>
+            <td>{{show1OutCount}}</td>
+            <td>站点在线率<span></span></td>
+            <td>{{show1Onlineparkcount/show1ParkCount|number:2}}</td>
+            <td>泊位在线率<span></span></td>
+            <td>{{show1Onlinecarportcount/show1CarportCount|number:2}}</td>
+            <td>泊位饱和度<span></span></td>
+            <td ng-if="show1EntranceCount>=show1OutCount">
+              {{(show1EntranceCount-show1OutCount)/show1CarportCount|number:2}}
+            </td>
+            <td ng-if="show1EntranceCount<show1OutCount">
+              {{(-show1EntranceCount+show1OutCount)/show1CarportCount|number:2}}
+            </td>
+
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="xt-surveytable_1" ng-show="isShow==2">
+        <table border="1">
+          <tbody>
+          <tr>
+            <td>市名称</td>
+            <td>{{show2data.zonename}}</td>
+            <td>应收金额</td>
+            <td>{{show2data.amountmoney|number:2}}</td>
+            <td>实收金额</td>
+            <td>{{show2data.realmoney|number:2}}</td>
+            <td>欠费金额</td>
+            <td>{{show2data.arrearage|number:2}}</td>
+          </tr>
+          <tr>
+            <td>区数量</td>
+            <td>{{show2data.areacount}}</td>
+            <td>规划街道总数<span></span></td>
+            <td>{{show2data.streetcount}}</td>
+            <td>规划站点数<span></span></td>
+            <td>{{show2data.parkcount}}</td>
+            <td>规划泊位总数<span></span></td>
+            <td>{{show2data.carportcount}}</td>
+          </tr>
+          <tr>
+            <td>在线站点数<span></span></td>
+            <td>{{show2data.parkcount}}</td>
+            <td>在线泊位总数<span></span></td>
+            <td>{{show2data.carportcount}}</td>
+            <td>在停车辆总数</td>
+            <td>{{(show2data.entrancecount-show2data.outcount)>0?(show2data.entrancecount-show2data.outcount):0}}</td>
+            <td>入场车辆数</td>
+            <td>{{show2data.entrancecount}}</td>
+          </tr>
+          <tr>
+            <td>出场车辆数</td>
+            <td>{{show2data.outcount}}</td>
+            <td>站点在线率<span></span></td>
+            <td>{{show2data.onlineparkcount/show2data.parkcount|number:2}}</td>
+            <td>泊位在线率<span></span></td>
+            <td>{{show2data.onlinecarportcount/show2data.carportcount|number:2}}</td>
+            <td>泊位饱和度<span></span></td>
+            <td ng-if="show2data.entrancecount>=show2data.outcount">
+              {{(show2data.entrancecount-show2data.outcount)/show2data.carportcount|number:2}}
+            </td>
+            <td ng-if="show2data.entrancecount<show2data.outcount">
+              {{(-show2data.entrancecount+show2data.outcount)/show2data.carportcount|number:2}}
+            </td>
+
+            <td colspan="2" class="xt-td"></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="xt-surveytable_1" ng-show="isShow==3">
+        <table border="1">
+          <tbody>
+          <tr>
+            <td>区名称</td>
+            <td>{{show3data.areaname}}</td>
+            <td>应收金额</td>
+            <td>{{show3data.amountmoney|number:2}}</td>
+            <td>实收金额</td>
+            <td>{{show3data.realmoney|number:2}}</td>
+            <td>欠费金额</td>
+            <td>{{show3data.arrearage|number:2}}</td>
+          </tr>
+          <tr>
+            <td>规划街道总数<span></span></td>
+            <td>{{show3data.streetcount}}</td>
+            <td>规划站点数<span></span></td>
+            <td>{{show3data.parkcount}}</td>
+            <td>规划泊位总数<span></span></td>
+            <td>{{show3data.carportcount}}</td>
+            <td colspan="2" class="xt-td"></td>
+          </tr>
+          <tr>
+            <td>在线站点数<span></span></td>
+            <td>{{show3data.parkcount}}</td>
+            <td>在线泊位总数<span></span></td>
+            <td>{{show3data.carportcount}}</td>
+            <td>在停车辆总数<span></span></td>
+            <td>{{(show3data.entrancecount-show3data.outcount)>0?(show3data.entrancecount-show3data.outcount):0}}</td>
+            <td>入场车辆数</td>
+            <td>{{show3data.entrancecount}}</td>
+          </tr>
+          <tr>
+            <td>出场车辆数</td>
+            <td>{{show3data.outcount}}</td>
+            <td>站点在线率<span></span></td>
+            <td>{{show3data.onlineparkcount/show3data.parkcount|number:2}}</td>
+            <td>泊位在线率<span></span></td>
+            <td>{{show3data.onlinecarportcount/show3data.carportcount|number:2}}</td>
+            <td>泊位饱和度<span></span></td>
+            <td ng-if="show3data.entrancecount>=show3data.outcount">
+              {{(show3data.entrancecount-show3data.outcount)/show3data.carportcount|number:2}}
+            </td>
+            <td ng-if="show3data.entrancecount<show3data.outcount">
+              {{(-show3data.entrancecount+show3data.outcount)/show3data.carportcount|number:2}}
+            </td>
+
+            <td colspan="2" class="xt-td"></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="xt-surveytable_1" ng-show="isShow==4">
+        <table border="1">
+          <tbody>
+          <tr>
+            <td>街道名称</td>
+            <td>{{show4data.streetname}}</td>
+            <td>应收金额</td>
+            <td>{{show4data.amountmoney|number:2}}</td>
+            <td>实收金额</td>
+            <td>{{show4data.realmoney|number:2}}</td>
+            <td>欠费金额</td>
+            <td>{{show4data.arrearage|number:2}}</td>
+          </tr>
+          <tr>
+            <td>联系人</td>
+            <td>{{show4data.contact}}</td>
+            <td>联系人电话</td>
+            <td>{{show4data.phone}}</td>
+            <td>规划站点数<span></span></td>
+            <td>{{show4data.parkcount}}</td>
+            <td>规划泊位总数<span></span></td>
+            <td>{{show4data.carportcount}}</td>
+            <td colspan="2" class="xt-td"></td>
+          </tr>
+          <tr>
+            <td>在线站点数<span></span></td>
+            <td>{{show4data.onlineparkcount}}</td>
+            <td>在线泊位总数<span></span></td>
+            <td>{{show4data.carportcount}}</td>
+            <td>在停车辆总数<span></span></td>
+            <td>{{(show4data.entrancecount-show4data.outcount)>0?(show4data.entrancecount-show4data.outcount):0}}</td>
+            <td>入场车辆数</td>
+            <td>{{show4data.entrancecount}}</td>
+          </tr>
+          <tr>
+            <td>出场车辆数</td>
+            <td>{{show4data.outcount}}</td>
+            <td>站点在线率<span></span></td>
+            <td>{{show4data.onlineparkcount/show4data.parkcount|number:2}}</td>
+            <td>泊位在线率<span></span></td>
+            <td>{{show4data.onlinecarportcount/show4data.carportcount|number:2}}</td>
+            <td>泊位饱和度<span></span></td>
+            <td ng-if="show4data.entrancecount>=show4data.outcount">
+              {{(show4data.entrancecount-show4data.outcount)/show4data.carportcount|number:2}}
+            </td>
+            <td ng-if="show4data.entrancecount<show4data.outcount">
+              {{(-show4data.entrancecount+show4data.outcount)/show4data.carportcount|number:2}}
+            </td>
+
+            <td colspan="2" class="xt-td"></td>
+          </tr>
+          <tr>
+            <td>现金支付</td>
+            <td></td>
+            <td>刷卡支付</td>
+            <td></td>
+            <td>停车专用卡支付</td>
+            <td></td>
+            <td colspan="2" class="xt-td"></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!--管理中心概况 end-->
+
+  <!--概况详细信息 start-->
+  <div class="xt-surveytable_2" ng-show="isShow==1">
+    <table border="1">
+      <thead>
+      <tr>
+        <td>序号</td>
+        <td>市</td>
+        <td>应收额</td>
+        <td>实收额</td>
+        <td>欠费</td>
+        <td>入场数</td>
+        <td>出场数</td>
+        <td>经营中心</td>
+        <td>街道数</td>
+        <td>站点总数</td>
+        <td>在线站点</td>
+        <td>总泊位</td>
+        <td>在线泊位</td>
+        <td>剩余泊位</td>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="zoneCenter in zoneCenters">
+        <td>{{zoneCenter.id}}</td>
+        <td ng-click="getAreaInfo(zoneCenter)"><a href='#'>{{zoneCenter.zonename}}</a></td>
+        <td>{{zoneCenter.amountmoney|number:2}}</td>
+        <td>{{zoneCenter.realmoney|number:2}}</td>
+        <td>{{zoneCenter.arrearage}}</td>
+        <td>{{zoneCenter.entrancecount}}</td>
+        <td>{{zoneCenter.outcount}}</td>
+        <td>{{zoneCenter.areacount}}</td>
+        <td>{{zoneCenter.streetcount}}</td>
+        <td>{{zoneCenter.parkcount}}</td>
+        <td>{{zoneCenter.onlineparkcount}}</td>
+        <td>{{zoneCenter.carportcount}}</td>
+        <td>{{zoneCenter.onlinecarportcount}}</td>
+        <td>{{zoneCenter.carportleftcount>0?zoneCenter.carportleftcount:0}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="xt-surveytable_2" ng-show="isShow==2">
+    <table border="1">
+      <thead>
+      <tr>
+        <td>序号</td>
+        <td>区</td>
+        <td>应收额</td>
+        <td>实收额</td>
+        <td>欠费</td>
+        <td>入场数</td>
+        <td>出场数</td>
+        <td>街道数</td>
+        <td>站点总数</td>
+        <td>在线站点</td>
+        <td>总泊位</td>
+        <td>在线泊位</td>
+        <td>剩余泊位</td>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="area in areas">
+        <td>{{area.id}}</td>
+        <td ng-click="getStreetInfo(area)"><a href="#">{{area.areaname}}</a></td>
+        <td>{{area.amountmoney|number:2}}</td>
+        <td>{{area.realmoney|number:2}}</td>
+        <td>{{area.arrearage}}</td>
+        <td>{{area.entrancecount}}</td>
+        <td>{{area.outcount}}</td>
+        <td>{{area.streetcount}}</td>
+        <td>{{area.parkcount}}</td>
+        <td>{{area.onlineparkcount}}</td>
+        <td>{{area.carportcount}}</td>
+        <td>{{area.onlinecarportcount}}</td>
+        <td>{{area.carportleftcount>0?area.carportleftcount:0}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="xt-surveytable_2" ng-show="isShow==3">
+    <table border="1">
+      <thead>
+      <tr>
+        <td>序号</td>
+        <td>街道名称</td>
+        <td>应收额</td>
+        <td>实收额</td>
+        <td>欠费</td>
+        <td>入场数</td>
+        <td>出场数</td>
+        <td>站点总数</td>
+        <td>在线站点</td>
+        <td>总泊位</td>
+        <td>在线泊位</td>
+        <td>剩余泊位</td>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="street in streets">
+        <td>{{street.id}}</td>
+        <td ng-click="getParkInfo(street)"><a href="#">{{street.streetname}}</a></td>
+        <td>{{street.amountmoney|number:2}}</td>
+        <td>{{street.realmoney|number:2}}</td>
+        <td>{{street.arrearage}}</td>
+        <td>{{street.entrancecount}}</td>
+        <td>{{street.outcount}}</td>
+        <td>{{street.parkcount}}</td>
+        <td>{{street.onlineparkcount}}</td>
+        <td>{{street.carportcount}}</td>
+        <td>{{street.onlinecarportcount}}</td>
+        <td>{{street.carportleftcount>0?street.carportleftcount:0}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="xt-surveytable_2" ng-show="isShow==4">
+    <table border="1">
+      <thead>
+      <tr>
+        <td>序号</td>
+        <td>联系人</td>
+        <td>联系电话</td>
+        <td>站点名称</td>
+        <td>应收额</td>
+        <td>实收额</td>
+        <td>欠费</td>
+        <td>入场数</td>
+        <td>出场数</td>
+        <td>是否在线</td>
+        <td>总泊位</td>
+        <td>剩余泊位</td>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="park in parks">
+        <td>{{park.id}}</td>
+        <td>{{park.contactname}}</td>
+        <td>{{park.contactnum}}</td>
+        <td>{{park.parkname}}</td>
+        <td>{{park.amountmoney|number:2}}</td>
+        <td>{{park.realmoney|number:2}}</td>
+        <td>{{park.arrearage}}</td>
+        <td>{{park.entrancecount}}</td>
+        <td>{{park.outcount}}</td>
+        <td ng-if="park.isonline==true">是</td>
+        <td ng-if="park.isonline==false">否</td>
+        <td>{{park.carportcount}}</td>
+        <td>{{park.carportleftcount>0?park.carportleftcount:0}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <!--概况详细信息 end-->
+  <!--footer start-->
+
+  <!--footer end-->
+</div>
+</body>
+</html>

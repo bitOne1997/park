@@ -1,0 +1,49 @@
+body {
+    font-family:"Microsoft YaHei",微软雅黑; /* 设置字体为微软雅黑 */
+}
+.container-fluid {
+    min-width: 1360px;  
+}
+.lb-main {
+    margin: -15px;
+    padding: 30px 15px;
+    background-color: #f7f7f7; 
+}
+.lb-title {
+    text-align: center;
+    padding: 20px;
+    margin-bottom: 10px;
+    font-size: 2.5em;
+    font-weight: bold;
+    color: #fff;
+    background-color: #00c9bd;
+}
+.lb-car {
+    margin-top: 15px;
+    margin-left: -6.6%;
+    margin-right: 0.1%;
+}
+.lb-car img, .lb-road img {
+    width: 100%;
+}
+.lb-car img {
+    text-align: center;
+    padding: 10px 0;
+}
+.lb-car p {
+    text-align: center;
+    margin: 0 0 10px 0;
+    font-size: 1em;
+}
+.lb-road {
+    margin: 15px -10px;
+}
+.lb-car span {
+    font-weight: bold;
+}
+.remove {
+    color: #f00;
+}
+.ok {
+    color: #00c9bd;
+}

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.park.dao.UserPagePermissionDAO">
+	<resultMap id="UserPageMapper" type="Page">
+		<id property="id" column="id" />
+		<result property="description" column="description" />
+		<result property="uri" column="uri"/>
+		<result property="pageKey" column="pageKey"/>
+	</resultMap> 
+	
+ 	<select id="getUserPage" resultMap="UserPageMapper">
+		select page.id, page.description, page.uri, page.pageKey from authUsers 
+		left join userRole on authUsers.id = userRole.userId
+		left join pagePermission on userRole.roleId = pagePermission.roleId
+		left join page on pagePermission.pageId = page.id
+		where authUsers.id=#{param1}
+	</select> 
+	
+</mapper>

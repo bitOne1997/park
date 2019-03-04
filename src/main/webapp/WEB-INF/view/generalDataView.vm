@@ -1,0 +1,576 @@
+#set($layout = "loginlayout.vm")
+<!DOCTYPE html>
+<html lang="zh" style="min-height:2400px">
+<head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width"/>
+  <title></title>
+  <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+
+
+  <script src="/park/plugins/angular/angular.min.js"></script>
+  <script src="/park/plugins/angular/angular-animate.min.js"></script>
+  <script src="/park/plugins/angular/angular-cookies.min.js"></script>
+  <script src="/park/plugins/angular/angular-ui-router.min.js"></script>
+  <script src="/park/plugins/angular/ocLazyLoad.min.js"></script>
+  <script src="/park/plugins/angular/ui-bootstrap-tpls.min.js"></script>
+  <script src="/park/script/generalDataView.js"></script>
+
+  <link href="Style/white/layout.css" rel="stylesheet"/>
+  <link href="Style/Pagination.css" rel="stylesheet"/>
+  <link href="Style/jbox.css" rel="stylesheet"/>
+  <link href="Style/loadingbar.css" rel="stylesheet"/>
+  <link href="Style/index.css" rel="stylesheet"/>
+
+  <script src="Scripts/jquery-1.8.2.min.js"></script>
+  <script src="Scripts/Common.js"></script>
+  <script src="Scripts/jquery.pagination.js"></script>
+  <script src="Scripts/jquery.jBox.src.js"></script>
+  <script src="Scripts/modernizr-2.6.2.js"></script>
+  <script src="Scripts/jquery.numbermodel.js"></script>
+</head>
+<body>
+<div class="top-container-wrapper">
+
+  <div id='loadingbar'></div>
+</div>
+
+<div class="mian-container" ng-app="generalDataViewApp" ng-controller="generalDataViewCtrl">
+  <div class="page-content">
+    <div class="container-fluid">
+      <!-- Right -->
+
+      <link href="Style/Pagination.css" rel="stylesheet"/>
+      <link href="Style/index.css" rel="stylesheet"/>
+      <link href="Style/jbox.css" rel="stylesheet"/>
+      <link href="Style/jquery-ui.css" rel="stylesheet"/>
+      <style type="text/css">
+        #reportInfo {
+          z-index: 999;
+          width: 92%;
+          height: 165%;
+          background-color: #FFF;
+          box-shadow: 0px 0px 10px #666;
+          left: 4%;
+          position: absolute;
+          display: none;
+          margin-bottom: 10px;
+        }
+
+        #reportBody {
+          border: 0px none;
+          width: 100%;
+          height: 98%;
+          margin-bottom: 40px;
+        }
+
+        .bg {
+          position: fixed;
+          width: 100%;
+          height: 100%;
+          background-color: black;
+          z-index: 2;
+          top: 0px;
+          left: 0px;
+          opacity: 0.4;
+          display: none;
+        }
+
+        .side {
+          position: fixed;
+          width: 54px;
+          height: 275px;
+          right: 0;
+          top: 214px;
+          z-index: 100;
+        }
+
+        .side ul li {
+          width: 54px;
+          height: 54px;
+          float: left;
+          position: relative;
+          margin-top: 1px;
+        }
+
+        .side ul li .sidebox {
+          position: absolute;
+          width: 54px;
+          height: 54px;
+          top: 0;
+          right: 0;
+          transition: all 0.3s;
+          background: #4BA9E9;
+          opacity: 0.8;
+          filter: Alpha(opacity=80);
+          color: #fff;
+          font: 14px/54px "微软雅黑";
+          overflow: hidden;
+        }
+
+        .side ul li .sidetop {
+          width: 54px;
+          height: 54px;
+          line-height: 54px;
+          display: inline-block;
+          background: #4BA9E9;
+          opacity: 0.8;
+          filter: Alpha(opacity=80);
+          transition: all 0.3s;
+        }
+
+        .side ul li .sidetop:hover {
+          background: #FFB400;
+          opacity: 1;
+          filter: Alpha(opacity=100);
+        }
+
+        .side ul li img {
+          float: left;
+        }
+
+        div.Area_title {
+          background: #4BA9E9;
+          border-bottom: 1px solid #ddd;
+          padding: 10px;
+          position: relative;
+        }
+
+        a.close {
+          float: right;
+          color: #fff;
+          padding: 5px;
+          margin: -2px -5px -5px;
+          font: bold 14px/14px simsun;
+          text-shadow: 0 1px 0 #ddd;
+        }
+
+        h3#AreaSelect_title {
+          color: #fff;
+          font-size: 16px;
+          line-height: 16px;
+          font-family: Microsoft YaHei;
+        }
+
+      </style>
+      <!-- 首页效果 begin -->
+      <div style="width: 100%;">
+        <h1 class="dataH1" style="display:inline;">今日数据发布 <label id="time"></label></h1>
+      </div>
+
+      <div class="bg" id="reportBackground"></div>
+      <div id="reportInfo">
+        <div class="Area_title">
+          <a href="javascript:;" title="关闭" class="close" onclick="MoveBox()"><img src="Images/jBox/jbox-close.png"
+                                                                                   style="height: 15px;"/></a>
+          <h3 id="AreaSelect_title">运行报告</h3>
+        </div>
+
+        <iframe id="reportBody" name="reportBody"></iframe>
+      </div>
+      <div class="data_wrapper">
+        <table cellpadding="0" cellspacing="0" style="width: 100%;" class="flipTable">
+          <tr>
+            <td>
+              <div class="filpCard_wrapper">
+                <div id="block1" class="dataActive block1">
+                  <div class="panel-top hidddiv">
+                    今日应收金额
+                  </div>
+                  <div class="panel-split hidddiv"></div>
+                  <div class="panel-middle hidddiv">
+                    <span class="panel-value " ng-bind="dayAmountMoney"></span>&nbsp;元
+                  </div>
+                  <div class="panel-bottom hidddiv">
+                    <p>
+                      应收总金额&nbsp;<b>{{dayAmountMoney|number:2}}</b>&nbsp;元
+                    </p>
+                  </div>
+                  <div class="dataHover block1">
+                    <table>
+                      <tr>
+                        <td style="text-align:right;">手机APP：</td>
+                        <td style="text-align:left;">1,924.00 元</td>
+                      </tr>
+                      <tr>
+                        <td style="text-align:right;">微信公众号：</td>
+                        <td style="text-align:left;">550.00 元</td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+
+              </div>
+            </td>
+            <td>
+              <div class="filpCard_wrapper">
+                <div id="block2" class="dataActive block2">
+                  <div class="panel-top hidddiv">
+                    今日实收金额
+                  </div>
+                  <div class="panel-split hidddiv"></div>
+                  <div class="panel-middle hidddiv">
+                    <span class="panel-value " data-to="{{dayRealMoney}}" data-speed="1500">{{dayRealMoney}}</span>&nbsp;元
+                  </div>
+                  <div class="panel-bottom hidddiv">
+                    实收总金额&nbsp;<b>{{dayRealMoney|number:2}}</b>&nbsp;元
+                  </div>
+                  <div class="dataHover block2">
+                    <table>
+                      <tr>
+                        <td style="text-align:right">手机APP：</td>
+                        <td style="text-align:left">3550 笔</td>
+                      </tr>
+                      <tr>
+                        <td style="text-align:right">微信公众号：</td>
+                        <td style="text-align:left">2275 笔</td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+
+              </div>
+            </td>
+            <td>
+              <div class="filpCard_wrapper">
+                <div id="block3" class="dataActive block3">
+                  <div class="panel-top  hidddiv">
+                    今日欠费金额
+                  </div>
+                  <div class="panel-split  hidddiv"></div>
+                  <div class="panel-middle  hidddiv">
+                    <span class="panel-value" data-to="{{(dayAmountMoney-dayRealMoney)}}" data-speed="1500"
+                          data-decimals="2">{{(dayAmountMoney-dayRealMoney)>0?(dayAmountMoney-dayRealMoney):0}}</span>&nbsp;元
+                  </div>
+                  <div class="panel-bottom hidddiv">
+                    欠费总金额&nbsp;<b>{{(dayAmountMoney-dayRealMoney)>0?(dayAmountMoney-dayRealMoney):0}}</b>&nbsp;元
+                  </div>
+                  <div class="dataHover block3">
+                    <table>
+                      <tr>
+                        <td style="text-align:right;">支付宝WAP：</td>
+                        <td style="text-align:left;">0.00 元</td>
+                      </tr>
+                      <tr>
+                        <td style="text-align:right;">财付通WAP：</td>
+                        <td style="text-align:left;">1,100.00 元</td>
+                      </tr>
+                      <tr>
+                        <td style="text-align:right;">微信支付：</td>
+                        <td style="text-align:left;">3,750.00 元</td>
+                      </tr>
+                      <tr>
+                        <td style="text-align:right;">微信公众号：</td>
+                        <td style="text-align:left;">0.00 元</td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+
+              </div>
+            </td>
+            <td>
+              <div class="filpCard_wrapper">
+                <div id="block4" class="dataActive block4">
+                  <div class="panel-top hidddiv">
+                    今日交易次数
+                  </div>
+                  <div class="panel-split hidddiv"></div>
+                  <div class="panel-middle hidddiv">
+                    <span class="panel-value" data-to="{{dayOutCount}}" data-speed="1500">{{dayOutCount}}</span>&nbsp;笔
+                  </div>
+                  <div class="panel-bottom hidddiv">
+                    交易总次数&nbsp;<b>{{dayOutCount}}</b>&nbsp;笔
+                  </div>
+                  <div class="dataHover block4">
+                    <table>
+                      <tr>
+                        <td style="text-align:right;">支付宝WAP：</td>
+                        <td style="text-align:left;">0 笔</td>
+                      </tr>
+                      <tr>
+                        <td style="text-align:right;">财付通WAP：</td>
+                        <td style="text-align:left;">55 笔</td>
+                      </tr>
+                      <tr>
+                        <td style="text-align:right;">微信支付：</td>
+                        <td style="text-align:left;">166 笔</td>
+                      </tr>
+                      <tr>
+                        <td style="text-align:right;">微信公众号：</td>
+                        <td style="text-align:left;">0 笔</td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+
+              </div>
+            </td>
+            <td>
+              <div class="filpCard_wrapper">
+                <div id="block5" class="dataActive block5">
+                  <div class="panel-top hidddiv">
+                    今日逃费率
+                  </div>
+                  <div class="panel-split hidddiv"></div>
+                  <div class="panel-middle hidddiv">
+                    <span class="panel-value" data-to="" data-speed="1500">{{((dayAmountMoney-dayRealMoney)/dayAmountMoney|number:1)>0?((dayAmountMoney-dayRealMoney)*100/dayAmountMoney|number:2):0}}%</span>&nbsp;
+                  </div>
+                  <div class="panel-bottom hidddiv">
+                    总逃费率&nbsp;<b>{{((dayAmountMoney-dayRealMoney)/dayAmountMoney|number:3)>0?((dayAmountMoney-dayRealMoney)*100/dayAmountMoney|number:1):0}}%</b>&nbsp;
+                  </div>
+                  <div class="dataHover block5">
+                    <table>
+                      <tr>
+                        <td style="text-align:right;">手机APP：</td>
+                        <td style="text-align:left;">56 人</td>
+                      </tr>
+                      <tr>
+                        <td style="text-align:right;">微信公众号：</td>
+                        <td style="text-align:left;">55 人</td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="filpCard_wrapper">
+                <div id="block6" class="dataActive block6">
+                  <div class="panel-top hidddiv">
+                    今日运营站点数
+                  </div>
+                  <div class="panel-split hidddiv"></div>
+                  <div class="panel-middle hidddiv">
+                    <span class="panel-value" data-to="751.00" data-speed="1500">{{dayParkCount}}</span>&nbsp;个
+                  </div>
+                  <div class="panel-bottom hidddiv">
+                    合计运营站点数&nbsp;<b>{{dayParkCount}}</b>&nbsp;个
+                  </div>
+                  <div class="dataHover block6">
+
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="filpCard_wrapper">
+                <div id="block7" class="dataActive block7">
+                  <div class="panel-top hidddiv">
+                    今日运营泊位数
+                  </div>
+                  <div class="panel-split hidddiv"></div>
+                  <div class="panel-middle hidddiv">
+                    <span class="panel-value" data-to="0" data-speed="1500">{{dayCarportCount}}</span>&nbsp;个
+                  </div>
+                  <div class="panel-bottom hidddiv">
+                    总泊位数&nbsp;<b>{{dayCarportCount}}</b>&nbsp;个
+                  </div>
+                  <div class="dataHover block7">
+                    <table></table>
+                  </div>
+                </div>
+
+              </div>
+            </td>
+            <td>
+              <div class="filpCard_wrapper">
+                <div id="block8" class="dataActive block8">
+                  <div class="panel-top hidddiv">
+                    今日泊位在线率
+                  </div>
+                  <div class="panel-split hidddiv"></div>
+                  <div class="panel-middle hidddiv">
+                    <span class="panel-value" data-to="385.00" data-speed="1500"> {{(dayOnlineCarportCount*100)/dayCarportCount|number:1}}%</span>&nbsp;
+                  </div>
+                  <div class="panel-bottom hidddiv">
+                    总泊位在线率&nbsp;<b>{{(dayOnlineCarportCount*100)/dayCarportCount|number:1}}%</b>&nbsp;
+                  </div>
+                  <div class="dataHover block8">
+
+                  </div>
+                </div>
+
+              </div>
+            </td>
+            <td>
+              <div class="filpCard_wrapper">
+                <div id="block9" class="dataActive block9">
+                  <div class="panel-top hidddiv">
+                    今日泊位饱和度
+                  </div>
+                  <div class="panel-split hidddiv"></div>
+                  <div class="panel-middle hidddiv">
+                    <span class="panel-value" data-to="1.00" data-speed="1500">{{(1-(dayCarportLeftCount/dayCarportCount))*100|number:1}}%</span>&nbsp;
+                  </div>
+                  <div class="panel-bottom hidddiv">
+                    总泊位饱和度&nbsp;<b>{{(1-(dayCarportLeftCount/dayCarportCount))*100|number:1}}%</b>&nbsp;
+                  </div>
+                  <div class="dataHover block9">
+
+                  </div>
+                </div>
+
+              </div>
+            </td>
+            <td>
+              <div class="filpCard_wrapper">
+                <div id="block10" class="dataActive block10">
+                  <div class="panel-top hidddiv">
+                    今日泊位周转率
+                  </div>
+                  <div class="panel-split hidddiv"></div>
+                  <div class="panel-middle hidddiv">
+                    <span class="panel-value" data-to="330.00" data-speed="1500">{{dayOnlineCarportCount>0?(dayOutCount*100/dayOnlineCarportCount|number:1):0}}%</span>&nbsp;
+                  </div>
+                  <div class="panel-bottom hidddiv">
+                    总泊位周转率&nbsp;<b>{{(dayOnlineCarportCount>0?(dayOutCount*100/dayOnlineCarportCount|number:1):0)}}%</b>&nbsp;
+                  </div>
+                  <div class="dataHover block10">
+
+                  </div>
+                </div>
+
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <h1 class="dataH1" style="padding: 20px 0 0px 20px;">各区收费分析</h1>
+      <div class="data_wrapper" style="padding-top:20px">
+        <table id="tbReport" class="indexData" style="width:100%" ng-click="toParkInfo()">
+          <tr>
+            <td>市</td>
+            <td>应收额</td>
+            <td>实收额</td>
+            <td>欠费</td>
+            <td>入场数</td>
+            <td>出场数</td>
+            <td>经营中心</td>
+            <td>街道数</td>
+            <td>站点总数</td>
+            <td>在线站点</td>
+            <td>总泊位</td>
+            <td>在线泊位</td>
+            <td>剩余泊位</td>
+          </tr>
+          <tr ng-repeat="zoneCenter in zoneCenters">
+            <td><a href='#'>{{zoneCenter.zonename|limitTo:5}}</a></td>
+            <td>{{zoneCenter.amountmoney}}</td>
+            <td>{{zoneCenter.realmoney}}</td>
+            <td>{{(zoneCenter.amountmoney-zoneCenter.realmoney)>0?(zoneCenter.amountmoney-zoneCenter.realmoney):0}}</td>
+            <td>{{zoneCenter.entrancecount}}</td>
+            <td>{{zoneCenter.outcount}}</td>
+            <td>{{zoneCenter.areacount}}</td>
+            <td>{{zoneCenter.streetcount}}</td>
+            <td>{{zoneCenter.parkcount}}</td>
+            <td>{{zoneCenter.onlineparkcount}}</td>
+            <td>{{zoneCenter.carportcount}}</td>
+            <td>{{zoneCenter.onlinecarportcount}}</td>
+            <td>{{zoneCenter.carportleftcount>0?zoneCenter.carportleftcount:0}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- 首页效果 end -->
+
+<script src="Scripts/sHover.min.js"></script>
+<script src="Scripts/jquery.numbermodel.js"></script>
+<script src="Scripts/jquery.jBox.src.js"></script>
+<script src="Scripts/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="Scripts/ECharts/echarts-plain.js"></script>
+<script type="text/javascript" src="Scripts/ECharts/macarons.js"></script>
+<!-- 停车支付方式总次数趋势图 -->
+<script type="text/javascript">
+  function GetLastHalfMonthReport() {
+    var myChart = echarts.init(document.getElementById("divLastHalfMonthReport"));
+    myChart.setTheme(macarons());
+    myChart.showLoading({
+      text: '正在查询数据...',
+      effect: 'whirling'
+    });
+    var msg = "{&quot;MainIndex&quot;:[{&quot;Time&quot;:&quot;6月9日&quot;,&quot;RechargePrice&quot;:&quot;0&quot;,&quot;PayCount&quot;:&quot;0&quot;,&quot;UserCount&quot;:&quot;0&quot;},{&quot;Time&quot;:&quot;6月10日&quot;,&quot;RechargePrice&quot;:&quot;0&quot;,&quot;PayCount&quot;:&quot;0&quot;,&quot;UserCount&quot;:&quot;0&quot;},{&quot;Time&quot;:&quot;6月11日&quot;,&quot;RechargePrice&quot;:&quot;0&quot;,&quot;PayCount&quot;:&quot;0&quot;,&quot;UserCount&quot;:&quot;0&quot;},{&quot;Time&quot;:&quot;6月12日&quot;,&quot;RechargePrice&quot;:&quot;0&quot;,&quot;PayCount&quot;:&quot;0&quot;,&quot;UserCount&quot;:&quot;0&quot;},{&quot;Time&quot;:&quot;6月13日&quot;,&quot;RechargePrice&quot;:&quot;0&quot;,&quot;PayCount&quot;:&quot;0&quot;,&quot;UserCount&quot;:&quot;0&quot;},{&quot;Time&quot;:&quot;6月14日&quot;,&quot;RechargePrice&quot;:&quot;0&quot;,&quot;PayCount&quot;:&quot;0&quot;,&quot;UserCount&quot;:&quot;0&quot;},{&quot;Time&quot;:&quot;6月15日&quot;,&quot;RechargePrice&quot;:&quot;0&quot;,&quot;PayCount&quot;:&quot;0&quot;,&quot;UserCount&quot;:&quot;0&quot;},{&quot;Time&quot;:&quot;6月16日&quot;,&quot;RechargePrice&quot;:&quot;0&quot;,&quot;PayCount&quot;:&quot;0&quot;,&quot;UserCount&quot;:&quot;0&quot;},{&quot;Time&quot;:&quot;6月17日&quot;,&quot;RechargePrice&quot;:&quot;0&quot;,&quot;PayCount&quot;:&quot;0&quot;,&quot;UserCount&quot;:&quot;0&quot;},{&quot;Time&quot;:&quot;6月18日&quot;,&quot;RechargePrice&quot;:&quot;0&quot;,&quot;PayCount&quot;:&quot;0&quot;,&quot;UserCount&quot;:&quot;0&quot;},{&quot;Time&quot;:&quot;6月19日&quot;,&quot;RechargePrice&quot;:&quot;0&quot;,&quot;PayCount&quot;:&quot;0&quot;,&quot;UserCount&quot;:&quot;0&quot;},{&quot;Time&quot;:&quot;6月20日&quot;,&quot;RechargePrice&quot;:&quot;0&quot;,&quot;PayCount&quot;:&quot;0&quot;,&quot;UserCount&quot;:&quot;0&quot;},{&quot;Time&quot;:&quot;6月21日&quot;,&quot;RechargePrice&quot;:&quot;0&quot;,&quot;PayCount&quot;:&quot;0&quot;,&quot;UserCount&quot;:&quot;0&quot;},{&quot;Time&quot;:&quot;6月22日&quot;,&quot;RechargePrice&quot;:&quot;0&quot;,&quot;PayCount&quot;:&quot;0&quot;,&quot;UserCount&quot;:&quot;0&quot;},{&quot;Time&quot;:&quot;6月23日&quot;,&quot;RechargePrice&quot;:&quot;0&quot;,&quot;PayCount&quot;:&quot;0&quot;,&quot;UserCount&quot;:&quot;0&quot;},{&quot;Time&quot;:&quot;6月24日&quot;,&quot;RechargePrice&quot;:&quot;0&quot;,&quot;PayCount&quot;:&quot;0&quot;,&quot;UserCount&quot;:&quot;0&quot;},{&quot;Time&quot;:&quot;6月25日&quot;,&quot;RechargePrice&quot;:&quot;0&quot;,&quot;PayCount&quot;:&quot;0&quot;,&quot;UserCount&quot;:&quot;0&quot;},{&quot;Time&quot;:&quot;6月26日&quot;,&quot;RechargePrice&quot;:&quot;0&quot;,&quot;PayCount&quot;:&quot;0&quot;,&quot;UserCount&quot;:&quot;0&quot;},{&quot;Time&quot;:&quot;6月27日&quot;,&quot;RechargePrice&quot;:&quot;0&quot;,&quot;PayCount&quot;:&quot;0&quot;,&quot;UserCount&quot;:&quot;0&quot;},{&quot;Time&quot;:&quot;6月28日&quot;,&quot;RechargePrice&quot;:&quot;0&quot;,&quot;PayCount&quot;:&quot;0&quot;,&quot;UserCount&quot;:&quot;0&quot;},{&quot;Time&quot;:&quot;6月29日&quot;,&quot;RechargePrice&quot;:&quot;0&quot;,&quot;PayCount&quot;:&quot;0&quot;,&quot;UserCount&quot;:&quot;0&quot;},{&quot;Time&quot;:&quot;6月30日&quot;,&quot;RechargePrice&quot;:&quot;0&quot;,&quot;PayCount&quot;:&quot;0&quot;,&quot;UserCount&quot;:&quot;0&quot;},{&quot;Time&quot;:&quot;7月1日&quot;,&quot;RechargePrice&quot;:&quot;0&quot;,&quot;PayCount&quot;:&quot;0&quot;,&quot;UserCount&quot;:&quot;0&quot;},{&quot;Time&quot;:&quot;7月2日&quot;,&quot;RechargePrice&quot;:&quot;0&quot;,&quot;PayCount&quot;:&quot;0&quot;,&quot;UserCount&quot;:&quot;0&quot;},{&quot;Time&quot;:&quot;7月3日&quot;,&quot;RechargePrice&quot;:&quot;0&quot;,&quot;PayCount&quot;:&quot;0&quot;,&quot;UserCount&quot;:&quot;0&quot;},{&quot;Time&quot;:&quot;7月4日&quot;,&quot;RechargePrice&quot;:&quot;0&quot;,&quot;PayCount&quot;:&quot;0&quot;,&quot;UserCount&quot;:&quot;0&quot;},{&quot;Time&quot;:&quot;7月5日&quot;,&quot;RechargePrice&quot;:&quot;0&quot;,&quot;PayCount&quot;:&quot;0&quot;,&quot;UserCount&quot;:&quot;0&quot;},{&quot;Time&quot;:&quot;7月6日&quot;,&quot;RechargePrice&quot;:&quot;0&quot;,&quot;PayCount&quot;:&quot;0&quot;,&quot;UserCount&quot;:&quot;0&quot;},{&quot;Time&quot;:&quot;7月7日&quot;,&quot;RechargePrice&quot;:&quot;0&quot;,&quot;PayCount&quot;:&quot;0&quot;,&quot;UserCount&quot;:&quot;0&quot;},{&quot;Time&quot;:&quot;7月8日&quot;,&quot;RechargePrice&quot;:&quot;0&quot;,&quot;PayCount&quot;:&quot;0&quot;,&quot;UserCount&quot;:&quot;0&quot;},{&quot;Time&quot;:&quot;7月9日&quot;,&quot;RechargePrice&quot;:&quot;0&quot;,&quot;PayCount&quot;:&quot;0&quot;,&quot;UserCount&quot;:&quot;0&quot;}]}".replace(new RegExp('&quot;', 'gm'), '"');
+    myChart.hideLoading();
+    function GetRandomNum(Min, Max) {
+      var Range = Max - Min;
+      var Rand = Math.random();
+      return (Min + Math.round(Rand * Range));
+    }
+
+    if (msg != "") {
+      //alert(msg);
+      var MainIndex = $.parseJSON(msg).MainIndex;
+      var dd = [];
+      //日期
+      var rp = [];
+      //充值金额
+      var pp = [];
+      //交易次数
+      var uc = [];
+      //注册用户
+      for (var i = 0; i < MainIndex.length; i++) {
+        dd.push('9月' + (i + 1) + '日');
+        rp.push(9000 + GetRandomNum(1, 5000));
+        pp.push(300 + GetRandomNum(1, 500));
+        uc.push(1500 + GetRandomNum(1, 2000));
+      }
+      var option = {
+        tooltip: {
+          trigger: 'axis',
+          formatter: '{b}<br>{a}：{c}元<br>{a1}：{c1}笔<br>{a2}：{c2}人',
+          textStyle: {
+            align: 'left'
+          }
+        },
+        legend: {
+          data: ['充值金额', '新增用户', '交易次数'],
+          x: 'right',
+          selectedMode: false
+        },
+        xAxis: [{
+          type: 'category',
+          data: eval(dd)
+        }],
+        yAxis: [{
+          type: 'value',
+          name: '金额',
+          axisLabel: {
+            formatter: '{value} 元'
+          }
+        }, {
+          type: 'value'
+        }],
+        series: [{
+          name: '充值金额',
+          type: 'bar',
+          data: eval(rp)
+        }, {
+          name: '交易次数',
+          type: 'line',
+          yAxisIndex: 1,
+          data: eval(pp)
+        }, {
+          name: '新增用户',
+          type: 'line',
+          yAxisIndex: 1,
+          data: eval(uc)
+        }]
+      };
+      myChart.setOption(option);
+    }
+  }
+  GetLastHalfMonthReport();
+</script>
+
+
+</body>
+</html>

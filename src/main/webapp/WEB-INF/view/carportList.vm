@@ -1,0 +1,6 @@
+<h2>List of Carports</h2>
+<ul>
+    #foreach($carport in $carports)
+        <li><a href="carport?id=${carport.Id}">${carport.Id}</a></li>
+    #end
+</ul>

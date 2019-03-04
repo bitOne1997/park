@@ -1,0 +1,356 @@
+<link href="/park/plugins/datepicker/datepicker.css" rel="stylesheet">
+<script src="/park/script/datepicker.js"></script>
+<script src="/park/script/Area.js" type="text/javascript"></script>
+<script src="/park/script/utility.js" type="text/javascript"></script>
+<script src="/park/script/AreaData_min.js" type="text/javascript"></script>
+<script src="/park/script/posChargeDetail.js?v=1.2"></script>
+
+<div class="content-wrapper">
+	<section class="content-header">
+          <h1>
+           费用流水明细
+            <small></small>
+          </h1>
+       
+    </section>
+
+    <section class="content">
+       <div class="row">
+            <div class="col-xs-12">
+              	<div class="box">
+	                <div class="box-header">
+						<div class="panel panel-info" style="">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">停车次数排名</h3>
+                    </div>
+                    <div class="panel-body">
+                       <div id='carnumshow'></div>
+                    </div>
+                </div>
+                      
+	                </div><!-- /.box-header -->
+	                <div class="box-body"> 
+						
+					<div class="row" style="padding-top:5px">
+								
+								<div class="col-md-1">
+                                        <label class="label-control" style="float:right;padding-top:10px"> 按天导出 </label>
+								</div>
+								<div class="col-md-2">
+										<input type="text"  id="startDate" class="form-control date">									
+                                    </div>						
+								<div class="col-md-2" hidden>                                    
+                                        <input type="text"  class="form-control date">
+								</div>
+								<div class="col-md-3">
+									<select id="parkSelected" class="form-control" style="font-weight:bold">
+											#foreach( $park in $parks)
+												<option value=$park.id>$park.name</option>
+											#end
+									 </select>
+								</div>		
+								<div class="col-md-1">
+										<button  type="button" class="btn btn-info" id="getExcelByDayRange" style="float:left">导出
+                                        </button>
+                                </div>
+
+					  </div>
+					  		<div class="row" style="padding-top:15px">
+								
+								<div class="col-md-1">
+                                        <label class="label-control" style="float:right;padding-top:10px"> 按时间段 </label>
+								</div>
+								<div class="col-md-2">
+										<input type="text"  id="startDay" class="form-control date">									
+                                    </div>						
+								<div class="col-md-2" >                                    
+                                        <input type="text"  id="endDay" class="form-control date">
+								</div>
+								<div class="col-md-3">
+									<select id="parkSelected2" class="form-control" style="font-weight:bold">
+											#foreach( $park in $parks)
+												<option value=$park.id>$park.name</option>
+											#end
+									 </select>
+								</div>		
+								<div class="col-md-1">
+										<button  type="button" class="btn btn-info" id="getExcelByRange" style="float:left">导出
+                                        </button>
+                                </div>
+					  </div>
+				<div class="pull-right">
+						 <select id="parkSelected3" class="form-control" style="padding:1px;font-size:14px;height:35px" id="searchPark">
+	                		          		#foreach( $park in $parks)
+												<option value=$park.id>$park.name</option>
+											#end
+	                	</select>
+						</div>
+	                    <br/>   
+	                    <br/>    	
+						<div>
+							  <table class="table table-bordered table-hover table-condensed" id='parkTable' style="font-size:12px">
+					          
+					            <tr>
+					            
+					             <th><span style=""><input type="checkbox" /></div></th>
+										<th ><span style="padding-left:15%">Id</div></th>		
+						
+										<th><span style="padding-left:15%">车牌</div></th>									
+										<th><span style="padding-left:15%">停车场名</div></th>
+										<th><span style="padding-left:15%">车位号</div></th>
+										<th><span style="padding-left:15%">出入场</div></th>
+										<th><span style="padding-left:15%">操作员id</div></th>
+										<th><span style="padding-left:15%">终端机号</div></th>
+										<th><span style="padding-left:15%">应收费</div></th>	
+										<th><span style="padding-left:15%">押金</div></th>
+										<th><span style="padding-left:15%">补交</div></th>
+										<th><span style="padding-left:15%">返还</div></th>	
+										<th><span style="padding-left:15%">进场时间</div></th>	
+										<th><span style="padding-left:15%">离场时间</div></th>
+										
+							
+					            </tr>
+					          
+					          <tbody id="parkBody"></tbody>
+					          </table>
+    					</div>
+    				</div>
+    				<div class="box-footer clearfix">
+      					<div id='pagination'></div>
+      				</div>
+	            </div>
+            </div>
+        </div>
+
+    </section>
+						
+</div>
+
+
+
+<div class="modal fade" id="searchParkByLocation" tabindex="1" role="dialog" aria-labelledby='searchParkLoction' aria-hidden='true'>
+	<div class='modal-dialog'>
+		<div class='modal-content'>
+				<div class='modal-header'>
+				<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+				<h4 class='modal-title' id='addMacLabel'>查找停车场</h4>
+			</div>
+			<div class='modal-body'>
+			
+				<form class='form-horizontal' id='searchMacForm' role='form'>
+					<div class='form-group'>
+						<label class='col-sm-2 control-label' for='Tt'>位置</label>
+						<div class='col-sm-8'>
+							<input type='text' class='form-control' id='locationKeyWords' placeholder='地址关键字'>
+						</div>
+					</div>	
+					</form>			
+					</div>		
+					<div class="addMacResult"></div>
+			<div class='modal-footer'>
+				<button type='button' class='btn btn-default' data-dismiss='modal'>关闭</button>
+				<button id="submitSearchParkBtn" type='button' class='btn btn-primary'>查找</button>
+			</div>
+		</div>
+		</div>
+		</div>
+
+<div class="modal fade" id="addParkModal" tabindex="-1" role="dialog" aria-labelledby='addParkLabel' aria-hidden='true'>
+	<div class='modal-dialog'>
+		<div class='modal-content'>
+		
+			<div class='modal-header'>
+				<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+				<h4 class='modal-title' id='addParkLabel'>停车场信息</h4>
+			</div>
+			
+			<div class='modal-body'>
+				<form class='form-horizontal' id='addParkForm' role='form'>
+					<div class='form-group'>
+						<label class='col-sm-2 control-label' for='parkName'>名称</label>
+						<div class='col-sm-8'>
+							<input type='text' class='form-control' id='parkName' placeholder='请输入名称'>
+						</div>
+					</div>
+					<div class='form-group'>
+						<label class='col-sm-2 control-label' for='channelCount'>进出口数</label>
+						<div class='col-sm-8'>
+							<input type='text' class='form-control' id='channelCount' placeholder='请输入进出口数'>
+						</div>
+					</div>
+					<div class='form-group'>
+						<label class='col-sm-2 control-label' for='portCount'>车位数</label>
+						<div class='col-sm-8'>
+							<input type='text' class='form-control' id='portCount' placeholder='请输入车位数'>
+						</div>
+					</div>
+					<div class='form-group'>
+						<label class='col-sm-2 control-label' for='leftPortCount'>剩余车位数</label>
+						<div class='col-sm-8'>
+							<input type='text' class='form-control' id='leftPortCount' placeholder='请输入剩余车位数'>
+						</div>
+					</div>
+					<div class='form-group'>
+						<label class='col-sm-2 control-label' for='contact'>联系人</label>
+						<div class='col-sm-8'>
+							<input type='text' class='form-control' id='contact' placeholder='联系人'>
+						</div>
+					</div>
+					<div class='form-group'>
+						<label class='col-sm-2 control-label' for='number'>联系人电话</label>
+						<div class='col-sm-8'>
+							<input type='text' class='form-control' id='number' placeholder='联系人电话'>
+						</div>
+					</div>
+					
+					<!--
+					<div class='form-group'>
+						<form method='post' id = "pictureForm" action="/upload" enctype="multipart/form-data">
+						<label class='col-sm-2 control-label' for='picture'>停车场图片</label>
+						<div class='col-sm-8'>
+							<input type='file'  id='picture' />		
+						</div>
+					</div>
+					
+					<div class='form-group'>
+						<label class='col-sm-2 control-label' for='pictureBtn'></label>
+						<div class='col-sm-8'>
+						<input type='hidden' class='form-control' id='pictureUri'>
+						<button  id='pictureBtn'>上传</button>
+						</div>
+					</div>
+					-->
+					
+					
+					<div class='form-group'>
+						<label class='col-sm-2 control-label' for='chargeDaytime'>计费标准(白天)</label>
+						<div class='col-sm-8'>
+							<input type='text' class='form-control' id='chargeDaytime' placeholder='请输入计费标准(白天)'>
+						</div>
+					</div>
+					<div class='form-group'>
+						<label class='col-sm-2 control-label' for='chargeNight'>计费标准(晚上)</label>
+						<div class='col-sm-8'>
+							<input type='text' class='form-control' id='chargeNight' placeholder='请输入计费标准(晚上)'>
+						</div>
+					</div>
+					<div class='form-group'>
+						<label class='col-sm-2 control-label' for='status'>状态</label>
+						<div class='col-sm-8'>
+							<select class='form-control' id='parkStatus'>
+								<option value=0>可用</option>
+								<option value=1>不可用</option>
+							</select>
+						</div>
+					</div>
+					<div class='form-group'>
+						<div class='col-sm-offset-2 col-sm-8'>
+							<div class='checkbox'>
+								<label >
+									<input type='checkbox' id='isFree'>免费
+								</label>
+							</div>
+						</div>
+					</div>
+					<div class='form-group'>
+						<label class='col-sm-2 control-label' for='floorCount'>楼层数</label>
+						<div class='col-sm-8'>
+							<input type='text' class='form-control' id='floorCount' placeholder='请输入楼层数'>
+						</div>
+					</div>
+					<div class='form-group'>
+						<label class='col-sm-2 control-label' for='parkType'>类型</label>
+						<div class='col-sm-8'>
+							<select class='form-control' id='parkType'>
+								<option value=0>室内停车场</option>
+								<option value=1>室外停车场</option>
+								<option value=3>路边停车场</option>
+								<option value=4>充电桩</option>
+								<option value=2>其它</option>
+							</select>
+						</div>
+					</div>
+					<div class='form-group'>
+						<label class='col-sm-2 control-label' for='position'>位置</label>
+						<div class='col-sm-8'>
+							<select id="seachprov" name="seachprov" onChange="changeComplexProvince(this.value, sub_array, 'seachcity', 'seachdistrict');"></select>&nbsp;
+<select id="seachcity" name="homecity" onChange="changeCity(this.value,'seachdistrict','seachdistrict');"></select>&nbsp;
+<span id="seachdistrict_div"><select id="seachdistrict" name="seachdistrict"></select></span>&nbsp;<input style="width:80px;" type='text'  id="positionlast">
+						</div>
+					</div>
+					<div class='form-group'>
+						<label class='col-sm-2 control-label' for='longitude'>经度</label>
+						<div class='col-sm-8'>
+							<input type='text' class='form-control' id='longitude' placeholder='请输入停车场经度'>
+						</div>
+					</div>
+					<div class='form-group'>
+						<label class='col-sm-2 control-label' for='latitude'>纬度</label>
+						<div class='col-sm-8'>
+							<input type='text' class='form-control' id='latitude' placeholder='请输入停车场纬度'>
+						</div>
+					</div>
+					<div class='form-group'>
+						<label class='col-sm-2 control-label' for='mapAddr'>地图地址</label>
+						<div class='col-sm-8'>
+							<input type='text' class='form-control' id='mapAddr' placeholder='请输入停车场地图地址'>
+						</div>
+					</div>
+					<div id='addParkResult'>						
+					</div>
+			</div>
+			
+			<div class='modal-footer'>
+				<button type='button' class='btn btn-default' data-dismiss='modal'>关闭</button>
+				<button id="submitParkBtn" type='button' class='btn btn-primary'>提交</button>
+			</div>
+			
+		</div>
+	</div>
+</div>
+
+
+<div class="modal fade" id="uploadParkPic" tabindex="-1" role="dialog" aria-labelledby='uploadParkPicLabel' aria-hidden='true'>
+	<div class='modal-dialog'>
+		<div class='modal-content'>
+			<div class='modal-header'>
+				<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+				<h4 class='modal-title' id='uploadParkPicLabel'>上传停车场图片</h4>
+			</div>			
+			<div class='modal-body'>
+			<form></form>
+				<form method='post' class='form-horizontal' role='form' id = "pictureForm" action="/park/upload/parkPic" enctype="multipart/form-data">
+					<div class='form-group'>
+						<input name="parkId" type="hidden" id="parkId" />
+						<label class='col-sm-3 control-label' for='picture'>停车场图片</label>
+						<div class='col-sm-6'>
+							<input type='file'  name="picture" class='form-control' id='picture' />		
+						</div>
+					</div>
+				</form>
+			</div>
+			
+			<div class='modal-footer'>
+				<button type='button' class='btn btn-default' data-dismiss='modal'>关闭</button>
+				<button id="submitPicBtn" type='button' class='btn btn-primary'>提交</button>
+			</div>
+		</div>
+	</div>
+</div>		
+					
+<div id='showMessage'>
+</div>
+
+<div id='showErrorMessage'>
+</div>
+
+<div id='showPicture'>
+</div>
+
+<script>
+$(document).ready(function(){
+	initComplexArea('seachprov', 'seachcity', 'seachdistrict', area_array, sub_array, '44', '0', '0');
+	$.fn.park.initial()
+});
+
+</script>

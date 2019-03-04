@@ -1,0 +1,170 @@
+<script src="/park/script/repair.js"></script>
+
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>
+			维护工单 <small></small>
+		</h1>
+	</section>
+	<section class="content">
+		<div class="row">
+			<div class="col-xs-12" style="padding: 0 5px 0 5px;">
+				<div class="box">
+					<div class="box-header">
+						<h3 class="box-title"></h3>
+					</div>
+					<!-- /.box-header -->
+					<div class="box-body" style="padding: 0px;">
+						<div class="btn-group" style="margin-left: 10px;">
+
+							<button id="refresh" type="button" class="btn btn-info"
+								style="border-radius: 25px; margin-right: 5px;">
+								<span class="glyphicon glyphicon-refresh"></span> 刷新
+							</button>
+							<button id='addRecord' type="button" class="btn btn-primary"
+								style="border-radius: 25px; margin-right: 5px;">
+								<span class="glyphicon glyphicon-pencil"></span> 添加
+							</button>
+							<button id='updateRecord' type="button" class="btn btn-warning"
+								style="border-radius: 25px; margin-right: 5px;">
+								<span class="glyphicon glyphicon-edit"></span> 更新
+							</button>
+							<button id='deleteRecord' type="button" class="btn btn-danger"
+								style="border-radius: 25px; margin-right: 5px;">
+								<span class="glyphicon glyphicon-remove"></span> 删除
+							</button>
+						</div>
+
+						<div style="padding-top: 15px">
+							<table
+								class="table table-hover table-striped table-condensed text-center"
+								id='repairTable' style="font-size: 12px">
+								<tr class="info" style="height: 30px; line-height: 30px;">
+									<th><span><input type="checkbox" /> </span></th>
+									<th><span>工单Id </span></th>
+									<th><span>设备类型 </span></th>
+									<th><span>故障类型 </span></th>
+									<th><span>位置 </span></th>
+									<th><span>所属停车场 </span></th>
+									<th><span>上报人 </span></th>
+									<th><span>处理人 </span></th>
+									<th><span>添加时间 </span></th>
+									<th><span>工单状态 </span></th>
+									<th><span>内容 </span></th>
+								</tr>
+								<tbody id="repairBody"></tbody>
+							</table>
+						</div>
+					</div>
+					<div class="box-footer clearfix">
+						<div id='pagination'></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+
+
+<div class="modal fade" id="addRecordModal" tabindex="-1" role="dialog"
+	aria-labelledby='addParkLabel' aria-hidden='true'>
+	<div class='modal-dialog'>
+		<div class='modal-content'>
+
+			<div class='modal-header'>
+				<button type='button' class='close' data-dismiss='modal'
+					aria-hidden='true'>&times;</button>
+				<h3 class='modal-title text-center' id='addParkLabel'>维修工单信息</h3>
+			</div>
+
+			<div class='modal-body'>
+				<form class='form-horizontal' id='addRepairForm' role='form'>
+					<div class='form-group'>
+						<label class='col-sm-2 control-label' for='hardwaretype'>设备类型</label>
+						<div class='col-sm-3'>
+							<select class='form-control' id='hardwaretype'>
+								<option value=0>车流量探测器</option>
+								<option value=1>停车位探测器</option>
+								<option value=2>剩余车位发布器</option>
+							</select>
+						</div>
+						<label class='col-sm-2 control-label' for='faulttype'>故障类型</label>
+						<div class='col-sm-3'>
+							<select class='form-control' id='faulttype'>
+								<option value=0>有车显示无车</option>
+								<option value=1>拒绝付费</option>
+								<option value=2>收费员不在场</option>
+								<option value=3>未停车入位</option>
+								<option value=4>收费员未带工作牌</option>
+								<option value=9>其它</option>
+							</select>
+						</div>
+					</div>
+					<div class='form-group'>
+						<label class='col-sm-2 control-label' for='location'>位置</label>
+						<div class='col-sm-3'>
+							<input type='text' class='form-control' id='location'
+								placeholder='位置'>
+						</div>
+						<label class='col-sm-2 control-label' for='parkName'>属停车场</label>
+						<div class='col-sm-3'>
+							<select class='form-control' id='parkName'>
+
+							</select>
+						</div>
+					</div>
+					<div class='form-group'>
+						<label class='col-sm-2 control-label' for='submitworker'>上报人</label>
+						<div class='col-sm-3'>
+							<input type='text' class='form-control' id='submitworker'
+								placeholder='上报人'>
+						</div>
+						<label class='col-sm-2 control-label' for='solveworker'>处理人</label>
+						<div class='col-sm-3'>
+							<input type='text' class='form-control' id='solveworker'
+								placeholder='处理人'>
+						</div>
+					</div>
+					<div class='form-group'>
+						<label class='col-sm-2 control-label' for='status'>工单状态</label>
+						<div class='col-sm-8'>
+							<select class='form-control' id='status'>
+								<option value=0>未处理</option>
+								<option value=1>已处理</option>
+							</select>
+						</div>
+					</div>
+					<div class='form-group'>
+						<label class='col-sm-2 control-label' for='description'>内容</label>
+						<div class='col-sm-8'>
+							<textarea class='form-control' rows="3" id='description'
+								placeholder='内容'></textarea>
+						</div>
+					</div>
+
+
+					<div id='addParkResult'></div>
+			</div>
+
+			<div class='modal-footer'>
+				<button type='button' class='btn btn-default' data-dismiss='modal'>关闭</button>
+				<button id="submitBtn" type='button' class='btn btn-primary'>提交</button>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+
+
+<div id='showMessage'></div>
+
+<div id='showErrorMessage'></div>
+
+
+
+<script>
+	$(document).ready(function() {
+		$.fn.repair.initial();
+	});
+</script>

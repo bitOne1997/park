@@ -1,0 +1,227 @@
+<link href="/park/plugins/datepicker/datepicker.css" rel="stylesheet">
+<link href="/park/css/xx_list_admin.css" rel="stylesheet"/>
+<script src="/park/script/utility.js"></script>
+<script src="/park/script/datepicker.js"></script>
+<script src="http://echarts.baidu.com/build/dist/echarts-all.js"></script>
+<script src="/park/script/outsideParkStatusAdmin.js?v=2.8"></script>
+<div class="content-wrapper" ng-app="outsideParkStatusApp" ng-controller="outsideParkStatusCtrl">
+<section class="content-header">
+          <h1>
+			今日停车分析
+            <small></small>
+          </h1>        
+    </section>
+	
+<section class="content">
+	<div class="row">
+	<div class="col-md-3">
+	<label class="control-label" >所属市</label>
+	<select class="form-control" ng-options="zoneCenter.id as zoneCenter.name for zoneCenter in zoneCenters" ng-model="zoneCenterId" ng-change="getArea()"></select>
+	</div>
+	<div class="col-md-3">
+	<label class="control-label" >所属区</label>
+	<select class="form-control" ng-options="area.id as area.name for area in areas" ng-change="getStreets()" ng-model="areaId"></select>  
+	</div>
+	<div class="col-md-3">
+	<label class="control-label" >所属路段</label>
+	<select class="form-control" ng-options="street.id as street.name for street in streets" ng-model="streetid" ng-change="getParks(streetid)"></select>
+	</div>
+	<div class="col-md-3">
+	<label class="control-label" >所属停车场</label>
+	<select class="form-control" ng-options="park.value as park.name for park in parks" ng-model="parkid" ng-change="selectPosdataByParkAndRange()"></select>
+	</div>
+	</div>
+	<!--<div class="xx-list">-->
+		<!--<ul class="float-fix">-->
+				<!--<li>-->
+				<!--<p>停车场名：</p>-->
+				<!--<span>{{selectedParkName|limitTo:9}}{{selectedParkName.length>9?'...':''}}</span>-->
+			<!--</li>-->
+			<!--<li>-->
+				<!--<p>停车场编号：</p>-->
+				<!--<span ng-bind="selectedParkNum"></span>-->
+			<!--</li>-->
+			<!--<li>-->
+				<!--<p>负责人姓名：</p>-->
+				<!--<span ng-bind="principalName"></span>-->
+			<!--</li>-->
+			<!--<li>-->
+				<!--<p>联系电话：</p>-->
+				<!--<span ng-bind="contactNumber"></span>-->
+			<!--</li>-->
+		<!--</ul> -->
+		<!--<ul class="float-fix">-->
+		<!--<li>-->
+				<!--<p>在线泊位数：</p>-->
+				<!--<span ng-bind="carportsCount"></span>-->
+			<!--</li>-->
+			<!--<li >-->
+				<!--<p>在停车辆数：</p>-->
+				<!--<span >{{(carsInCount-carsOutCount)<0?0:(carsInCount-carsOutCount)}}</span>-->
+			<!--</li>-->
+			<!--<li >-->
+				<!--<p>空余泊位数：</p>-->
+				<!--<span >{{carportsCount+carsOutCount-carsInCount}}</span>-->
+			<!--</li>-->
+			<!--<li >-->
+				<!--<p>今日停车次数: </p>-->
+				<!--<span ng-bind="dayCarsCount"></span>-->
+			<!--</li>-->
+		<!--</ul> -->
+		<!--<ul class="float-fix">-->
+			<!--<li >-->
+				<!--<p>进场车辆数：</p>-->
+				<!--<span ng-bind="carsInCount"></span>-->
+			<!--</li>-->
+			<!--<li >-->
+				<!--<p>离场车辆数：</p>-->
+				<!--<span ng-bind="carsOutCount"></span>-->
+			<!--</li>-->
+			<!--<li >-->
+				<!--<p>泊位饱和度：</p>-->
+				<!--<span ng-if="carsInCount<=carsOutCount">{{(-carsInCount+carsOutCount)/carportsCount|number:2}}</span>-->
+				<!--<span ng-if="carsInCount>carsOutCount">{{(carsInCount-carsOutCount)/carportsCount|number:2}}</span>-->
+			<!--</li>-->
+			<!--<li >-->
+				<!--<p>泊位周转率：</p>-->
+				<!--<span ng-bind="dayCarsCount/carportsCount|number:2"></span>-->
+			<!--</li>-->
+		<!--</ul> -->
+		<!--<ul class="float-fix">-->
+				<!--<li id="list30">-->
+				<!--<p>应收金额（元）：</p>-->
+				<!--<span ng-bind="(dayChargeTotal|number:2)"></span>-->
+			<!--</li>-->
+			<!--<li id="list31">-->
+				<!--<p>实收金额：</p>-->
+				<!--<span ng-bind="dayRealReceiveMoney"></span>-->
+			<!--</li>-->
+			<!--<li id="list32">-->
+				<!--<p>欠费/签收金额：</p>-->
+				<!--<span></span>-->
+			<!--</li>-->
+			<!--<li id="list33">-->
+				<!--<p>实收比例：</p>-->
+				<!--<span>{{(dayRealReceiveMoney/dayChargeTotal|number:2)}}</span>-->
+			<!--</li>-->
+		<!--</ul> -->
+		<!--<ul class="float-fix">-->
+			<!--<li id="list40">-->
+				<!--<p>现金支付（元）：</p>-->
+				<!--<span></span>-->
+			<!--</li>-->
+			<!--<li id="list41">-->
+				<!--<p>刷卡金额：</p>-->
+				<!--<span></span>-->
+			<!--</li>-->
+			<!--<li id="list42">-->
+				<!--<p>停车专卡刷卡金额（元）：</p>-->
+				<!--<span></span>-->
+			<!--</li>-->
+			<!--<li id="list43">-->
+				<!--<p></p>-->
+				<!--<span></span>-->
+			<!--</li>-->
+		<!--</ul> -->
+	<!--</div>-->
+	
+	
+       <div class="row">
+            <div class="col-xs-12">
+              	<div class="box">
+	                <div class="box-header">
+	                  <h3 class="box-title"></h3>
+	                </div><!-- /.box-header -->
+	                <div class="box-body">  
+						<div id="chart-header">
+							<div class="row" >							
+								<div class="col-md-3"  style="display:none">
+									<div class="form-group">
+										<select id="park-select" class="form-control" style="font-weight:bold">
+											#foreach( $park in $parks)
+												<option value=$park.id>$park.name</option>
+											#end
+										</select>
+									</div>
+								</div>							
+								<div class="col-md-3">
+									<div class="form-group">
+										<label for="date" class="control-label">日期</label>
+										<input type="text" id='date' ng-model="date" ng-change="selectPosdataByParkAndRange()" class="form-control date">									
+									</div>
+								</div>								
+							</div>							
+						</div>
+
+                        
+      <div class="row" style="padding-top:25px">
+            <div class="col-lg-3 col-xs-6">
+              <!-- small box -->
+              <div class="small-box bg-aqua">
+                <div class="inner">
+                  <h3 ng-bind="dayRealReceiveMoney|number:2"></h3>
+                 
+                </div>
+                <div class="icon">
+                  <i class="ion ion-bag"></i>
+                </div>
+                <a href="#" class="small-box-footer" style="font-size:20;font-weight:bold">今日总收入&nbsp <i class="fa fa-arrow-circle-right"></i></a>
+              </div>
+            </div><!-- ./col -->
+            <div class="col-lg-3 col-xs-6">
+              <!-- small box -->
+              <div class="small-box bg-green">
+                <div class="inner">
+                  <h3 ng-bind="dayCarsCount">0</h3>
+                 
+                </div>
+                <div class="icon">
+                  <i class="ion ion-stats-bars"></i>
+                </div>
+                <a href="#" class="small-box-footer" style="font-size:20;font-weight:bold">今日停车次数&nbsp <i class="fa fa-arrow-circle-right"></i></a>
+              </div>
+            </div><!-- ./col -->
+            <div class="col-lg-3 col-xs-6">
+              <!-- small box -->
+              <div class="small-box bg-yellow">
+                <div class="inner">
+                  <h3 ng-bind="carportsCount">0</h3>
+                 
+                </div>
+                <div class="icon">
+                  <i class="ion ion-person-add"></i>
+                </div>
+                <a href="#" class="small-box-footer" style="font-size:20;font-weight:bold">总泊位数&nbsp<i class="fa fa-arrow-circle-right"></i></a>
+              </div>
+            </div><!-- ./col -->
+            <div class="col-lg-3 col-xs-6">
+              <!-- small box -->
+              <div class="small-box bg-red">
+                <div class="inner">
+                  <h3 ng-bind="dayCarsCount/carportsCount|number:2">0</h3>
+
+                </div>
+                <div class="icon">
+                  <i class="ion ion-pie-graph"></i>
+                </div>
+                <a href="#" class="small-box-footer" style="font-size:20;font-weight:bold">泊位周转率&nbsp<i class="fa fa-arrow-circle-right"></i></a>
+              </div>
+            </div><!-- ./col -->
+          </div>
+		  
+		   <div class="row" style="padding-top:25px">                       
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="parkMonth" class="control-label">选择月份</label>
+									<input type="text" ng-model="monthDate" ng-change="getParkChargeByRange()" id="parkMonth" class="form-control">									
+								</div>
+							</div>		
+                        </div>
+                <div class="row" >
+                      <div style="height:400px;width:95%;padding-left:10px" id = "chart_park_period_charge">
+                </div>
+          </div>
+	</div>
+	 </section>
+	
+</div>

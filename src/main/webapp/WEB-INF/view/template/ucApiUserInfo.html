@@ -1,0 +1,24 @@
+<div class='modal-content'>		
+	<div class='modal-header'>
+		<button type='button' class='close' ng-click="close()" aria-hidden='true'>&times;</button>
+		<h4 class='modal-title'>Token信息</h4>
+	</div>
+	
+	<div class='modal-body'>			
+		<div class='info' >
+		<p class="text-info">token内容: <b>{{info}}</b></p>
+		<p class="text-info" ng-show='showCount'>调用次数: <b>{{tokenCount}}</b></p>
+		</div>	
+		
+		<div class="alert alert-info" ng-show="(showResult || showLoader)">
+						<p  ng-show='showLoader'  skip-ng-show= "yes" ng-activity-indicator= "CircledGrey"></p>
+						<p class="text-info" ng-show='showResult'>token:{{result}}</p>
+						
+		</div>
+	</div>			
+	<div class='modal-footer'>
+		<button ng-click="close()" class='btn btn-default' >关闭</button>
+		<button ng-click="submit()" type='button' class='btn btn-primary'>确定</button>
+	</div>			
+</div>
+

@@ -1,0 +1,93 @@
+<script src="/park/script/feeOperator.js"></script>
+<script src="/park/script/service/textModalService.js"></script>
+<style>
+        .page-list .pagination {float:left;}
+        .page-list .pagination span {cursor: pointer;}
+        .page-list .pagination .separate span{cursor: default; border-top:none;border-bottom:none;}
+        .page-list .pagination .separate span:hover {background: none;}
+        .page-list .page-total {float:left; margin: 25px 20px;}
+        .page-list .page-total input, .page-list .page-total select{height: 26px; border: 1px solid #ddd;}
+        .page-list .page-total input {width: 40px; padding-left:3px;}
+        .page-list .page-total select {width: 50px;}
+</style>
+<div class="content-wrapper" ng-app="feeOperatorApp" ng-controller="feeOperatorCtrl">
+	<section class="content-header">
+          <h1>
+     巡检员管理
+            <small></small>
+          </h1>
+       
+    </section>
+
+    <section class="content">
+       <div class="row">
+            <div class="col-xs-12" style="padding:0 5px 0 5px;">
+              	<div class="box">	
+              	<div class="box-header">
+	                  <h3 class="box-title"></h3>
+	                </div><!-- /.box-header -->               
+	                <div class="box-body" style="padding:0px;">  
+					<div class="btn-group" style="margin-left:10px;">
+		                		<button #if(!$isAdmin) disabled#end  ng-click="refreshFeeOperator()" type="button" class="btn btn-info" style="border-radius:25px;margin-right:5px;"><span class="glyphicon glyphicon-refresh"></span> 刷新</button>
+		                		<button #if(!$isAdmin) disabled#end  ng-click="insertFeeOperator()" type="button" class="btn btn-primary" style="border-radius:25px;margin-right:5px;"><span class="glyphicon glyphicon-pencil"></span> 添加</button>
+		                		<button #if(!$isAdmin) disabled#end  ng-click="updateFeeOperator()" type="button" class="btn btn-warning" style="border-radius:25px;margin-right:5px;"><span class="glyphicon glyphicon-edit"></span> 更新</button>
+		                		<button #if(!$isAdmin) disabled#end  ng-click="deleteFeeOperator()" type="button" class="btn  btn-danger" style="border-radius:25px;margin-right:5px;"><span class="glyphicon glyphicon-remove"></span> 删除</button>
+		                	</div>	
+				<div class="pull-right">		
+							                	
+	                	</div>
+	                    <br/>   
+	                    <br/>    	
+						<div>
+							  <table class="table table-bordered table-hover table-condensed table-striped text-center" id='parkTable' style="font-size:12px">
+					          
+					            <tr class="info" style="height: 30px; line-height: 30px;">					            
+					             <th><span style=""><input type="checkbox" /></span></th>
+										<th><span style="padding-left:15%">Id</span></th>
+										<th><span style="padding-left:15%">操作员帐号</span></th>
+										<th><span style="padding-left:15%">操作员姓名</span></th>
+										<th><span style="padding-left:15%">联系电话</span></th>
+										<th><span style="padding-left:15%">签到状态</span></th>
+										<th><span style="padding-left:15%">上次签到时间</span></th>
+<!-- 										<th><span style="padding-left:15%">最后执勤收费点</span></th>
+ -->										<th><span style="padding-left:15%">最后执勤终端</span></th>
+										<th><span style="padding-left:15%">注册时间</span></th>
+															
+					            </tr>
+					          
+					          <tbody id="parkBody"></tbody>
+							  <tr ng-repeat="feeOperator in feeOperatores" ng-click="selectChange($index)">
+							  <td ><input type="checkbox" ng-model="feeOperator.checked" /></td>
+							  <td ng-bind="feeOperator.id"></td>
+							  <td ng-bind="feeOperator.account"></td>
+							  <td ng-bind="feeOperator.name"></td>
+							  <td ng-bind="feeOperator.phone"></td>
+							  <td ng-if="feeOperator.signstatus==false">未签到</td>
+							  <td ng-if="feeOperator.signstatus==true">已签到</td>
+							  <td ng-bind="feeOperator.lastsigndate"></td>						 
+<!-- 							  <td ng-bind="feeOperator.parkname"></td>
+ -->							  <td ng-bind="feeOperator.lastposnum"></td>
+							  <td ng-bind="feeOperator.registerdate"></td>	
+							  </tr>
+					          </table>
+    					</div>
+						 <tm-pagination conf="paginationConf"></tm-pagination>
+    				</div>
+    				<div class="box-footer clearfix">
+      					<div id='pagination'></div>
+      				</div>
+	            </div>
+            </div>
+        </div>
+
+    </section>
+						
+</div>
+
+
+
+
+<script>
+
+
+</script>

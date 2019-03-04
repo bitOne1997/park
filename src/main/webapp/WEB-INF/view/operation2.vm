@@ -1,0 +1,792 @@
+#set($layout = "loginlayout.vm")
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width" />
+<title>停车运营分析  - 智慧路边停车管理平台</title>
+<link rel="icon" href="/favicon.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+
+
+<link href="Style/layout.css" rel="stylesheet" />
+<link href="Style/Pagination.css" rel="stylesheet" />
+<link href="Style/jbox.css" rel="stylesheet" />
+<link href="Style/loadingbar.css" rel="stylesheet" />
+<link href="Style/index.css" rel="stylesheet" />
+
+<script src="Scripts/jquery-1.8.2.min.js"></script>
+<script src="Scripts/Common.js"></script>
+<script src="Scripts/jquery.pagination.js"></script>
+<script src="Scripts/jquery.jBox.src.js"></script>
+<script src="Scripts/modernizr-2.6.2.js"></script>
+
+</head>
+<body>
+
+<div class="mian-container">
+  <div class="page-content page_Mleft">
+    <div class="container-fluid">
+      <!-- Right -->
+
+      <!--停车概况部分-->
+      <div class="Report_Survey">
+        <h1 class="dataH1">今日停车概况（截至
+          <label>2016-07-12 22:54:01</label>）</h1>
+        <div id="divSurey" style="text-align: left; margin-left: 30px; margin-top:20px;height:80px;">
+          <div class="dinfo" style="text-align: center;width: 25%;">
+            运营泊位总数（个）<span class="ii"><img src="Images/Loading.gif" /></span>
+          </div>
+          <div class="dinfo" style="text-align: center;width: 25%;">
+            当前有车泊位数（个）<span class="ii"><img src="Images/Loading.gif" /></span>
+          </div>
+          <div class="dinfo" style="text-align: center;width: 25%;">
+            当前泊位使用率<span class="ii"><img src="Images/Loading.gif" /></span>
+          </div>
+          <div class="dinfo" style="text-align: center;width: 25%;">
+            当前泊位空置率<span class="ii"><img src="Images/Loading.gif" /></span>
+          </div>
+        </div>
+      </div>
+      <!--搜索框部分-->
+      <div class="selectBox">
+        <div class="selectBoxLine">
+          <span class="word">年份：</span><select id="ddlYear" class="input_select">
+            <option value="2016" selected>2016</option>
+            <option value="2015">2015</option>
+            <option value="2014">2014</option>
+          </select>
+          <span class="word">月份：</span><select id="ddlMonth" class="input_select">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7" selected>7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+          </select><input type="button" value="统  计" id="btnSearch" onclick="search()" class="search">
+        </div>
+      </div>
+      <!--当月泊位占用率-->
+      <div id="divMonthBerthOccupany" class="Report_Banner">
+      </div>
+      <!--占比分析-->
+      <table class="Report_BannerT">
+        <tr>
+          <td>
+            <div id="divPayPie" class="tinfo"></div>
+          </td>
+          <td>
+            <div id="divPeriodoftimeCountsPie" class="tinfo"></div>
+          </td>
+          <td>
+            <div id="divDayParkingCountsPie" class="tinfo"></div>
+          </td>
+        </tr>
+      </table>
+      <!--当月停车明细统计-->
+      <div style="margin-bottom: 20px;">
+        <table id="tbOrder" class="indexData" style="width: 100%;">
+          <tr>
+            <th style="width: 10%;">日期</th>
+            <th style="width: 20%;">停车总次数</th>
+            <th style="width: 15%;">交易总次数</th>
+            <th style="width: 12%;">小于30分钟</th>
+            <th style="width: 12%;">30-60分钟</th>
+            <th style="width: 16%;">1-2小时</th>
+            <th style="width: 15%;">2小时以上</th>
+          </tr>
+          <tr>
+            <td colspan="8" id="data">数据加载中...</td>
+          </tr>
+        </table>
+      </div>
+      <div style="display: none; position: absolute; margin-right: 20px;" id="divTitle">
+        <table class="indexData" style="width: 100%;">
+          <tr style="background-color: #fff;">
+            <th style="width: 10%;">日期</th>
+            <th style="width: 20%;">停车总次数</th>
+            <th style="width: 15%;">交易总次数</th>
+            <th style="width: 12%;">小于30分钟</th>
+            <th style="width: 12%;">30-60分钟</th>
+            <th style="width: 16%;">1-2小时</th>
+            <th style="width: 15%;">2小时以上</th>
+          </tr>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- js 控制左边菜单栏-->
+<script type="text/javascript">     
+$(".sidebar-toggler").click(
+    function () {
+    if ($(".leftNav").width() == "216") {
+    $(".leftNav").css("width", "40");
+    $(".page-content").css("margin-left", "40px");
+    $(".sidebar-toggler").addClass("sidebar-toggler-closed");
+    $(".leftNav-menu  span").css("display", "none");
+    $(".sub-menu").css("display", "none");
+    $(".arrow").css("display", "none");
+    $(".sublock").css("padding", "10px");
+    $(".sub-menu a").css("width", "85px");
+    $(".sublock").css("width", "20px");
+    }
+    else {
+    $(".leftNav").css("width", "216px");
+    $(".page-content").css("margin-left", "216px");
+    $(".sidebar-toggler").removeClass("sidebar-toggler-closed");
+    $(".leftNav-menu span").css("display", "inline-block");
+    $(".arrow").css("display", "inline-block");
+    $(".sub-menu a").css("width", "130px");
+    $(".sub-menu a").css("padding", "10px 20px 10px 65px");
+    $(".sublock").css("width", "195px");
+    }
+    }
+);
+
+//加载线完成
+$("#loadingbar").css("display", "block")
+$("#loadingbar").width("100.4%").delay(1000);
+
+//2秒后隐藏loginbar函数
+setTimeout('UnShowLoginBar()', 1000);
+//隐藏loginbar函数
+function UnShowLoginBar() {
+  $("#loadingbar").css("display", "none");
+}
+
+$(document).ready(function (e) {
+    //收缩列表
+    if ($(".leftNav").width() == "40") {
+    $(".leftNav-menu  li").hover(
+      function () {
+      $(this).css("width", "200px");
+      }
+      )
+    }
+    $(".sub-menu").hide();
+    var nowF = "3";
+    var nowM = "80";
+
+    //加载一级菜单选中样式
+    if (nowF != "")
+    $(".main_menu #" + nowF).addClass("pitch_on");
+    else
+    $(".main_menu li:eq(0) a").addClass("pitch_on");
+
+    //点击列表效果
+    var sub_menu = $(".sub-menu");
+    var all_sublock = $(".sublock")
+      var li_arrow = $(".leftNav-menu li .arrow");
+    $(".leftNav-menu li a[class='sublock'] ").click(
+        function () {
+        sub_menu.slideUp(200);
+        li_arrow.removeClass("arrow_down");
+        if ($(this).attr("data-select") == "0") {
+        all_sublock.attr("data-select", "0");
+        $(this).attr("data-select", "1").next().stop(true, true).slideToggle(200);
+        $(this).find("i:eq(1)").toggleClass("arrow_down");
+        }
+        else if ($(this).attr("data-select") == "1") {
+        $(this).attr("data-select", "0");
+        }
+        return false;
+        }
+        );
+    //加载二、三级菜单选中样式
+    if (nowM != "") {
+      $(".sub-menu a[id=" + nowM + "]").addClass("sub-men-toggler");
+      var sub = $(".sub-menu a[id=" + nowM + "]").parent().parent().parent().find("a[class='sublock']");
+    }
+    else {
+      $(".sub-menu a:eq(0)").addClass("sub-men-toggler");
+      var sub = $(".sub-menu a:eq(0)").parent().parent().parent().find("a[class='sublock']");
+    }
+    $(sub).attr("data-select", "1").next().stop(true, true).show();
+    $(sub).find("i:eq(1)").toggleClass("arrow_down");
+    $(".leftNav-menuLi").hover(function (e) {
+        if ($(".leftNav").width() == "40") {
+        $(this).addClass("opened");
+        $(this).find("ul").css("display", "block");
+        $(this).find("ul").addClass("openedUl");
+        $(this).find("a").addClass("openedA");
+        $(this).find(".sublock  span").css("display", "inline-block");
+        $(this).find(".sublock  span").addClass("hoverSpan");
+        $(this).find(".sublock").css("width", "180px");
+        $(this).find(".sublock").css("border", "0");
+        $(this).find(".sub-menu a").css("padding", "10px 30px 10px 55px");
+        }
+        },
+        function () {
+        if ($(".leftNav").width() == "40") {
+        $(this).removeClass("opened");
+        $(this).find("ul").css("display", "none");
+        $(this).find("ul").removeClass("openedUl");
+        $(this).find("a").removeClass("openedA");
+        $(this).find(".sublock span").css("display", "none");
+        $(this).find(".sublock span").removeClass("hoverSpan");
+        $(this).find(".sublock").css("width", "20px");
+        $(this).find(".sublock").css({ "border-top": "1px solid #e9e9e9" });
+        }
+        }
+    )
+});
+
+//修改个人资料
+$("#userEdit").click(function () {
+    var userId = $.trim($("#userId").val());
+    var userName = $.trim($("#userName").val());
+    openNewWindow('/SystemArea/System/UserEdit?type=editPersonal&userId=' + userId + "&userName=" + userName, '', 870, 340);
+    return false;
+    });
+//修改密码
+$("#pwdEdit").click(function () {
+
+    openhtml("/SystemArea/System/UserPwdEdit?type=editPersonal", "密码修改", 492, 334);
+    return false;
+    });
+
+//用户退出
+$("#userexit").click(function () {
+
+    var submit = function (v, h, f) {
+    if (v == false) {
+    window.jBox.close();
+    return;
+    } else {
+
+    window.location.href = "/Home/Login?t=loginout";
+    }
+    }
+    jBox.confirm("提示：您确定退出吗?", "提示", submit, {
+showScrolling: false,
+buttons: {
+'确认': true,
+'取消': false
+}
+}, 290, 152);
+
+
+    });
+
+$(function () {
+
+    //setInterval(NoticeRead, 1800000);           
+    });
+
+
+
+
+</script>
+
+<script type="text/javascript" src="Scripts/ECharts/echarts-plain.js"></script>
+<script type="text/javascript" src="Scripts/ECharts/macarons.js"></script>
+<script type="text/ecmascript">
+$(function () {
+            var timeYear = $("#ddlYear").val();
+            var timeMonth = $("#ddlMonth").val();
+            //页面加载时
+            $.ajax({
+                url: "/park/",
+                success: function () {
+				var msg={"Parking":[{"CanUseParkingCounts":"751","TodayUseParkingCounts":"0","TodayUseRate":"38.75%","TodayNoUseRate":"61.25%","TodayTurnoverRate":"0%"}]};
+                    if (msg != null) {
+                        var m = msg;
+                        var obj = m.Parking;
+                        $("#divSurey span:eq(0)").text(comdify(obj[0].CanUseParkingCounts));
+
+                        $("#divSurey span:eq(2)").text(comdify(obj[0].TodayUseRate));
+                        $("#divSurey span:eq(3)").text(comdify(obj[0].TodayNoUseRate));
+                        //$("#divSurey span:eq(4)").text(comdify(obj[0].TodayTurnoverRate));
+                    }
+                }
+            });
+            //页面加载时
+            $.ajax({
+                url: "/park/",
+                success: function (msg) {
+				var msg=291;
+                    if (msg != null) {
+                        $("#divSurey span:eq(1)").text(comdify(msg));
+                    }
+                }
+            });
+            PayCountPic(timeYear, timeMonth);
+            GetTimeTimeSlotParkingCountsPic(timeYear, timeMonth);
+            MonthDetail(timeYear, timeMonth);
+            GetWeekParkingCountsPic(timeYear, timeMonth);
+            MonthBerthOccupany(timeYear, timeMonth);
+        });
+
+        function PayCountPic(starttime, endtime) {
+            var myChart = echarts.init(document.getElementById("divPayPie"));
+            myChart.setTheme(macarons());
+            myChart.showLoading({ text: '正在查询数据...', effect: 'whirling' });
+            $.ajax({
+                
+                url: "/park/",
+                
+                success: function () {
+                    myChart.hideLoading();
+					var msg=[{value:4,name:'逃逸欠费'},{value:5,name:'正常缴费'}];
+                    if (msg != " ") {
+                        var option1 = {
+
+                            title: {
+                                text: '停车行为占比（' + starttime + '年' + endtime + '月）',
+                                x: 'center',
+                                textStyle: {
+                                    color: '#444',
+                                    fontWeight: 'bolder',
+                                    fontFamily: 'Microsoft YaHei'
+                                }
+                            },
+                            tooltip: {
+                                trigger: 'item',
+                                formatter: '{b} :<br/>{c}笔 ({d}%)'
+                            },
+                            series: [
+                                {
+                                    type: 'pie',
+                                    radius: '60%',
+                                    itemStyle: {
+                                        normal: {
+                                            labelLine: { length: 8, show: false },
+                                            label: {
+                                                textStyle: {
+                                                    fontSize: 12,
+                                                    align: "center"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    selectedMode: 'multiple',
+                                    data: eval(msg)
+                                }
+                            ]
+                        };
+                        myChart.setOption(option1);
+                    }
+                }
+            });
+        }
+
+        function search() {
+            var timeYear = $("#ddlYear").val();
+            var timeMonth = $("#ddlMonth").val();
+
+            //GetSectionParkingCounts(timeYear, timeMonth);
+            PayCountPic(timeYear, timeMonth);
+            GetTimeTimeSlotParkingCountsPic(timeYear, timeMonth);
+            MonthDetail(timeYear, timeMonth);
+            GetWeekParkingCountsPic(timeYear, timeMonth);
+            MonthBerthOccupany(timeYear, timeMonth);
+        }
+
+        function GetTimeTimeSlotParkingCountsPic(starttime, endtime) {
+            var myChart = echarts.init(document.getElementById("divPeriodoftimeCountsPie"));
+            myChart.setTheme(macarons());
+            myChart.showLoading({ text: '正在查询数据...', effect: 'whirling' });
+            $.ajax({
+                
+                url: "/park/",
+               
+                success: function (msg) {
+                    myChart.hideLoading();
+					var msg=[{value:5,name:'小于30分钟'},{value:0,name:'30-60分钟'},{value:0,name:'1-2小时'},{value:0,name:'2小时以上'}];
+                    if (msg != " ") {
+                        var option1 = {
+                            title: {
+                                text: '正常缴费停车时长分布（' + starttime + '年' + endtime + '月）',
+                                x: 'center',
+                                textStyle: {
+                                    color: '#444',
+                                    fontWeight: 'bolder',
+                                    fontFamily: 'Microsoft YaHei'
+                                }
+                            },
+                            tooltip: {
+                                trigger: 'item',
+                                formatter: '{b} :<br/>{c}次 ({d}%)'
+                            },
+                            series: [
+                                {
+
+                                    type: 'pie',
+                                    radius: '60%',
+                                    itemStyle: {
+                                        normal: {
+                                            labelLine: { length: 10, show: false },
+                                            label: {
+                                                textStyle: {
+                                                    fontSize: 12,
+                                                    align: "center"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    selectedMode: 'multiple',
+                                    data: eval(msg)
+                                }
+                            ]
+                        };
+                        myChart.setOption(option1);
+                    }
+                }
+            });
+        }
+
+        function GetWeekParkingCountsPic(starttime, endtime) {
+            var myChart = echarts.init(document.getElementById("divDayParkingCountsPie"));
+            myChart.setTheme(macarons());
+            myChart.showLoading({ text: '正在查询数据...', effect: 'whirling' });
+            $.ajax({
+               
+                url: "/park/",
+                
+                success: function () {
+                    myChart.hideLoading();
+					var msg=[{value:3,name:'星期一'},{value:1,name:'星期二'},{value:4,name:'星期三'},{value:0,name:'星期四'},{value:1,name:'星期五'},{value:0,name:'星期六'},{value:0,name:'星期日'}];
+                    if (msg != " ") {
+                        var option1 = {
+
+                            title: {
+                                text: '每周平均停车次数占比（' + starttime + '年' + endtime + '月）',
+                                x: 'center',
+                                textStyle: {
+                                    color: '#444',
+                                    fontWeight: 'bolder',
+                                    fontFamily: 'Microsoft YaHei'
+                                }
+                            },
+                            tooltip: {
+                                trigger: 'item',
+                                formatter: '{b} :<br/>{c}次 ({d}%)'
+                            },
+                            series: [
+                                {
+                                    type: 'pie',
+                                    radius: '60%',
+                                    itemStyle: {
+                                        normal: {
+                                            labelLine: { length: 8, show: false },
+                                            label: {
+                                                textStyle: {
+                                                    fontSize: 12,
+                                                    align: "center"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    selectedMode: 'multiple',
+                                    data: eval(msg)
+                                }
+                            ]
+                        };
+                        myChart.setOption(option1);
+                    }
+                }
+            });
+        }
+        //当月停车明细
+        function MonthDetail(starttime, endtime) {
+            $("#tbOrder tr:gt(0)").remove();
+            $("#tbOrder").append('<tr><td colspan="8">数据加载中...</td></tr>');
+            $.ajax({
+                
+                url: "/park/",
+               
+                success: function () {
+                    $("#tbOrder tr:gt(0)").remove();//删除第一行数据(不包括表头)
+					var msg={"ParkReport":[{"time":"2016-07-01","EveryDayParkingCounts":"0","TotalParkingCounts":"0","HalfHourCounts":"0","HalfToAnHourCounts":"0","AnHoutToTwoHours":"0","OverTwoHours":"0"},{"time":"2016-07-02","EveryDayParkingCounts":"0","TotalParkingCounts":"0","HalfHourCounts":"0","HalfToAnHourCounts":"0","AnHoutToTwoHours":"0","OverTwoHours":"0"},{"time":"2016-07-03","EveryDayParkingCounts":"0","TotalParkingCounts":"0","HalfHourCounts":"0","HalfToAnHourCounts":"0","AnHoutToTwoHours":"0","OverTwoHours":"0"},{"time":"2016-07-04","EveryDayParkingCounts":"0","TotalParkingCounts":"0","HalfHourCounts":"0","HalfToAnHourCounts":"0","AnHoutToTwoHours":"0","OverTwoHours":"0"},{"time":"2016-07-05","EveryDayParkingCounts":"0","TotalParkingCounts":"0","HalfHourCounts":"0","HalfToAnHourCounts":"0","AnHoutToTwoHours":"0","OverTwoHours":"0"},{"time":"2016-07-06","EveryDayParkingCounts":"0","TotalParkingCounts":"0","HalfHourCounts":"0","HalfToAnHourCounts":"0","AnHoutToTwoHours":"0","OverTwoHours":"0"},{"time":"2016-07-07","EveryDayParkingCounts":"1","TotalParkingCounts":"1","HalfHourCounts":"1","HalfToAnHourCounts":"0","AnHoutToTwoHours":"0","OverTwoHours":"0"},{"time":"2016-07-08","EveryDayParkingCounts":"0","TotalParkingCounts":"0","HalfHourCounts":"0","HalfToAnHourCounts":"0","AnHoutToTwoHours":"0","OverTwoHours":"0"},{"time":"2016-07-09","EveryDayParkingCounts":"0","TotalParkingCounts":"0","HalfHourCounts":"0","HalfToAnHourCounts":"0","AnHoutToTwoHours":"0","OverTwoHours":"0"},{"time":"2016-07-10","EveryDayParkingCounts":"0","TotalParkingCounts":"0","HalfHourCounts":"0","HalfToAnHourCounts":"0","AnHoutToTwoHours":"0","OverTwoHours":"0"},{"time":"2016-07-11","EveryDayParkingCounts":"0","TotalParkingCounts":"0","HalfHourCounts":"0","HalfToAnHourCounts":"0","AnHoutToTwoHours":"0","OverTwoHours":"0"},{"time":"2016-07-12","EveryDayParkingCounts":"0","TotalParkingCounts":"0","HalfHourCounts":"0","HalfToAnHourCounts":"0","AnHoutToTwoHours":"0","OverTwoHours":"0"},{"time":"2016-07-13","EveryDayParkingCounts":"0","TotalParkingCounts":"0","HalfHourCounts":"0","HalfToAnHourCounts":"0","AnHoutToTwoHours":"0","OverTwoHours":"0"},{"time":"2016-07-14","EveryDayParkingCounts":"0","TotalParkingCounts":"0","HalfHourCounts":"0","HalfToAnHourCounts":"0","AnHoutToTwoHours":"0","OverTwoHours":"0"},{"time":"2016-07-15","EveryDayParkingCounts":"0","TotalParkingCounts":"0","HalfHourCounts":"0","HalfToAnHourCounts":"0","AnHoutToTwoHours":"0","OverTwoHours":"0"},{"time":"2016-07-16","EveryDayParkingCounts":"0","TotalParkingCounts":"0","HalfHourCounts":"0","HalfToAnHourCounts":"0","AnHoutToTwoHours":"0","OverTwoHours":"0"},{"time":"2016-07-17","EveryDayParkingCounts":"3","TotalParkingCounts":"2","HalfHourCounts":"2","HalfToAnHourCounts":"0","AnHoutToTwoHours":"0","OverTwoHours":"0"},{"time":"2016-07-18","EveryDayParkingCounts":"0","TotalParkingCounts":"0","HalfHourCounts":"0","HalfToAnHourCounts":"0","AnHoutToTwoHours":"0","OverTwoHours":"0"},{"time":"2016-07-19","EveryDayParkingCounts":"4","TotalParkingCounts":"1","HalfHourCounts":"1","HalfToAnHourCounts":"0","AnHoutToTwoHours":"0","OverTwoHours":"0"},{"time":"2016-07-20","EveryDayParkingCounts":"0","TotalParkingCounts":"0","HalfHourCounts":"0","HalfToAnHourCounts":"0","AnHoutToTwoHours":"0","OverTwoHours":"0"},{"time":"2016-07-21","EveryDayParkingCounts":"0","TotalParkingCounts":"0","HalfHourCounts":"0","HalfToAnHourCounts":"0","AnHoutToTwoHours":"0","OverTwoHours":"0"},{"time":"2016-07-22","EveryDayParkingCounts":"0","TotalParkingCounts":"0","HalfHourCounts":"0","HalfToAnHourCounts":"0","AnHoutToTwoHours":"0","OverTwoHours":"0"},{"time":"2016-07-23","EveryDayParkingCounts":"0","TotalParkingCounts":"0","HalfHourCounts":"0","HalfToAnHourCounts":"0","AnHoutToTwoHours":"0","OverTwoHours":"0"},{"time":"2016-07-24","EveryDayParkingCounts":"0","TotalParkingCounts":"0","HalfHourCounts":"0","HalfToAnHourCounts":"0","AnHoutToTwoHours":"0","OverTwoHours":"0"},{"time":"2016-07-25","EveryDayParkingCounts":"1","TotalParkingCounts":"1","HalfHourCounts":"1","HalfToAnHourCounts":"0","AnHoutToTwoHours":"0","OverTwoHours":"0"},{"time":"2016-07-26","EveryDayParkingCounts":"0","TotalParkingCounts":"0","HalfHourCounts":"0","HalfToAnHourCounts":"0","AnHoutToTwoHours":"0","OverTwoHours":"0"},{"time":"2016-07-27","EveryDayParkingCounts":"0","TotalParkingCounts":"0","HalfHourCounts":"0","HalfToAnHourCounts":"0","AnHoutToTwoHours":"0","OverTwoHours":"0"},{"time":"2016-07-28","EveryDayParkingCounts":"0","TotalParkingCounts":"0","HalfHourCounts":"0","HalfToAnHourCounts":"0","AnHoutToTwoHours":"0","OverTwoHours":"0"},{"time":"2016-07-29","EveryDayParkingCounts":"0","TotalParkingCounts":"0","HalfHourCounts":"0","HalfToAnHourCounts":"0","AnHoutToTwoHours":"0","OverTwoHours":"0"},{"time":"2016-07-30","EveryDayParkingCounts":"0","TotalParkingCounts":"0","HalfHourCounts":"0","HalfToAnHourCounts":"0","AnHoutToTwoHours":"0","OverTwoHours":"0"},{"time":"2016-07-31","EveryDayParkingCounts":"0","TotalParkingCounts":"0","HalfHourCounts":"0","HalfToAnHourCounts":"0","AnHoutToTwoHours":"0","OverTwoHours":"0"},{"time":"合计","EveryDayParkingCounts":"9","TotalParkingCounts":"5","HalfHourCounts":"5","HalfToAnHourCounts":"0","AnHoutToTwoHours":"0","OverTwoHours":"0"}]};
+                    if (msg != "") {
+                        var order = msg.ParkReport;
+                        for (var i = 0; i < order.length; i++) {
+                            $("#tbOrder").append("<tr></tr>");
+                            $("#tbOrder tr").last().append("<td>" + order[i].time + "</td>");
+                            $("#tbOrder tr").last().append("<td>" + comdify(order[i].EveryDayParkingCounts) + "</td>");
+                            $("#tbOrder tr").last().append("<td>" + comdify(order[i].TotalParkingCounts) + "</td>");
+                            $("#tbOrder tr").last().append("<td>" + comdify(order[i].HalfHourCounts) + "</td>");
+                            $("#tbOrder tr").last().append("<td>" + comdify(order[i].HalfToAnHourCounts) + "</td>");
+                            $("#tbOrder tr").last().append("<td>" + comdify(order[i].AnHoutToTwoHours) + "</td>");
+                            $("#tbOrder tr").last().append("<td>" + comdify(order[i].OverTwoHours) + "</td>");
+                            //$("#tbOrder tr").last().append("<td>" + order[i].AverageTurnoverRate + "</td>");
+                            //$("#tbOrder tr").last().append("<td>" + order[i].AverageUnUseRate + "</td>");
+                        }
+                    }
+                    else
+                        $("#tbOrder").append('<tr><td colspan="8">暂无数据！</td></tr>');
+                }
+            });
+        }
+        //当月泊位占用率
+        //function MonthBerthOccupany(stryear, strmonth) {
+        //    var myChart = echarts.init(document.getElementById("divMonthBerthOccupany"));
+        //    myChart.setTheme(macarons());
+        //    myChart.showLoading({ text: '正在查询数据...', effect: 'whirling' });
+        //    $.ajax({
+        //        type: "POST",
+        //        url: "/MapReport/Report/GetBerthOccupany",
+        //        data: { strYear: stryear, strMonth: strmonth },
+        //        success: function (msg) {
+        //            myChart.hideLoading();
+        //            if (msg != "") {
+        //                var info = JSON.parse(msg).items;
+        //                var dd = [];//日期
+        //                var pp = [];//占用率
+        //                var fulltime = [];//全日
+        //                var night = [];//夜间
+        //                var nonpeak = [];//非高峰
+        //                for (var i = 0; i < info.length; i++) {
+        //                    dd.push(info[i].Time);
+        //                    pp.push(info[i].OccupyRate);
+        //                    fulltime.push(info[i].FullTimeRate);
+        //                    night.push(info[i].NightRate);
+        //                    nonpeak.push(info[i].NonpeakRate);
+        //                }
+        //                var option = {
+        //                    title: {
+        //                        text: '泊位平均占用率（' + stryear + '年' + strmonth + '月）',
+        //                        x: '22',
+        //                        textStyle: {
+        //                            color: '#474747',
+        //                            fontSize: '16',
+        //                            fontFamily: 'Microsoft YaHei'
+        //                        }
+        //                    },
+        //                    tooltip: {
+        //                        trigger: 'axis',
+        //                        formatter: '{b} 日: {c}%'
+        //                    },
+        //                    legend: {
+        //                        data: ['泊位占用率', '全日泊位占用率', '夜间泊位占用率', '非高峰泊位占用率'],
+        //                        x: 'right'
+        //                    },
+        //                    xAxis: [{
+        //                        name: '日期',
+        //                        type: 'category',
+        //                        data: dd,
+        //                        axisLine: {
+        //                            lineStyle: {
+        //                                color: '#e2e2e2', width: 1, type: 'solid'
+        //                            }
+        //                        }
+        //                    }
+        //                    ],
+        //                    yAxis: [
+        //                        {
+        //                            type: 'value',
+        //                            name: '占用率',
+        //                            axisLabel: {
+        //                                formatter: '{value} %'
+        //                            },
+        //                            axisLine: {
+        //                                lineStyle: {
+        //                                    color: '#e2e2e2', width: 1, type: 'solid'
+        //                                }
+        //                            }
+        //                        }
+        //                    ],
+        //                    series: [
+        //                        {
+        //                            name: '泊位占用率',
+        //                            type: 'line',
+        //                            data: eval("[" + pp + "]"),
+        //                            markPoint: {
+        //                                data: [
+        //                                    { type: 'max', name: '最大值' },
+        //                                    { type: 'min', name: '最小值' }
+        //                                ]
+        //                            },
+        //                            markLine: {
+        //                                data: [
+        //                                    [{ name: '平均占用率', value: JSON.parse(msg).AvgRate, xAxis: 0, yAxis: JSON.parse(msg).AvgRate },
+        //                                    { xAxis: 31, yAxis: JSON.parse(msg).AvgRate }]
+        //                                ]
+        //                            }
+        //                        },
+        //                        {
+        //                            name: '全日泊位占用率',
+        //                            type: 'line',
+        //                            data: eval("[" + fulltime + "]"),
+        //                            markPoint: {
+        //                                data: [
+        //                                    { type: 'max', name: '最大值' },
+        //                                    { type: 'min', name: '最小值' }
+        //                                ]
+        //                            },
+        //                            markLine: {
+        //                                data: [
+        //                                    [{ name: '平均占用率', value: JSON.parse(msg).FullTimeRate, xAxis: 0, yAxis: JSON.parse(msg).FullTimeRate },
+        //                                    { xAxis: 31, yAxis: JSON.parse(msg).FullTimeRate }]
+        //                                ]
+        //                            }
+        //                        },
+        //                        {
+        //                            name: '夜间泊位占用率',
+        //                            type: 'line',
+        //                            data: eval("[" + night + "]"),
+        //                            markPoint: {
+        //                                data: [
+        //                                    { type: 'max', name: '最大值' },
+        //                                    { type: 'min', name: '最小值' }
+        //                                ]
+        //                            },
+        //                            markLine: {
+        //                                data: [
+        //                                    [{ name: '平均占用率', value: JSON.parse(msg).NightRate, xAxis: 0, yAxis: JSON.parse(msg).NightRate },
+        //                                    { xAxis: 31, yAxis: JSON.parse(msg).NightRate }]
+        //                                ]
+        //                            }
+        //                        },
+        //                        {
+        //                            name: '非高峰泊位占用率',
+        //                            type: 'line',
+        //                            data: eval("[" + nonpeak + "]"),
+        //                            markPoint: {
+        //                                data: [
+        //                                    { type: 'max', name: '最大值' },
+        //                                    { type: 'min', name: '最小值' }
+        //                                ]
+        //                            },
+        //                            markLine: {
+        //                                data: [
+        //                                    [{ name: '平均占用率', value: JSON.parse(msg).NonpeakRate, xAxis: 0, yAxis: JSON.parse(msg).NonpeakRate },
+        //                                    { xAxis: 31, yAxis: JSON.parse(msg).NonpeakRate }]
+        //                                ]
+        //                            }
+        //                        }
+        //                    ]
+        //                };
+        //                myChart.setOption(option);
+        //            }
+        //        }
+        //    });
+        //}
+
+        function MonthBerthOccupany(stryear, strmonth) {
+                var myChart = echarts.init(document.getElementById("divMonthBerthOccupany"));
+                myChart.setTheme(macarons());
+                myChart.showLoading({ text: '正在查询数据...', effect: 'whirling' });
+                $.ajax({
+  
+                    url: "/park/",
+               
+                    success: function () {
+                        myChart.hideLoading();
+						var msg={"items":[{"Time":"1","OccupyRate":"0.00","FullTimeRate":"0","NightRate":"0","NonpeakRate":"0"},{"Time":"2","OccupyRate":"0.00","FullTimeRate":"0","NightRate":"0","NonpeakRate":"0"},{"Time":"3","OccupyRate":"0.00","FullTimeRate":"0","NightRate":"0","NonpeakRate":"0"},{"Time":"4","OccupyRate":"0.00","FullTimeRate":"0","NightRate":"0","NonpeakRate":"0"},{"Time":"5","OccupyRate":"0.00","FullTimeRate":"0","NightRate":"0","NonpeakRate":"0"},{"Time":"6","OccupyRate":"0.00","FullTimeRate":"0","NightRate":"0","NonpeakRate":"0"},{"Time":"7","OccupyRate":"0.00","FullTimeRate":"0","NightRate":"0","NonpeakRate":"0"},{"Time":"8","OccupyRate":"0.00","FullTimeRate":"0","NightRate":"0","NonpeakRate":"0"},{"Time":"9","OccupyRate":"0.00","FullTimeRate":"0","NightRate":"0","NonpeakRate":"0"},{"Time":"10","OccupyRate":"0.00","FullTimeRate":"0","NightRate":"0","NonpeakRate":"0"},{"Time":"11","OccupyRate":"0.00","FullTimeRate":"0","NightRate":"0","NonpeakRate":"0"},{"Time":"12","OccupyRate":"0.00","FullTimeRate":"0","NightRate":"0","NonpeakRate":"0"},{"Time":"13","OccupyRate":"0.00","FullTimeRate":"0","NightRate":"0","NonpeakRate":"0"},{"Time":"14","OccupyRate":"0.00","FullTimeRate":"0","NightRate":"0","NonpeakRate":"0"},{"Time":"15","OccupyRate":"0.00","FullTimeRate":"0","NightRate":"0","NonpeakRate":"0"},{"Time":"16","OccupyRate":"0.00","FullTimeRate":"0","NightRate":"0","NonpeakRate":"0"},{"Time":"17","OccupyRate":"0.00","FullTimeRate":"0","NightRate":"0","NonpeakRate":"0"},{"Time":"18","OccupyRate":"0.00","FullTimeRate":"0","NightRate":"0","NonpeakRate":"0"},{"Time":"19","OccupyRate":"0.00","FullTimeRate":"0","NightRate":"0","NonpeakRate":"0"},{"Time":"20","OccupyRate":"0.00","FullTimeRate":"0","NightRate":"0","NonpeakRate":"0"},{"Time":"21","OccupyRate":"0.00","FullTimeRate":"0","NightRate":"0","NonpeakRate":"0"},{"Time":"22","OccupyRate":"0.00","FullTimeRate":"0","NightRate":"0","NonpeakRate":"0"},{"Time":"23","OccupyRate":"0.00","FullTimeRate":"0","NightRate":"0","NonpeakRate":"0"},{"Time":"24","OccupyRate":"0.00","FullTimeRate":"0","NightRate":"0","NonpeakRate":"0"},{"Time":"25","OccupyRate":"0.00","FullTimeRate":"0","NightRate":"0","NonpeakRate":"0"},{"Time":"26","OccupyRate":"0.00","FullTimeRate":"0","NightRate":"0","NonpeakRate":"0"},{"Time":"27","OccupyRate":"0.00","FullTimeRate":"0","NightRate":"0","NonpeakRate":"0"},{"Time":"28","OccupyRate":"0.00","FullTimeRate":"0","NightRate":"0","NonpeakRate":"0"},{"Time":"29","OccupyRate":"0.00","FullTimeRate":"0","NightRate":"0","NonpeakRate":"0"},{"Time":"30","OccupyRate":"0.00","FullTimeRate":"0","NightRate":"0","NonpeakRate":"0"},{"Time":"31","OccupyRate":"0.00","FullTimeRate":"0","NightRate":"0","NonpeakRate":"0"}],"AvgRate":"0.00","FullTimeRate":"0.00","NightRate":"0.00","NonpeakRate":"0.00"};
+                        if (msg != "") {
+                            var info = msg.items;
+                            var dd = [];//日期
+                            var pp = [];//占用率
+                            var fulltime = [];//全日
+                            var night = [];//夜间
+                            var nonpeak = [];//非高峰
+                            for (var i = 0; i < info.length; i++) {
+                                dd.push(info[i].Time);
+                                pp.push(info[i].OccupyRate);
+                                fulltime.push(info[i].FullTimeRate);
+                                night.push(info[i].NightRate);
+                                nonpeak.push(info[i].NonpeakRate);
+                            }
+                            var option = {
+                                title: {
+                                    text: '泊位平均占用率（' + stryear + '年' + strmonth + '月）',
+                                    x: '22',
+                                    textStyle: {
+                                        color: '#474747',
+                                        fontSize: '16',
+                                        fontFamily: 'Microsoft YaHei'
+                                    }
+                                },
+                                tooltip: {
+                                    trigger: 'axis',
+                                    formatter: '{b} 日: {c}%'
+                                },
+                                legend: {
+                                    data: ['泊位占用率'],
+                                    x: 'right'
+                                },
+                                xAxis: [{
+                                    name: '日期',
+                                    type: 'category',
+                                    data: dd,
+                                    axisLine: {
+                                        lineStyle: {
+                                            color: '#e2e2e2', width: 1, type: 'solid'
+                                        }
+                                    }
+                                }
+                                ],
+                                yAxis: [
+                                    {
+                                        type: 'value',
+                                        name: '占用率',
+                                        axisLabel: {
+                                            formatter: '{value} %'
+                                        },
+                                        axisLine: {
+                                            lineStyle: {
+                                                color: '#e2e2e2', width: 1, type: 'solid'
+                                            }
+                                        }
+                                    }
+                                ],
+                                series: [
+                                    {
+                                        name: '泊位占用率',
+                                        type: 'line',
+                                        data: eval("[" + pp + "]"),
+                                        markPoint: {
+                                            data: [
+                                                { type: 'max', name: '最大值' },
+                                                { type: 'min', name: '最小值' }
+                                            ]
+                                        },
+                                        markLine: {
+                                            data: [
+                                                [{ name: '平均占用率', value:msg.AvgRate, xAxis: 0, yAxis: msg.AvgRate },
+                                                { xAxis: 31, yAxis: msg.AvgRate }]
+                                            ]
+                                        }
+                                    }
+                                ]
+                            };
+                            myChart.setOption(option);
+                        }
+                    }
+                });
+            }
+
+        //冻结表头
+        window.onscroll = function () {
+            var t = document.documentElement.scrollTop || document.body.scrollTop;
+            var top_div = $("#divTitle");
+            if (t >= 1000) {
+                top_div.show();
+                if ($.browser.mozilla) {
+                    top_div.offset({ top: t + 68 });
+                }
+                else {
+                    top_div.css("position", "fixed");
+                    top_div.css("margin-right", "20px");
+                    top_div.offset({ top: 88 });
+                }
+            } else {
+                top_div.hide();
+            }
+        }
+</script>
+
+</body>
+</html>

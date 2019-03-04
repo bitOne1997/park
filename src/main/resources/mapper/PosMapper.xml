@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.park.dao.PosDAO" >
+  <resultMap id="BaseResultMap" type="com.park.model.Pos" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="num" property="num" jdbcType="VARCHAR" />
+    <result column="parkId" property="parkid" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="model" property="model" jdbcType="VARCHAR" />
+    <result column="lastTime" property="lasttime" jdbcType="TIMESTAMP" />
+    <result column="addTime" property="addtime" jdbcType="TIMESTAMP" />
+    <result column="streetId" property="streetid" jdbcType="INTEGER" />
+    <result column="operator" property="operator" jdbcType="VARCHAR" />
+  </resultMap>
+   <sql id="Base_Column_List" >
+    id, num, parkId, type, model, lastTime, addTime, streetId, operator
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from pos
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from pos
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.park.model.Pos" >
+    insert into pos (id, num, parkId, 
+      type, model, lastTime, 
+      addTime, streetId, operator
+      )
+    values (#{id,jdbcType=INTEGER}, #{num,jdbcType=VARCHAR}, #{parkid,jdbcType=INTEGER}, 
+      #{type,jdbcType=VARCHAR}, #{model,jdbcType=VARCHAR}, #{lasttime,jdbcType=TIMESTAMP}, 
+      #{addtime,jdbcType=TIMESTAMP}, #{streetid,jdbcType=INTEGER}, #{operator,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.park.model.Pos" >
+    insert into pos
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="num != null" >
+        num,
+      </if>
+      <if test="parkid != null" >
+        parkId,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="model != null" >
+        model,
+      </if>
+      <if test="lasttime != null" >
+        lastTime,
+      </if>
+      <if test="addtime != null" >
+        addTime,
+      </if>
+      <if test="streetid != null" >
+        streetId,
+      </if>
+      <if test="operator != null" >
+        operator,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="num != null" >
+        #{num,jdbcType=VARCHAR},
+      </if>
+      <if test="parkid != null" >
+        #{parkid,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="model != null" >
+        #{model,jdbcType=VARCHAR},
+      </if>
+      <if test="lasttime != null" >
+        #{lasttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="addtime != null" >
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="streetid != null" >
+        #{streetid,jdbcType=INTEGER},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.park.model.Pos" >
+    update pos
+    <set >
+      <if test="num != null" >
+        num = #{num,jdbcType=VARCHAR},
+      </if>
+      <if test="parkid != null" >
+        parkId = #{parkid,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="model != null" >
+        model = #{model,jdbcType=VARCHAR},
+      </if>
+      <if test="lasttime != null" >
+        lastTime = #{lasttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="addtime != null" >
+        addTime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="streetid != null" >
+        streetId = #{streetid,jdbcType=INTEGER},
+      </if>
+      <if test="operator != null" >
+        operator = #{operator,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.park.model.Pos" >
+    update pos
+    set num = #{num,jdbcType=VARCHAR},
+      parkId = #{parkid,jdbcType=INTEGER},
+      type = #{type,jdbcType=VARCHAR},
+      model = #{model,jdbcType=VARCHAR},
+      lastTime = #{lasttime,jdbcType=TIMESTAMP},
+      addTime = #{addtime,jdbcType=TIMESTAMP},
+      streetId = #{streetid,jdbcType=INTEGER},
+      operator = #{operator,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="getCount">
+  	select count(*) from pos 
+  </select>
+  <select id="getByStartAndCount" resultType="com.park.model.Pos">
+  	select p.id,p.num,p.parkId,park.name as parkName,street.name as streetName,p.type,p.model,p.lastTime,p.addTime,p.streetId,p.operator from pos as p
+  	left join park on park.id=p.parkId 
+  	left join street on street.id=p.streetId 
+  	limit #{start},#{count} 
+  </select>
+  <select id="getByNum" resultType="com.park.model.Pos">
+  	select * from pos where num=#{num}
+  </select>
+   <select id="getByParkId" resultType="com.park.model.Pos">
+  	select * from pos where parkId=#{parkId}
+  </select>
+  <select id="getByParkNameAndNumber" statementType="STATEMENT" resultType="com.park.model.Pos">
+  	SELECT p.id,p.num,p.parkId,park.name AS parkName,street.name AS streetName,p.type,p.model,p.lastTime,p.addTime,p.streetId,p.operator FROM pos AS p
+  	LEFT JOIN park ON park.id=p.parkId 
+  	LEFT JOIN street ON street.id=p.streetId 
+  	WHERE park.name LIKE '%${parkName}%' or p.num like '%${num}%'
+  </select>
+</mapper>

@@ -1,0 +1,226 @@
+/*index 效果*/
+
+.flipTable td { 
+    text-align:center;
+}
+.data_ul{
+	overflow:hidden;
+    min-width:1024px;
+}	
+.dataActive{	
+	width:200px;
+	height:200px;	
+	font-size:14px;
+	font-family:Microsoft YaHei;
+	cursor:pointer;
+    position: absolute;
+    left:0;
+	top:0;
+}
+.dataHover{	
+	width:200px;
+    height:200px;
+    text-align:center;
+    vertical-align:middle;
+	font-size:12px;
+	font-family:Microsoft YaHei;
+	cursor:pointer;
+    padding-top:15px;
+    left:0;
+	top:0;
+}
+    .dataHover table {
+        width: 90%;margin:auto
+    }
+.panel-top {
+    height:45px;
+    line-height:45px;
+}
+.panel-split {
+    height: 1px;
+    width: 90%;
+    margin: 0 auto;
+    background-color: #fff;
+    /*设置透明度所有浏览器*/
+    filter:alpha(opacity=30);   
+    -moz-opacity:0.3;   
+    -khtml-opacity: 0.3;   
+    opacity: 0.3; 
+}
+.panel-middle {
+  height: 110px;
+  line-height: 110px;
+}
+.panel-value {
+    font-size: 28px;
+}
+.panel-bottom {
+    bottom: 0;
+    height: 45px;
+    line-height: 45px;
+    background:rgba(0,0,0,0.1)!important;
+}
+@media \0screen\,screen\9 {/* 只支持IE6、7、8 */
+  .panel-bottom{
+    background-color:#000000;
+    filter:Alpha(opacity=10);
+    position:static; /* IE6、7、8只能设置position:static(默认属性) ，否则会导致子元素继承Alpha值 */
+    *zoom:1; /* 激活IE6、7的haslayout属性，让它读懂Alpha */
+  }  
+}
+.panel-bottom p{ position:relative;}
+.block1 {
+    background-color: #44BCCC;
+	color:#fff;
+}
+.block2 {
+    background-color: #3598dc;
+	color:#fff;
+}
+.block3 {
+    background-color: #19bd9b;
+	color:#fff;
+}
+.block4 {
+    background-color: #9a59b5;
+	color:#fff;
+}
+.block5 {
+    background-color: #e84c3d;
+	color:#fff;
+}
+.block6 {
+    background-color: #e77e22;
+	color:#fff;
+}
+.block7 {
+    background-color: #9a59b5;
+	color:#fff;
+}
+.block8 {
+    background-color: #44BCCC;
+	color:#fff;
+}
+.block9 {
+    background-color: #3598dc;
+	color:#fff;
+}
+.block10 {
+    background-color: #19bd9b;
+	color:#fff;
+}
+
+.dataHover{
+	color:#fff;
+}
+.dataHover .numSpan{
+	font-size:24px;
+	font-family:"黑体";}
+.dataHover h4{
+	line-height:25px;
+	height:25px;
+	text-align:center;
+}
+.fixed { 
+    position:absolute;
+    bottom:0px;
+     width: 200px;
+}
+.bt{ 
+	border-top:1px solid #fff;
+	width:135px;
+	margin: 10px auto 5px;}	
+
+	
+/*媒体查询属性*/
+.filpCard_wrapper {
+	overflow: hidden;
+    position: relative;
+    width: 100%;
+    max-width: 200px;
+    height:200px;
+    margin:20px auto 0px;
+	}
+.dataH1 {
+	color: #474747;
+    font-family: Microsoft YaHei;
+    font-size: 16px;
+    height: 30px;
+    line-height: 30px;
+    padding:20px 20px 0px 20px;
+}
+.data_ul li{
+	 float: left;
+	 overflow: hidden;
+     position: relative;
+     width:200px;
+     height:200px;
+	}
+.data_wrapper{
+		   overflow: hidden;
+           min-width:1024px;
+           padding: 0 20px;
+}	
+.dataScatter_L{
+	float:left;
+}
+/*颜色*/
+.pt30{padding-top:30px;}
+.br{ font-weight:bold;}
+/*数据图表*/
+.dataChangNav,.dataScatter{
+	overflow:hidden;}
+.dataScatter{
+	border:1px solid #ececec;
+	margin-top:15px;
+	padding:20px;}
+ul.dataChangNav li{
+	background-color:#f3f3f3;
+	border:1px solid #ececec;
+	width:150px;
+	height:40px;
+	line-height:40px;
+	text-align:center;
+	color:#000000;
+	font-size:15px;
+	font-family:Microsoft YaHei;
+	}
+.dataScatter_R{
+	float:right;
+	width:480px;}
+.dataScatter_R h2{
+	font-weight:bold;
+	text-align:center;}
+.dataScatter_R dl,.dataScatter_R dd{
+	overflow:hidden;}
+.dataScatter_R dd{
+	margin-top:10px;}
+ .data_Ldd{
+	float:left; text-align:center;}
+ .data_Rdd{
+	float:right; text-align:center;}	
+.indexData{
+	border-collapse: collapse;
+    table-layout: fixed;
+	border:1px solid #ebebeb;
+    margin-right:20px;
+    width: 1024px;
+    color:#3c3c3c;
+	}
+.indexData th,.indexData td{
+	padding:0 10px;
+    height: 48px;
+    line-height: 48px;
+	border-bottom:1px solid #ebebeb;
+	text-align:center;}
+.indexData tr:hover { 
+    color:#fff;
+    cursor:pointer;
+    background-color:#4BA9E9;
+    font-weight:bold;
+}
+.indexData tr:first-child:hover { 
+     color:#3c3c3c;
+      background-color:#fff;
+      cursor:default;
+}

@@ -1,0 +1,162 @@
+
+<link href="/park/plugins/datepicker/datepicker.css" rel="stylesheet">
+
+<script src="/park/script/utility.js"></script>
+<script src="/park/script/jquery.shCircleLoader-min.js"></script>
+<script src="/park/script/jquery.json-2.4.min.js"></script>
+<script src="/park/script/datepicker.js"></script>
+<script src="/park/script/highcharts.js"></script>
+<script src="/park/script/exporting.js"></script>
+<script src="/park/script/HighchartTheme.js"></script>
+
+
+<div class="content-wrapper">
+	<section class="content-header">
+          <h1>
+            流量图
+            <small></small>
+          </h1>
+        
+    </section>
+
+    <section class="content">
+       <div class="row">
+            <div class="col-xs-12">
+              	<div class="box">
+	                <div class="box-header">
+	                  <h3 class="box-title"></h3>
+	                </div><!-- /.box-header -->
+	              <!-- / <div class="box-body">  
+		                	<div class="well">
+							   <p>停车场名称：<span id="parkName"></span></p>	
+							   <p>本日流量信息: <span id="dayAccessVal"></span></p>
+							   <p>本月流量信息: <span id="monthAccessVal"></span></p>
+							   <p>剩余车位信息: <span id="leftPortVal"></span><p>
+						</div> -->
+			<div style="padding-top:10px">
+            <div class="col-lg-5 col-xs-6">
+              <!-- small box -->
+              <div class="small-box bg-aqua">
+                <div class="inner">
+                  <h3 id="parkName" style="    font-size: 40px;"></h3>
+                 
+                </div>
+                <div class="icon">
+                  <i class="ion ion-bag"></i>
+                </div>
+                <a href="#" class="small-box-footer" style="font-size:20;font-weight:bold">停车场名称&nbsp<i class="fa fa-arrow-circle-right"></i></a>
+              </div>
+            </div><!-- ./col -->
+            <div class="col-lg-2 col-xs-6">
+              <!-- small box -->
+              <div class="small-box bg-green">
+                <div class="inner">
+                  <h3 id="dayAccessVal">0</h3>
+                 
+                </div>
+                <div class="icon">
+                  <i class="ion ion-stats-bars"></i>
+                </div>
+                <a href="#" class="small-box-footer" style="font-size:20;font-weight:bold">本日流量 <i class="fa fa-arrow-circle-right"></i></a>
+              </div>
+            </div><!-- ./col -->
+            <div class="col-lg-3 col-xs-6">
+              <!-- small box -->
+              <div class="small-box bg-yellow">
+                <div class="inner">
+                  <h3 id="monthAccessVal">0</h3>
+                 
+                </div>
+                <div class="icon">
+                  <i class="ion ion-person-add"></i>
+                </div>
+                <a href="#" class="small-box-footer" style="font-size:20;font-weight:bold">本月流量<i class="fa fa-arrow-circle-right"></i></a>
+              </div>
+            </div><!-- ./col -->
+            <div class="col-lg-2 col-xs-6">
+              <!-- small box -->
+              <div class="small-box bg-red">
+                <div class="inner">
+                  <h3 id="leftPortVal">0</h3>
+
+                </div>
+                <div class="icon">
+                  <i class="ion ion-pie-graph"></i>
+                </div>
+                <a href="#" class="small-box-footer" style="font-size:20;font-weight:bold">剩余车位<i class="fa fa-arrow-circle-right"></i></a>
+              </div>
+            </div><!-- ./col -->
+          </div>
+						<div id="chart-header">
+							<div>
+								
+								<div class="col-md-3">
+									<div class="form-group">
+										<label for="park-select" class="control-label">停车场</label>
+										<select id="park-select" class="form-control">
+											#foreach( $park in $parks)
+												<option value=$park.id>$park.name</option>
+											#end
+										</select>
+									</div>
+								</div>
+
+								<div class="col-md-3">
+									<div class="form-group">
+										<label for="date" class="control-label">日期</label>
+										<input type="text" id="date"  class="form-control">											
+									</div>
+								</div>
+		<div class="col-md-4 ">
+			<label for="autocompletetag" class="control-label">关键字搜索</label>
+			<div class="row">
+				<div class="col-md-9">
+				<input type="text" id="autocompletetag" class="form-control"></input>
+				</div>
+                <div class="col-md-3">
+				<button type="button" id="autocompletebtn" class="btn btn-danger">查看</button>	
+				</div>				
+            </div>			
+        </div>
+								
+								<div class="col-md-2 ">
+									<div class="form-group">
+										<label for="theme" class="control-label">主题</label>
+										<select id="theme" class="form-control">
+											<option value=0>默认</option>
+											<option value=1 selected="selected">灰色</option>
+											<option value=2>深蓝色</option>
+											<option value=3>深绿色</option>
+											<option value=4>黑色</option>
+											<option value=5>网格</option>
+										</select>
+											
+									</div>
+
+								</div>
+							</div>
+							
+						</div>
+						<div id="chart-content" ></div>
+    				<div class="box-footer clearfix">
+      					
+      				</div>
+	            </div>
+            </div>
+        </div>
+
+    </section>
+						
+</div>
+
+<link rel="stylesheet" href="/park/css/jquery-ui.css">
+<script src="/park/script/jquery-ui.min.js"></script>
+<script src="/park/script/parkChart.js"></script>
+
+<script>
+$(document).ready(function(){
+	$.fn.parkChart.initial();
+	
+});
+
+</script>

@@ -1,0 +1,78 @@
+
+<html>
+    <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+        <link rel="stylesheet" href="/park/css/bootstrap.min.css"/>            
+   
+        <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=c7A2jm3enN7T0s5V8QbDHx85"></script>
+       
+		  <script type="text/javascript" src="http://api.map.baidu.com/library/TextIconOverlay/1.2/src/TextIconOverlay_min.js"></script>
+        <script type="text/javascript" src="http://api.map.baidu.com/library/MarkerClusterer/1.2/src/MarkerClusterer_min.js"></script>            
+		
+        <script type="text/javascript" src="http://echarts.baidu.com/build/dist/echarts-all.js"></script>
+		<script type="text/javascript" src="http://api.map.baidu.com/library/Heatmap/2.0/src/Heatmap_min.js"></script>
+        <script type="text/javascript" src="/park/script/utility.js"></script>
+        <script type="text/javascript" src="/park/script/platformShow.js"></script>
+    </head>
+    <body>
+		<div class="content-wrapper">
+  <section class="content-header">
+          <h1>
+           系统主界面
+            <small></small>
+          </h1>
+      
+    </section>
+        <div class="row"  style="margin-top:20px">
+            <div class="col-md-6" style="margin-right:-10px">
+                <div class="panel panel-success" >
+                    <div class="panel-heading">
+                        <h3 class="panel-title">剩余车位热点分布图</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row" id="container1" style="width:100%;height:400px;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6" >
+                <div class="panel panel-info" style="margin-left:-20px;">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">停车场剩余车位数图</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row" id="container2" style="width:100%;height:400px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top:-20px">
+            <div class="col-md-6" style="margin-right:-10px;margin-top:-20px">
+                <div class="panel panel-info" >
+                    <div class="panel-heading">
+                        <h3 class="panel-title">南京区域停车次数分布图</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row" id="container3" style="width:100%;height:400px;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6" style="margin-top:-20px">
+                <div class="panel panel-success" style="margin-left:-20px;">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">智慧停车场数全国分布图</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row" id="container4" style="width:100%;height:400px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+		</div>
+        <script>
+            $(function() {
+                $.fn.platformShow.initial();
+            });
+        </script>
+    </body>
+</html>

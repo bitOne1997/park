@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.park.dao.CarportExpenseDao">
+   
+  	<resultMap id="CarportExpenseMapper" type="CarportExpense">
+		<id property="id" column="id" />
+			<result property="parkName" column="parkName" />
+		<result property="carportNumber" column="carportNumber" />
+		<result property="cardNumber" column="cardNumber"/>
+		<result property="occupied" column="occupied" />
+		<result property="startTime" column="startTime"/>
+		<result property="endTime" column="endTime" />
+	</resultMap> 
+
+	<select id="get" resultMap="CarportExpenseMapper">
+		select * from carportExpense where parkName=#{param1} and carportNumber=#{param2} and cardNumber=#{param3} and occupied = 1
+	</select>
+	
+	<select id="count" resultType="int">
+		select count(*) from carportExpense where parkName=#{param1} and carportNumber=#{param2} and cardNumber=#{param3} and occupied = 1
+	</select>
+	
+	
+	<update id="free">
+		update carportExpense set occupied = 0, endTime=current_timestamp() where parkName=#{param1} and carportNumber=#{param2} and cardNumber=#{param3}
+	</update>
+	
+
+	
+	<insert id="insert"  keyProperty="id">
+	    insert into carportExpense(parkName, carportNumber, cardNumber,occupied,startTime) 
+	    values (#{param1}, #{param2},#{param3},1, current_timestamp())
+	</insert>
+	
+       
+          
+</mapper>

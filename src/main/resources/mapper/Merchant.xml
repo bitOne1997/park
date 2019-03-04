@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.park.dao.MerchantDAO">
+  	<resultMap id="MerchantMapper" type="Merchant">
+		<id property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="type" column="type"/>
+		<result property="identity" column="identity"/>
+		<result property="address" column="address" />
+		<result property="description" column="description"/>
+		<result property="longitude" column="longitude"/>
+		<result property="latitude" column="latitude"/>
+		<result property="contact" column="contact" />
+		<result property="number" column="number"/>
+		<result property="date" column="date"/>
+	</resultMap>    
+	
+
+	<select id="getMerchants" resultMap="MerchantMapper">
+		select * from merchant
+	</select>
+	
+	<select id="getMerchantById" resultMap="MerchantMapper">
+		select * from merchant where id=#{param1}
+	</select>
+	
+	<select id="getMerchantCount"  resultType="int">
+		select count(*) from merchant
+	</select>
+
+	
+	<insert id="insertMerchant" parameterType="Merchant" keyProperty="id">
+		insert into merchant(name, type, identity, address, description, longitude, latitude, contact, number, date) 
+		values(#{name}, #{type}, #{identity}, #{address}, #{description}, #{longitude}, #{latitude}, #{contact}, #{number}, #{date})
+	</insert>
+	
+	<update id="updateMerchant" parameterType="Merchant" >
+		update merchant set name = #{name}, type = #{type}, identity = #{identity}, address = #{address}, description = #{description},
+		 longitude=#{longitude}, latitude=#{latitude}, contact=#{contact}, number=#{number}, date = #{date} where id = #{id}
+	</update>
+	
+	
+	<delete id="deleteMerchant" parameterType="int">
+		delete from merchant where id = #{param1}
+	</delete>
+	     
+          
+</mapper>

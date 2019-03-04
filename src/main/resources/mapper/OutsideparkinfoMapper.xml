@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.park.dao.OutsideparkinfoDAO" >
+  <resultMap id="BaseResultMap" type="com.park.model.Outsideparkinfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="amountMoney" property="amountmoney" jdbcType="REAL" />
+    <result column="realMoney" property="realmoney" jdbcType="REAL" />
+    <result column="arrearage" property="arrearage" jdbcType="REAL" />
+    <result column="entranceCount" property="entrancecount" jdbcType="INTEGER" />
+    <result column="outCount" property="outcount" jdbcType="INTEGER" />
+    <result column="carportCount" property="carportcount" jdbcType="INTEGER" />
+    <result column="unusedCarportCount" property="unusedcarportcount" jdbcType="INTEGER" />
+    <result column="parkId" property="parkid" jdbcType="INTEGER" />
+    <result column="posSignDate" property="possigndate" jdbcType="TIMESTAMP" />
+    <result column="posLng" property="poslng" jdbcType="REAL" />
+    <result column="posLat" property="poslat" jdbcType="REAL" />
+    <result column="date" property="date" jdbcType="DATE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, amountMoney, realMoney, arrearage, entranceCount, outCount, carportCount, unusedCarportCount, 
+    parkId, posSignDate, posLng, posLat, date
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from outsideParkInfo
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from outsideParkInfo
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.park.model.Outsideparkinfo" >
+    insert into outsideParkInfo (id, amountMoney, realMoney, 
+      arrearage, entranceCount, outCount, 
+      carportCount, unusedCarportCount, parkId, 
+      posSignDate, posLng, posLat, 
+      date)
+    values (#{id,jdbcType=INTEGER}, #{amountmoney,jdbcType=REAL}, #{realmoney,jdbcType=REAL}, 
+      #{arrearage,jdbcType=REAL}, #{entrancecount,jdbcType=INTEGER}, #{outcount,jdbcType=INTEGER}, 
+      #{carportcount,jdbcType=INTEGER}, #{unusedcarportcount,jdbcType=INTEGER}, #{parkid,jdbcType=INTEGER}, 
+      #{possigndate,jdbcType=TIMESTAMP}, #{poslng,jdbcType=REAL}, #{poslat,jdbcType=REAL}, 
+      #{date,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.park.model.Outsideparkinfo" >
+    insert into outsideParkInfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="amountmoney != null" >
+        amountMoney,
+      </if>
+      <if test="realmoney != null" >
+        realMoney,
+      </if>
+      <if test="arrearage != null" >
+        arrearage,
+      </if>
+      <if test="entrancecount != null" >
+        entranceCount,
+      </if>
+      <if test="outcount != null" >
+        outCount,
+      </if>
+      <if test="carportcount != null" >
+        carportCount,
+      </if>
+      <if test="unusedcarportcount != null" >
+        unusedCarportCount,
+      </if>
+      <if test="parkid != null" >
+        parkId,
+      </if>
+      <if test="possigndate != null" >
+        posSignDate,
+      </if>
+      <if test="poslng != null" >
+        posLng,
+      </if>
+      <if test="poslat != null" >
+        posLat,
+      </if>
+      <if test="date != null" >
+        date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="amountmoney != null" >
+        #{amountmoney,jdbcType=REAL},
+      </if>
+      <if test="realmoney != null" >
+        #{realmoney,jdbcType=REAL},
+      </if>
+      <if test="arrearage != null" >
+        #{arrearage,jdbcType=REAL},
+      </if>
+      <if test="entrancecount != null" >
+        #{entrancecount,jdbcType=INTEGER},
+      </if>
+      <if test="outcount != null" >
+        #{outcount,jdbcType=INTEGER},
+      </if>
+      <if test="carportcount != null" >
+        #{carportcount,jdbcType=INTEGER},
+      </if>
+      <if test="unusedcarportcount != null" >
+        #{unusedcarportcount,jdbcType=INTEGER},
+      </if>
+      <if test="parkid != null" >
+        #{parkid,jdbcType=INTEGER},
+      </if>
+      <if test="possigndate != null" >
+        #{possigndate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="poslng != null" >
+        #{poslng,jdbcType=REAL},
+      </if>
+      <if test="poslat != null" >
+        #{poslat,jdbcType=REAL},
+      </if>
+      <if test="date != null" >
+        #{date,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.park.model.Outsideparkinfo" >
+    update outsideParkInfo
+    <set >
+      <if test="amountmoney != null" >
+        amountMoney = #{amountmoney,jdbcType=REAL},
+      </if>
+      <if test="realmoney != null" >
+        realMoney = #{realmoney,jdbcType=REAL},
+      </if>
+      <if test="arrearage != null" >
+        arrearage = #{arrearage,jdbcType=REAL},
+      </if>
+      <if test="entrancecount != null" >
+        entranceCount = #{entrancecount,jdbcType=INTEGER},
+      </if>
+      <if test="outcount != null" >
+        outCount = #{outcount,jdbcType=INTEGER},
+      </if>
+      <if test="carportcount != null" >
+        carportCount = #{carportcount,jdbcType=INTEGER},
+      </if>
+      <if test="unusedcarportcount != null" >
+        unusedCarportCount = #{unusedcarportcount,jdbcType=INTEGER},
+      </if>
+      <if test="parkid != null" >
+        parkId = #{parkid,jdbcType=INTEGER},
+      </if>
+      <if test="possigndate != null" >
+        posSignDate = #{possigndate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="poslng != null" >
+        posLng = #{poslng,jdbcType=REAL},
+      </if>
+      <if test="poslat != null" >
+        posLat = #{poslat,jdbcType=REAL},
+      </if>
+      <if test="date != null" >
+        date = #{date,jdbcType=DATE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.park.model.Outsideparkinfo" >
+    update outsideParkInfo
+    set amountMoney = #{amountmoney,jdbcType=REAL},
+      realMoney = #{realmoney,jdbcType=REAL},
+      arrearage = #{arrearage,jdbcType=REAL},
+      entranceCount = #{entrancecount,jdbcType=INTEGER},
+      outCount = #{outcount,jdbcType=INTEGER},
+      carportCount = #{carportcount,jdbcType=INTEGER},
+      unusedCarportCount = #{unusedcarportcount,jdbcType=INTEGER},
+      parkId = #{parkid,jdbcType=INTEGER},
+      posSignDate = #{possigndate,jdbcType=TIMESTAMP},
+      posLng = #{poslng,jdbcType=REAL},
+      posLat = #{poslat,jdbcType=REAL},
+      date = #{date,jdbcType=DATE}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="getByParkidAndDate" resultType="com.park.model.Outsideparkinfo">
+  	select * from outsideParkInfo where parkId=#{parkId} and date=#{date}
+  </select>
+</mapper>

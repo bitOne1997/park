@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration 
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+        <!-- 命名空间 -->
+    <typeAliases>
+         <typeAlias alias="Carport" type="com.park.model.Carport"/>
+         <typeAlias alias="User" type="com.park.model.User"/> 
+         <typeAlias alias="Access" type="com.park.model.Access"/>
+         <typeAlias alias="Channel" type="com.park.model.Channel"/>    
+         <typeAlias alias="Park" type="com.park.model.Park"/> 
+         <typeAlias alias="AuthUser" type="com.park.model.AuthUser"/> 
+         <typeAlias alias="UserPark" type="com.park.model.UserPark"/>
+         <typeAlias alias="DataUsageCard" type="com.park.model.DataUsageCard"/> 
+         <typeAlias alias="DataUsageCardDetail" type="com.park.model.DataUsageCardDetail"/> 
+         <typeAlias alias="Merchant" type="com.park.model.Merchant"/> 
+         <typeAlias alias="ParkNews" type="com.park.model.ParkNews"/> 
+         <typeAlias alias="ApiUser" type="com.park.model.ApiUser"/> 
+         <typeAlias alias="TokenUsage" type="com.park.model.TokenUsage"/> 
+         <typeAlias alias="UserTokenUsage" type="com.park.model.UserTokenUsage"/> 
+         <typeAlias alias="CarportStatusDetail" type="com.park.model.CarportStatusDetail"/>
+         <typeAlias alias="Token" type="com.park.model.Token"/>
+         <typeAlias alias="Posdata" type="com.park.model.Posdata"/> 
+         <typeAlias alias="CarportExpense" type="com.park.model.CarportExpense"/> 
+         <typeAlias alias="FeeCriterion" type="com.park.model.FeeCriterion"/> 
+         <typeAlias alias="PosChargeData" type="com.park.model.PosChargeData"/>
+         <typeAlias alias="Page" type="com.park.model.Page"/>  
+         <typeAlias alias="Role" type="com.park.model.Role"/>  
+         <typeAlias alias="PagePermission" type="com.park.model.PagePermission"/>  
+         <typeAlias alias="UserRole" type="com.park.model.UserRole"/>
+         <typeAlias alias="GongzxRecord" type="com.park.model.GongzxRecord"/>    
+    </typeAliases>
+ 
+ 	<plugins>
+    <plugin interceptor="com.github.pagehelper.PageHelper">
+        <property name="dialect" value="mysql"/>
+        <property name="offsetAsPageNum" value="false"/>
+        <property name="rowBoundsWithCount" value="false"/>
+        <property name="pageSizeZero" value="true"/>
+        <property name="reasonable" value="false"/>
+        <property name="supportMethodsArguments" value="false"/>
+        <property name="returnPageInfo" value="none"/>
+    </plugin>
+</plugins>
+ 
+    <!-- 映射map -->
+    <mappers>
+    </mappers>
+</configuration>

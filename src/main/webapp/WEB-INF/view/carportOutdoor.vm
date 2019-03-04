@@ -1,0 +1,121 @@
+<script src="/park/script/access.js"></script>
+<link href="/park/cssmb/tables.css" rel="stylesheet">
+<link href="/park/cssmb/master.css" rel="stylesheet">
+
+<div id="channel">
+<div class="row" style="width:100%">
+<div class="box grid_12" style="width:100%">
+        <div class="box-head" style="height:40px"><h2 >出入口管理</h2></div>     
+              <div class="input-group col-md-3 pull-right" style="padding:1px;">
+			  <span class="input-group-addon" style="height:26px"><span class="glyphicon glyphicon-search"> </span> </span>
+	        	<select class='form-control' style="padding:1px;font-size:14px;height:28px" id='searchPark'>
+								<option value=-1>所有停车场</option>
+				</select>				
+	   </div>	   
+        <div class="box-content no-pad" >
+         <ul class="table-toolbar" #if(!$isAdmin) hidden#end>       
+            <li id="refresh" ><a  href="#" ><img src="img/icons/basic/refresh.png" style="width:18px;height:auto;" alt="" /> 刷新</a></li>
+            <li id='addChannel'><a href="#"><img src="img/icons/basic/plus.png" alt="" /> 添加</a></li>           
+            <li id='updateChannel'><a href="#"><img src="img/icons/basic/up.png" alt="" /> 更新</a></li>
+            <li id='deleteChannel'><a href="#"><img src="img/icons/basic/delete.png" alt="" /> 删除</a></li>
+             <li id='searchChannel'><a href="#"><img src="img/icons/basic/Search.png" style="width:18px;height:auto;" alt="" /> 查找</a></li>
+          </ul>
+          <table class="display table table-hover  table-condensed" id='channelTable' style="font-size:12px">
+           <thead>
+            <tr>
+            
+             <th><span style=""><input type="checkbox" /></div></th>
+					<th ><span style="padding-left:15%">Id</div></th>		
+					<th><span style="padding-left:15%">停车场名称</div></th>
+					<th><span style="padding-left:15%">通道编号</div></th>
+					<th><span style="padding-left:15%">MAC Id</div></th>
+					<th><span style="padding-left:15%">标志</div></th>
+					<th><span style="padding-left:15%">状态</div></th>
+					<th><span style="padding-left:15%">描述</div></th>
+					<th><span style="padding-left:15%">日期</div></th>	
+            </tr>
+          </thead>
+          <tbody id="channelBody"></tbody>
+          </table>
+		    </div>
+		    <div id='pagination'></div>
+        </div>
+        </div>
+
+
+
+<div class="modal fade" id="addChannelModal" tabindex="-1" role="dialog" aria-labelledby='addChannelLabel' aria-hidden='true'>
+	<div class='modal-dialog'>
+		<div class='modal-content'>
+		
+			<div class='modal-header'>
+				<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+				<h4 class='modal-title' id='addChannelLabel'>路边车位探测</h4>
+			</div>
+			
+			<div class='modal-body'>
+				<form class='form-horizontal' id='addChannelForm' role='form'>
+					<div class='form-group'>
+						<label class='col-sm-2 control-label' for='parkName'>停车场名称</label>
+						<div class='col-sm-8'>
+							<select class='form-control' id='parkName'>
+							<option>请选择停车场</option>
+							</select>
+						</div>
+						<div id='parkNameLoader'>
+						</div>
+					</div>
+					<div class='form-group'>
+						<label class='col-sm-2 control-label' for='channelNumber'>通道编号</label>
+						<div class='col-sm-8'>
+							<input type='text' class='form-control' id='channelNumber' placeholder='通道编号'>
+						</div>
+					</div>
+					<div class='form-group'>
+						<label class='col-sm-2 control-label' for='macId'>硬件地址</label>
+						<div class='col-sm-8'>
+							<select class='form-control' id='macId'>
+							<option>请选择MAC ID</option>
+							</select>
+						</div>
+						<div id='macIdLoader'>
+						</div>
+					</div>
+					<div class='form-group'>
+						<label class='col-sm-2 control-label' for='channelFlag'>标志</label>
+						<div class='col-sm-8'>
+							<select class='form-control' id='channelFlag'>
+								<option value=0>出口</option>
+								<option value=1>入口</option>
+								<option value=2>剩余车位发布器</option>
+							</select>
+						</div>
+					</div>
+					<div class='form-group'>
+						<label class='col-sm-2 control-label' for='channelStatus'>状态</label>
+						<div class='col-sm-8'>
+							<select class='form-control' id='channelStatus'>
+								<option value=1>可用</option>
+								<option value=0>不可用</option>
+							</select>
+						</div>
+					</div>
+					<div class='form-group'>
+						<label class='col-sm-2 control-label' for='channelDesc'>描述</label>
+						<div class='col-sm-8'>
+							<input type='text' class='form-control' id='channelDesc' placeholder='请输入描述信息'>
+						</div>
+					</div>
+					
+					<div id='addChannelResult'>						
+					</div>
+			</div>
+			
+			<div class='modal-footer'>
+				<button type='button' class='btn btn-default' data-dismiss='modal'>关闭</button>
+				<button id="submitChannelBtn" type='button' class='btn btn-primary'>提交</button>
+			</div>
+			
+		</div>
+	</div>
+</div>

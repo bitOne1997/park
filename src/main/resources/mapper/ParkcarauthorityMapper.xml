@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.park.dao.ParkcarauthorityMapper" >
+ <resultMap id="BaseResultMap" type="com.park.model.Parkcarauthority" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="parkId" property="parkid" jdbcType="INTEGER" />
+    <result column="channel" property="channel" jdbcType="TINYINT" />
+    <result column="typeA" property="typea" jdbcType="BIT" />
+    <result column="typeB" property="typeb" jdbcType="BIT" />
+    <result column="typeC" property="typec" jdbcType="BIT" />
+    <result column="typeD" property="typed" jdbcType="BIT" />
+    <result column="month" property="month" jdbcType="BIT" />
+    <result column="other" property="other" jdbcType="VARCHAR" />
+    <result column="other2" property="other2" jdbcType="VARCHAR" />
+    <result column="temporary" property="temporary" jdbcType="BIT" />
+    <result column="monthExpired" property="monthexpired" jdbcType="BIT" />
+    <result column="temporary0" property="temporary0" jdbcType="BIT" />
+    <result column="yuyue" property="yuyue" jdbcType="BIT" />
+    <result column="typeE" property="typee" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, parkId, channel, typeA, typeB, typeC, typeD, month, other, other2, temporary, 
+    monthExpired, temporary0, yuyue, typeE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from parkCarAuthority
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from parkCarAuthority
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.park.model.Parkcarauthority" >
+    insert into parkCarAuthority (id, parkId, channel, 
+      typeA, typeB, typeC, typeD, 
+      month, other, other2, temporary, 
+      monthExpired, temporary0, yuyue, 
+      typeE)
+    values (#{id,jdbcType=INTEGER}, #{parkid,jdbcType=INTEGER}, #{channel,jdbcType=TINYINT}, 
+      #{typea,jdbcType=BIT}, #{typeb,jdbcType=BIT}, #{typec,jdbcType=BIT}, #{typed,jdbcType=BIT}, 
+      #{month,jdbcType=BIT}, #{other,jdbcType=VARCHAR}, #{other2,jdbcType=VARCHAR}, #{temporary,jdbcType=BIT}, 
+      #{monthexpired,jdbcType=BIT}, #{temporary0,jdbcType=BIT}, #{yuyue,jdbcType=BIT}, 
+      #{typee,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.park.model.Parkcarauthority" >
+    insert into parkCarAuthority
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="parkid != null" >
+        parkId,
+      </if>
+      <if test="channel != null" >
+        channel,
+      </if>
+      <if test="typea != null" >
+        typeA,
+      </if>
+      <if test="typeb != null" >
+        typeB,
+      </if>
+      <if test="typec != null" >
+        typeC,
+      </if>
+      <if test="typed != null" >
+        typeD,
+      </if>
+      <if test="month != null" >
+        month,
+      </if>
+      <if test="other != null" >
+        other,
+      </if>
+      <if test="other2 != null" >
+        other2,
+      </if>
+      <if test="temporary != null" >
+        temporary,
+      </if>
+      <if test="monthexpired != null" >
+        monthExpired,
+      </if>
+      <if test="temporary0 != null" >
+        temporary0,
+      </if>
+      <if test="yuyue != null" >
+        yuyue,
+      </if>
+      <if test="typee != null" >
+        typeE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="parkid != null" >
+        #{parkid,jdbcType=INTEGER},
+      </if>
+      <if test="channel != null" >
+        #{channel,jdbcType=TINYINT},
+      </if>
+      <if test="typea != null" >
+        #{typea,jdbcType=BIT},
+      </if>
+      <if test="typeb != null" >
+        #{typeb,jdbcType=BIT},
+      </if>
+      <if test="typec != null" >
+        #{typec,jdbcType=BIT},
+      </if>
+      <if test="typed != null" >
+        #{typed,jdbcType=BIT},
+      </if>
+      <if test="month != null" >
+        #{month,jdbcType=BIT},
+      </if>
+      <if test="other != null" >
+        #{other,jdbcType=VARCHAR},
+      </if>
+      <if test="other2 != null" >
+        #{other2,jdbcType=VARCHAR},
+      </if>
+      <if test="temporary != null" >
+        #{temporary,jdbcType=BIT},
+      </if>
+      <if test="monthexpired != null" >
+        #{monthexpired,jdbcType=BIT},
+      </if>
+      <if test="temporary0 != null" >
+        #{temporary0,jdbcType=BIT},
+      </if>
+      <if test="yuyue != null" >
+        #{yuyue,jdbcType=BIT},
+      </if>
+      <if test="typee != null" >
+        #{typee,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.park.model.Parkcarauthority" >
+    update parkCarAuthority
+    <set >
+      <if test="parkid != null" >
+        parkId = #{parkid,jdbcType=INTEGER},
+      </if>
+      <if test="channel != null" >
+        channel = #{channel,jdbcType=TINYINT},
+      </if>
+      <if test="typea != null" >
+        typeA = #{typea,jdbcType=BIT},
+      </if>
+      <if test="typeb != null" >
+        typeB = #{typeb,jdbcType=BIT},
+      </if>
+      <if test="typec != null" >
+        typeC = #{typec,jdbcType=BIT},
+      </if>
+      <if test="typed != null" >
+        typeD = #{typed,jdbcType=BIT},
+      </if>
+      <if test="month != null" >
+        month = #{month,jdbcType=BIT},
+      </if>
+      <if test="other != null" >
+        other = #{other,jdbcType=VARCHAR},
+      </if>
+      <if test="other2 != null" >
+        other2 = #{other2,jdbcType=VARCHAR},
+      </if>
+      <if test="temporary != null" >
+        temporary = #{temporary,jdbcType=BIT},
+      </if>
+      <if test="monthexpired != null" >
+        monthExpired = #{monthexpired,jdbcType=BIT},
+      </if>
+      <if test="temporary0 != null" >
+        temporary0 = #{temporary0,jdbcType=BIT},
+      </if>
+      <if test="yuyue != null" >
+        yuyue = #{yuyue,jdbcType=BIT},
+      </if>
+      <if test="typee != null" >
+        typeE = #{typee,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.park.model.Parkcarauthority" >
+    update parkCarAuthority
+    set parkId = #{parkid,jdbcType=INTEGER},
+      channel = #{channel,jdbcType=TINYINT},
+      typeA = #{typea,jdbcType=BIT},
+      typeB = #{typeb,jdbcType=BIT},
+      typeC = #{typec,jdbcType=BIT},
+      typeD = #{typed,jdbcType=BIT},
+      month = #{month,jdbcType=BIT},
+      other = #{other,jdbcType=VARCHAR},
+      other2 = #{other2,jdbcType=VARCHAR},
+      temporary = #{temporary,jdbcType=BIT},
+      monthExpired = #{monthexpired,jdbcType=BIT},
+      temporary0 = #{temporary0,jdbcType=BIT},
+      yuyue = #{yuyue,jdbcType=BIT},
+      typeE = #{typee,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="getByParkId" resultType="com.park.model.Parkcarauthority">
+  	select * from parkCarAuthority where parkId=#{parkId} order by id desc 
+  </select>
+  <select id="getByStartAndCount" resultType="com.park.model.Parkcarauthority">
+  	select * from parkCarAuthority limit #{start},#{count}
+  </select>
+</mapper>

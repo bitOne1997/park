@@ -1,0 +1,120 @@
+<script src="/park/script/service/textModalService.js"></script>
+<script src="/park/script/utility.js"></script>
+<script src="/park/script/lepayRecord.js?v=1.1"></script>
+
+<style>
+        .page-list .pagination {float:left;}
+        .page-list .pagination span {cursor: pointer;}
+        .page-list .pagination .separate span{cursor: default; border-top:none;border-bottom:none;}
+        .page-list .pagination .separate span:hover {background: none;}
+        .page-list .page-total {float:left; margin: 25px 20px;}
+        .page-list .page-total input, .page-list .page-total select{height: 26px; border: 1px solid #ddd;}
+        .page-list .page-total input {width: 40px; padding-left:3px;}
+        .page-list .page-total select {width: 50px;}
+</style>
+<div class="content-wrapper" ng-app="lepayRecordApp" ng-controller="lepayRecordCtrl">
+	<section class="content-header">
+          <h1>
+           支付数据
+            <small></small>
+          </h1>     
+    </section>
+    <section class="content">
+       <div class="row">
+            <div class="col-xs-12" style="padding: 0 5px 0 5px;">
+              	<div class="box">
+	                <div class="box-header">
+	                  <h3 class="box-title"></h3>
+	                </div><!-- /.box-header -->
+	               <div class="box-body" style="padding:0px;">  
+					
+	                	
+						<div>
+						 <table class="table table-hover table-bordered table-striped table-condensed text-center" id='channelTable' style="font-size:12px">
+					            <tr class="info" style="height: 30px; line-height: 30px;">					            
+										<th><span>ID</span></th>										
+										<th><span>交易金额</span></th>
+										<th><span>来源</span></th>
+										<th><span>订单号</span></th>
+										<th><span>支付渠道订单号</span></th>
+										<th><span>商户号</span></th>											
+										<th><span>日期</span></th>										
+									
+				            </tr>
+				          	<tr  ng-repeat = "item in items">
+				          		<td ng-bind="item.id"></td>
+				          		<td ng-bind="item.amount/100|currency:'¥'"></td>
+				          		<td ng-if="item.paytype==0">支付宝</td>
+								<td ng-if="item.paytype==1">微信</td>
+								
+				          		<td  ng-click="showPosChargeData(item.outtradeno)"><a href="#">{{item.outtradeno}}</a></td>
+				          		<td ng-bind="item.paytypetradeno"></td>				         		
+				          		<td ng-bind="item.mchid"></td>							
+								<td ng-bind="item.date"></td>
+				          		
+				          </table>
+    					</div>   					   
+							<tm-pagination conf="paginationConf"></tm-pagination>
+	            </div>
+            </div>
+        </div>
+<script type="text/ng-template" id="showPosChargeModal"> 
+	<!-- 模态框（Modal） -->
+   <div class="modal-dialog" style="min-width:850px">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" 
+               data-dismiss="modal" aria-hidden="true" ng-click="close()">
+                  &times;
+            </button>
+            <h4 class="modal-title" > 收费详情   
+            </h4>
+         </div>
+         <div class="modal-body">
+			 <table class="table table-hover  table-condensed" id='channelTable' style="font-size:12px">
+				            <tr>				            
+				             
+									<th><span >id</span></th>		
+										<th><span>车牌</span></th>										
+										<th><span>停车场名</span></th>
+										<th><span>车位号</span></th>
+										<th><span>操作员id</span></th>
+										<th><span>收费状态</span></th>	
+										<th><span>押金</span></th>
+										<th><span>应收费</span></th>
+										<th><span>补交</span></th>
+										<th><span>找零</span></th>	
+										<th><span>进场时间</span></th>	
+										<th><span>离场时间</span></th>
+										<th><span>查看图片</span></th>
+				            </tr>
+				       
+				          	<tr >				          
+				          		<td ng-bind="posdata.id"></td>
+				          		<td ng-bind="posdata.cardNumber"></td>
+				          		<td ng-bind="posdata.parkDesc"></td>
+				          		<td ng-bind="posdata.portNumber"></td>
+				          		<td ng-bind="posdata.operatorId"></td>
+				          		<td ng-if="posdata.paidCompleted==true" class="success">已收费</td>
+								<td ng-if="posdata.paidCompleted==false" class="warning">未收费</td>
+				          		<td ng-bind="posdata.paidMoney"></td>
+				          		<td ng-bind="posdata.chargeMoney"></td>
+								<td ng-bind="posdata.givenMoney"></td>
+				          		<td ng-bind="posdata.changeMoney"></td>
+				          		<td ng-bind="posdata.entranceDate"></td>
+				          		<td ng-bind="posdata.exitDate"></td>
+				          		<td ng-if="posdata.url!=''"><a href={{posdata.url}} target="_blank">查看
+                                </a></td>
+								<td ng-if="posdata.url==''">暂无</td>
+				          </table>
+         </div>
+         <div class="modal-footer">
+      		<button type="button" class="btn btn-default" data-dismiss="modal" ng-click="close()">
+				关闭
+            </button>          
+         </div>
+      </div><!-- /.modal-content -->
+</div><!-- /.modal -->
+</script>
+    </section>
+</div>

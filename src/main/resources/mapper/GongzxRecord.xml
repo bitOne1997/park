@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.park.dao.GongzxRecordDao">
+	<resultMap id="GongzxRecordMapper" type="GongzxRecord">
+		<id property="id" column="id" />
+		<result property="carNumber" column="carNumber" />
+		<result property="cardNumber" column="cardNumber" />
+		<result property="arriveTime" column="arriveTime" />
+		<result property="leaveTime" column="leaveTime" />
+		<result property="parkId" column="parkId" />
+		<result property="parkName" column="parkName" />
+		<result property="stopType" column="stopType" />
+		<result property="shouldCharge" column="shouldCharge" />
+		<result property="discount" column="discount" />
+		<result property="realPay" column="realPay" />
+		<result property="picturePath" column="picturePath" />
+		<result property="other" column="other" />
+		<result column="tradeNumber" property="tradeNumber" />
+	</resultMap>
+	
+	<select id= "getByRange" resultMap="GongzxRecordMapper">
+		SELECT gongzxrecord.id,carNumber,cardNumber,arriveTime,parkId,parkName,stopType,shouldCharge,discount,realPay,picturePath,other,tradeNumber,leaveTime 
+		FROM gongzxrecord LEFT JOIN park AS p ON parkId=p.id where parkId=#{parkId} and arriveTime between #{startDate} and #{endDate} limit 70000
+	</select>
+	<select id="getByParkDatetime" resultMap="GongzxRecordMapper">
+		SELECT gongzxrecord.id,carNumber,cardNumber,arriveTime,parkId,parkName,stopType,shouldCharge,discount,realPay,picturePath,other,tradeNumber,leaveTime 
+		from gongzxrecord
+		LEFT JOIN park AS p ON parkId=p.id where carNumber like '%${carNumber}%' and arriveTime between #{startDate} and #{endDate} order by leaveTime desc
+		
+  </select>
+	<select id="gongcount" resultType="int">
+		select count(*) from
+		gongzxrecord
+	</select>
+	<select id="getPageByParkId" resultMap="GongzxRecordMapper">
+		SELECT
+		gongzxrecord.id,carNumber,cardNumber,arriveTime,parkId,parkName,stopType,shouldCharge,discount,realPay,picturePath,other,tradeNumber,leaveTime 
+		FROM gongzxrecord
+		LEFT JOIN park AS p ON parkId=p.id where parkId=#{parkId} order by arriveTime desc
+		limit #{start}, #{count}
+	</select>
+	<!-- 用户名等于 admin查询记录-->
+	<select id="getPageByPark" resultMap="GongzxRecordMapper">
+		SELECT
+			au.username,g.id,carNumber,cardNumber,arriveTime,g.parkId,parkName,stopType,shouldCharge,discount,realPay,picturePath,other,tradeNumber,leaveTime 
+			FROM gongzxrecord as g
+			left join userPark as up on g.parkId=up.parkId
+			left join userRole as ur on up.userId=ur.userId
+			left join authUsers as au on ur.userId=au.id 
+			order by arriveTime desc	
+	</select>
+	<!-- 用户名不等于 admin查询记录-->
+	<select id="getPageByParkusername" resultMap="GongzxRecordMapper">
+		SELECT
+				au.username,g.id,carNumber,cardNumber,arriveTime,g.parkId,parkName,stopType,shouldCharge,discount,realPay,picturePath,other,tradeNumber,leaveTime 
+				FROM gongzxrecord as g
+		left join userPark as up on g.parkId=up.parkId
+		left join userRole as ur on up.userId=ur.userId
+		left join authUsers as au on ur.userId=au.id
+		where au.username=#{username} order by id desc
+	</select>
+	<select id="update" parameterType="com.park.model.GongzxRecord">
+		update gongzxrecord
+		set carNumber = #{carNumber,jdbcType=VARCHAR},
+		cardNumber = #{cardNumber,jdbcType=VARCHAR},
+		arriveTime = #{arriveTime,jdbcType=TIMESTAMP},
+		parkId = #{parkTd,jdbcType=INTEGER},
+		parkName = #{parkName,jdbcType=VARCHAR},
+		stopType = #{stopType,jdbcType=VARCHAR},
+		shouldCharge = #{shouldCharge,jdbcType=DOUBLE},
+		discount = #{discount,jdbcType=DOUBLE},
+		realPay = #{realPay,jdbcType=DOUBLE},
+		picturePath = #{picturePath,jdbcType=VARCHAR},
+		other = #{other,jdbcType=VARCHAR},
+		tradeNumber = #{tradeNumber,jdbcType=VARCHAR},
+		leaveTime = #{leaveTime,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<insert id="insert" parameterType="com.park.model.GongzxRecord">
+		insert into gongzxrecord (id, carNumber, cardNumber,
+		arriveTime, parkId, parkName,
+		stopType, shouldCharge, discount,
+		realPay, picturePath, other,
+		tradeNumber,leaveTime)
+		values (#{id,jdbcType=INTEGER}, #{carNumber,jdbcType=VARCHAR},
+		#{cardNumber,jdbcType=VARCHAR},
+		#{arriveTime,jdbcType=TIMESTAMP}, #{parkId,jdbcType=INTEGER}, #{parkName,jdbcType=VARCHAR},
+		#{stopType,jdbcType=VARCHAR}, #{shouldCharge,jdbcType=DOUBLE},
+		#{discount,jdbcType=DOUBLE},
+		#{realPay,jdbcType=DOUBLE}, #{picturePath,jdbcType=VARCHAR}, #{other,jdbcType=VARCHAR},
+		#{tradeNumber,jdbcType=VARCHAR},#{leaveTime,jdbcType=TIMESTAMP)
+	</insert>
+	<select id="getByCarNumber" statementType="STATEMENT"
+		resultMap="GongzxRecordMapper">
+		SELECT
+		gongzxrecord.id,carNumber,cardNumber,arriveTime,parkId,parkName,stopType,shouldCharge,discount,realPay,picturePath,other,tradeNumber,leaveTime 
+		FROM gongzxrecord LEFT JOIN park AS p ON parkId=p.id where carNumber
+		like '%${carNumber}%' order by id desc limit 200
+	</select>
+	<select id="getByCarNumberAndPN" statementType="STATEMENT"
+		resultMap="GongzxRecordMapper">
+		SELECT
+		gongzxrecord.id,carNumber,cardNumber,arriveTime,parkId,parkName,stopType,shouldCharge,discount,realPay,picturePath,other,tradeNumber,leaveTime 
+		FROM gongzxrecord LEFT JOIN park AS p ON parkId=p.id where carNumber
+		like '%${carNumber}%' or parkName like '%${parkName}%' order by id desc limit 200
+	</select>
+	<select id="getByCarNumberAndPark" statementType="STATEMENT"
+		resultMap="GongzxRecordMapper">
+		SELECT
+		gongzxrecord.id,carNumber,cardNumber,arriveTime,parkId,parkName,stopType,shouldCharge,discount,realPay,picturePath,other,tradeNumber,leaveTime 
+		FROM gongzxrecord
+		LEFT JOIN park AS p ON parkId=p.id where carNumber like '%${carNumber}%'
+		and parkId= '${parkId}' order by id desc
+	</select>
+	<select id="getByParkName" statementType="STATEMENT"
+		resultMap="GongzxRecordMapper">
+		select * from gongzxrecord where parkName like
+		'%${parkName}%' order by id desc limit 500
+	</select>
+	<!-- 获取金额-->
+    <select id="getByDateAndParkCount" resultType="java.lang.String">
+	    select SUM(gongzxrecord.shouldCharge) AS totalAmount from gongzxrecord 
+	    where parkId=#{parkId} and leaveTime between #{startDate} and #{endDate} 
+    </select>
+	<select id="selectPosdataByParkAndRange" resultMap="GongzxRecordMapper">
+		<![CDATA[
+		SELECT gongzxrecord.id,carNumber,cardNumber,arriveTime,parkId,parkName,stopType,shouldCharge,discount,realPay,picturePath,other,tradeNumber,leaveTime 
+		FROM gongzxrecord where leaveTime <= #{endDay} and leaveTime >= #{startDay} and parkId=#{parkId} order by id desc
+		]]>
+	</select>
+</mapper>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.park.dao.ParkextMapper" >
+  <resultMap id="BaseResultMap" type="com.park.model.Parkext" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="parkId" property="parkid" jdbcType="INTEGER" />
+    <result column="video1" property="video1" jdbcType="VARCHAR" />
+    <result column="video2" property="video2" jdbcType="VARCHAR" />
+    <result column="entranceUrl" property="entranceurl" jdbcType="VARCHAR" />
+    <result column="exitUrl" property="exiturl" jdbcType="VARCHAR" />
+    <result column="notify" property="notify" jdbcType="VARCHAR" />
+    <result column="isPush" property="ispush" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, parkId, video1, video2, entranceUrl, exitUrl, notify, isPush
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from parkExt
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from parkExt
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.park.model.Parkext" >
+    insert into parkExt (id, parkId, video1, 
+      video2, entranceUrl, exitUrl, 
+      notify, isPush)
+    values (#{id,jdbcType=INTEGER}, #{parkid,jdbcType=INTEGER}, #{video1,jdbcType=VARCHAR}, 
+      #{video2,jdbcType=VARCHAR}, #{entranceurl,jdbcType=VARCHAR}, #{exiturl,jdbcType=VARCHAR}, 
+      #{notify,jdbcType=VARCHAR}, #{ispush,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.park.model.Parkext" >
+    insert into parkExt
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="parkid != null" >
+        parkId,
+      </if>
+      <if test="video1 != null" >
+        video1,
+      </if>
+      <if test="video2 != null" >
+        video2,
+      </if>
+      <if test="entranceurl != null" >
+        entranceUrl,
+      </if>
+      <if test="exiturl != null" >
+        exitUrl,
+      </if>
+      <if test="notify != null" >
+        notify,
+      </if>
+      <if test="ispush != null" >
+        isPush,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="parkid != null" >
+        #{parkid,jdbcType=INTEGER},
+      </if>
+      <if test="video1 != null" >
+        #{video1,jdbcType=VARCHAR},
+      </if>
+      <if test="video2 != null" >
+        #{video2,jdbcType=VARCHAR},
+      </if>
+      <if test="entranceurl != null" >
+        #{entranceurl,jdbcType=VARCHAR},
+      </if>
+      <if test="exiturl != null" >
+        #{exiturl,jdbcType=VARCHAR},
+      </if>
+      <if test="notify != null" >
+        #{notify,jdbcType=VARCHAR},
+      </if>
+      <if test="ispush != null" >
+        #{ispush,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.park.model.Parkext" >
+    update parkExt
+    <set >
+      <if test="parkid != null" >
+        parkId = #{parkid,jdbcType=INTEGER},
+      </if>
+      <if test="video1 != null" >
+        video1 = #{video1,jdbcType=VARCHAR},
+      </if>
+      <if test="video2 != null" >
+        video2 = #{video2,jdbcType=VARCHAR},
+      </if>
+      <if test="entranceurl != null" >
+        entranceUrl = #{entranceurl,jdbcType=VARCHAR},
+      </if>
+      <if test="exiturl != null" >
+        exitUrl = #{exiturl,jdbcType=VARCHAR},
+      </if>
+      <if test="notify != null" >
+        notify = #{notify,jdbcType=VARCHAR},
+      </if>
+      <if test="ispush != null" >
+        isPush = #{ispush,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.park.model.Parkext" >
+    update parkExt
+    set parkId = #{parkid,jdbcType=INTEGER},
+      video1 = #{video1,jdbcType=VARCHAR},
+      video2 = #{video2,jdbcType=VARCHAR},
+      entranceUrl = #{entranceurl,jdbcType=VARCHAR},
+      exitUrl = #{exiturl,jdbcType=VARCHAR},
+      notify = #{notify,jdbcType=VARCHAR},
+      isPush = #{ispush,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByParkid" resultMap="BaseResultMap">
+  select * from parkExt where parkId=#{parkId}
+  </select>
+</mapper>

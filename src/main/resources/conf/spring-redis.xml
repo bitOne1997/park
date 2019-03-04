@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-4.3.xsd"
+      >
+
+   <!-- 载入redis.properties,这里要特别注意，如果有多个properties文件，必须用逗号分开，不能写成两个 <context:property-placeholder/> -->
+  <!-- <context:property-placeholder location="classpath:redis.properties" /> -->  
+
+    <!-- 配置JedisPoolConfig连接池-->
+    <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxIdle" value="${spring.redis.pool.maxIdle}"></property>
+        <property name="minIdle" value="${spring.redis.pool.minIdle}"></property>
+        <property name="maxWaitMillis" value="${spring.redis.pool.maxWaitMillis}"></property>
+    </bean>
+
+	<!-- 配置redis链接工具的单例对象 (单机版)-->
+	<bean id="jedisPool" class="redis.clients.jedis.JedisPool" destroy-method="destroy"  depends-on="poolConfig" >
+		 <constructor-arg index="0" ref="poolConfig" />
+		<constructor-arg name="host" value="${jedisPool.host}"></constructor-arg>
+		<constructor-arg name="port" value="${jedisPool.port}"></constructor-arg>
+		 <constructor-arg index="3" value="${jedisPool.timeout}"  type="int"/>
+		<constructor-arg index="4" value="${jedisPool.password}"  name="password" type="java.lang.String"/>
+		
+	</bean>
+
+    <!-- 配置jedis连接工厂 -->
+    <bean id="connectionFactory"
+          class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <property name="poolConfig" ref="poolConfig"></property>
+        <property name="hostName" value="${spring.redis.host}"></property>
+        <property name="port" value="${spring.redis.port}"></property>
+        <!--<property name="password" value="${spring.redis.password}"></property>-->
+        <property name="database" value="${spring.redis.database}"></property>
+        <property name="timeout" value="${spring.redis.timeout}"></property>
+    </bean>
+
+ 
+
+   
+   
+</beans>

@@ -1,0 +1,48 @@
+/*
+ * jbox寮瑰嚭妗嗘牱寮�(浼樺寲)
+ * 浠绘潹闈�
+ * 2015-05-08
+ */
+
+@charset "utf-8";
+
+*:focus {outline: none;}
+/* fade */
+.jbox-fade{background-color:#000000;}
+/* drag */
+.jbox-drag{border:1px dashed #bf0058;}
+/* jbox */
+div.jbox {padding:0px;border:none;font-size:12px;}
+/* border */
+div.jbox .jbox-border{filter:alpha(opacity=20);-moz-opacity:0.2;opacity:0.2;}
+/* container */
+div.jbox .jbox-container{background-color:#ffffff;}
+/* title-panel */
+div.jbox .jbox-title-panel{background: #4BA9E9;background: -webkit-gradient(linear, left top, left bottom, from(#4BA9E9), to(#4BA9E9));background: -moz-linear-gradient(top,  #4BA9E9, #4BA9E9);filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#E6E6E6', endColorstr='#4BA9E9');}
+div.jbox .jbox-title{color:#FFFFFF;font-family:'Microsoft YaHei'; font-size:15px;}
+div.jbox .jbox-title-icon{background:url(../Images/jBox/jbox-title-icon.png) no-repeat scroll 10px 8px transparent;}
+div.jbox .jbox-close{background:url(../Images/jBox/jbox-close.png);background-size:19px 20px;}
+/* content */
+div.jbox .jbox-content{min-height:24px;line-height:18px;color:#444444;}
+div.jbox .jbox-content-loading{background-color:#E6E6E6;}
+div.jbox .jbox-content-loading-image{background:url(../Images/jBox/jbox-content-loading.gif) no-repeat bottom center;}
+/* button-panel */
+div.jbox .jbox-button-panel{border-top:1px solid #e7eaec;}
+div.jbox .jbox-bottom-text{text-indent:10px;color:#444444;}
+div.jbox .jbox-button{border:0;color:#fff;width:70px;height:30px;cursor:pointer;margin-right:15px;font-size:15px;line-height:30px;background-color:#4BA9E9;font-family:'Microsoft YaHei';margin-top:9px;}
+div.jbox .jbox-buttonCannel{border:0;color:#fff;width:70px;height:30px;font-size:15px;cursor:pointer;margin-right:15px;line-height:30px;background-color:#FFB400;font-family:'Microsoft YaHei';margin-top:9px;}
+/*div.jbox .jbox-button{background: #5BD16B;background: -webkit-gradient(linear, left top, left bottom, from(#5BD16B), to(#5BD16B));background: -moz-linear-gradient(top,  #5BD16B,  #5BD16B);filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#5BD16B', endColorstr='#5BD16B');border:#5BD16B 1px solid;color:#fff;border-radius:3px 3px 3px 3px;margin:1px 7px 0px 0px;height:22px;cursor:default;}
+div.jbox .jbox-button-hover{background: #5BD16B;background: -webkit-gradient(linear, left top, left bottom, from(#5BD16B), to(#5BD16B));background: -moz-linear-gradient(top,  #5BD16B,  #5BD16B);filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#5BD16B', endColorstr='#5BD16B');}
+div.jbox .jbox-button-active{background: -webkit-gradient(linear, left top, left bottom, from(#5BD16B), to(#5BD16B));background: -moz-linear-gradient(top,  #5BD16B,  #5BD16B);filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#5BD16B', endColorstr='#5BD16B');}*/
+div.jbox-warning .jbox .jbox-button-panel{background-color: #FFFFFF;}
+/* tip-color */
+div.jbox .jbox-tip-color{background: #4BA9E9;background: -webkit-gradient(linear, left top, left bottom, from(#4BA9E9), to(#4BA9E9));background: -moz-linear-gradient(top, #4BA9E9,  #4BA9E9);filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#4BA9E9', endColorstr='#4BA9E9');border-color:#4BA9E9;border-radius:3px;color:#fff;font-family: 'Microsoft Yahei';font-size: 16px;}
+/* icons */
+div.jbox span.jbox-icon{background:url(../img/jbox-icons.png) no-repeat scroll 0 0 transparent;_background:url(../img/jbox-icons-ie6.gif) no-repeat scroll 0 0 transparent;}
+div.jbox span.jbox-icon-info {background-position:0 0;}
+div.jbox span.jbox-icon-question {background-position:-36px 0;}
+div.jbox span.jbox-icon-success {background-position:-72px 0;}
+div.jbox span.jbox-icon-warning {background-position:-108px 0;}
+div.jbox span.jbox-icon-error {background-position:-144px 0;}
+div.jbox span.jbox-icon-none {display: none; overflow:hidden;}
+div.jbox span.jbox-icon-loading {background:url(../img/jbox-loading1.gif) no-repeat scroll 0 0 transparent;}

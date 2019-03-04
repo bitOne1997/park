@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.park.dao.AuthorityDAO">
+  	<resultMap id="AuthUserMapper" type="AuthUser">
+		<id property="id" column="id" />
+		<result property="username" column="username" />
+		<result property="password" column="password"/>
+		<result property="role" column="role" />
+	</resultMap>
+	
+	<select id="getUserPasswd" parameterType="java.lang.String" resultType="java.lang.String">
+		select password from authUsers where username=#{param1}
+	</select>
+	
+	<select id="getParkByNameandParkId" resultMap="AuthUserMapper">
+		select a1.id,a1.username,a1.`password`,a1.role,p3.name,p3.id as parkid 
+		from authUsers a1
+		left join userPark u2 on a1.id=u2.userId 
+		left join park p3 on u2.parkId=p3.id 
+		where a1.username LIKE '%${param1}%' or p3.name LIKE '%${param1}%'
+	</select>
+	
+	<select id="getParkByMoney" resultType="java.util.HashMap">
+		select p3.id
+		from authUsers a1
+		left join userPark u2 on a1.id=u2.userId 
+		left join park p3 on u2.parkId=p3.id 
+		where a1.username LIKE '%${username}%'
+	</select>
+	<!-- <select id="getParkByName" resultMap="ParkMapper">
+		select a1.id,a1.username,a1.`password`,a1.role,p3.name 
+		from authUsers a1
+		left join userPark u2 on a1.id=u2.userId 
+		left join park p3 on u2.parkId=p3.id 
+		where p3.name LIKE '%${name}%' 
+	</select> -->
+	
+	<select id="getUsers" resultMap="AuthUserMapper">
+		select * from authUsers
+	</select>
+	
+	<select id="getUsersByCount" resultMap="AuthUserMapper">
+		select * from authUsers limit #{start},#{count}
+	</select>
+	
+	
+	<select id="getUserCount" resultType="int">
+		select count(*) from authUsers
+	</select>
+	
+	<select id="getUser" parameterType="java.lang.String" resultMap="AuthUserMapper">
+		select * from authUsers where username=#{param1}
+	</select>
+	
+	<insert id="insertUser" parameterType="AuthUser" keyProperty="id" useGeneratedKeys="true">
+		insert into authUsers(username, password, role)
+		values(#{username}, #{password}, #{role})
+	</insert>
+	
+	<update id="updateUser" parameterType="AuthUser" >
+		update authUsers set username = #{username}, password=#{password}, role=#{role} where id = #{id}
+	</update>
+          
+    <delete id="deleteUser" parameterType="int">
+		delete from authUsers where id = #{param1}
+	</delete>
+</mapper>

@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.park.dao.NjcarfeerecordMapper" >
+  <resultMap id="BaseResultMap" type="com.park.model.Njcarfeerecord" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="arriveTime" property="arrivetime" jdbcType="TIMESTAMP" />
+    <result column="leaveTime" property="leavetime" jdbcType="TIMESTAMP" />
+    <result column="tradeDate" property="tradedate" jdbcType="TIMESTAMP" />
+    <result column="carNumber" property="carnumber" jdbcType="CHAR" />
+    <result column="tradeNumber" property="tradenumber" jdbcType="VARCHAR" />
+    <result column="stopType" property="stoptype" jdbcType="CHAR" />
+    <result column="parkName" property="parkname" jdbcType="VARCHAR" />
+    <result column="parkId" property="parkid" jdbcType="INTEGER" />
+    <result column="shouldCharge" property="shouldcharge" jdbcType="INTEGER" />
+    <result column="otherPay" property="otherpay" jdbcType="INTEGER" />
+    <result column="discount" property="discount" jdbcType="INTEGER" />
+    <result column="realPay" property="realpay" jdbcType="INTEGER" />
+    <result column="arrearsPay" property="arrearspay" jdbcType="INTEGER" />
+    <result column="paidMoney" property="paidmoney" jdbcType="INTEGER" />
+    <result column="picturePath" property="picturepath" jdbcType="VARCHAR" />
+    <result column="invoiceUrl" property="invoiceurl" jdbcType="VARCHAR" />
+    <result column="carType" property="cartype" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, arriveTime, leaveTime, tradeDate, carNumber, tradeNumber, stopType, parkName, 
+    parkId, shouldCharge, otherPay, discount, realPay, arrearsPay, paidMoney, picturePath, 
+    invoiceUrl, carType
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from njCarFeeRecord
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from njCarFeeRecord
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.park.model.Njcarfeerecord" >
+    insert into njCarFeeRecord (id, arriveTime, leaveTime, 
+      tradeDate, carNumber, tradeNumber, 
+      stopType, parkName, parkId, 
+      shouldCharge, otherPay, discount, 
+      realPay, arrearsPay, paidMoney, 
+      picturePath, invoiceUrl, carType
+      )
+    values (#{id,jdbcType=INTEGER}, #{arrivetime,jdbcType=TIMESTAMP}, #{leavetime,jdbcType=TIMESTAMP}, 
+      #{tradedate,jdbcType=TIMESTAMP}, #{carnumber,jdbcType=CHAR}, #{tradenumber,jdbcType=VARCHAR}, 
+      #{stoptype,jdbcType=CHAR}, #{parkname,jdbcType=VARCHAR}, #{parkid,jdbcType=INTEGER}, 
+      #{shouldcharge,jdbcType=INTEGER}, #{otherpay,jdbcType=INTEGER}, #{discount,jdbcType=INTEGER}, 
+      #{realpay,jdbcType=INTEGER}, #{arrearspay,jdbcType=INTEGER}, #{paidmoney,jdbcType=INTEGER}, 
+      #{picturepath,jdbcType=VARCHAR}, #{invoiceurl,jdbcType=VARCHAR}, #{cartype,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.park.model.Njcarfeerecord" >
+    insert into njCarFeeRecord
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="arrivetime != null" >
+        arriveTime,
+      </if>
+      <if test="leavetime != null" >
+        leaveTime,
+      </if>
+      <if test="tradedate != null" >
+        tradeDate,
+      </if>
+      <if test="carnumber != null" >
+        carNumber,
+      </if>
+      <if test="tradenumber != null" >
+        tradeNumber,
+      </if>
+      <if test="stoptype != null" >
+        stopType,
+      </if>
+      <if test="parkname != null" >
+        parkName,
+      </if>
+      <if test="parkid != null" >
+        parkId,
+      </if>
+      <if test="shouldcharge != null" >
+        shouldCharge,
+      </if>
+      <if test="otherpay != null" >
+        otherPay,
+      </if>
+      <if test="discount != null" >
+        discount,
+      </if>
+      <if test="realpay != null" >
+        realPay,
+      </if>
+      <if test="arrearspay != null" >
+        arrearsPay,
+      </if>
+      <if test="paidmoney != null" >
+        paidMoney,
+      </if>
+      <if test="picturepath != null" >
+        picturePath,
+      </if>
+      <if test="invoiceurl != null" >
+        invoiceUrl,
+      </if>
+      <if test="cartype != null" >
+        carType,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="arrivetime != null" >
+        #{arrivetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="leavetime != null" >
+        #{leavetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tradedate != null" >
+        #{tradedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="carnumber != null" >
+        #{carnumber,jdbcType=CHAR},
+      </if>
+      <if test="tradenumber != null" >
+        #{tradenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="stoptype != null" >
+        #{stoptype,jdbcType=CHAR},
+      </if>
+      <if test="parkname != null" >
+        #{parkname,jdbcType=VARCHAR},
+      </if>
+      <if test="parkid != null" >
+        #{parkid,jdbcType=INTEGER},
+      </if>
+      <if test="shouldcharge != null" >
+        #{shouldcharge,jdbcType=INTEGER},
+      </if>
+      <if test="otherpay != null" >
+        #{otherpay,jdbcType=INTEGER},
+      </if>
+      <if test="discount != null" >
+        #{discount,jdbcType=INTEGER},
+      </if>
+      <if test="realpay != null" >
+        #{realpay,jdbcType=INTEGER},
+      </if>
+      <if test="arrearspay != null" >
+        #{arrearspay,jdbcType=INTEGER},
+      </if>
+      <if test="paidmoney != null" >
+        #{paidmoney,jdbcType=INTEGER},
+      </if>
+      <if test="picturepath != null" >
+        #{picturepath,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceurl != null" >
+        #{invoiceurl,jdbcType=VARCHAR},
+      </if>
+      <if test="cartype != null" >
+        #{cartype,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.park.model.Njcarfeerecord" >
+    update njCarFeeRecord
+    <set >
+      <if test="arrivetime != null" >
+        arriveTime = #{arrivetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="leavetime != null" >
+        leaveTime = #{leavetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tradedate != null" >
+        tradeDate = #{tradedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="carnumber != null" >
+        carNumber = #{carnumber,jdbcType=CHAR},
+      </if>
+      <if test="tradenumber != null" >
+        tradeNumber = #{tradenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="stoptype != null" >
+        stopType = #{stoptype,jdbcType=CHAR},
+      </if>
+      <if test="parkname != null" >
+        parkName = #{parkname,jdbcType=VARCHAR},
+      </if>
+      <if test="parkid != null" >
+        parkId = #{parkid,jdbcType=INTEGER},
+      </if>
+      <if test="shouldcharge != null" >
+        shouldCharge = #{shouldcharge,jdbcType=INTEGER},
+      </if>
+      <if test="otherpay != null" >
+        otherPay = #{otherpay,jdbcType=INTEGER},
+      </if>
+      <if test="discount != null" >
+        discount = #{discount,jdbcType=INTEGER},
+      </if>
+      <if test="realpay != null" >
+        realPay = #{realpay,jdbcType=INTEGER},
+      </if>
+      <if test="arrearspay != null" >
+        arrearsPay = #{arrearspay,jdbcType=INTEGER},
+      </if>
+      <if test="paidmoney != null" >
+        paidMoney = #{paidmoney,jdbcType=INTEGER},
+      </if>
+      <if test="picturepath != null" >
+        picturePath = #{picturepath,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceurl != null" >
+        invoiceUrl = #{invoiceurl,jdbcType=VARCHAR},
+      </if>
+      <if test="cartype != null" >
+        carType = #{cartype,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.park.model.Njcarfeerecord" >
+    update njCarFeeRecord
+    set arriveTime = #{arrivetime,jdbcType=TIMESTAMP},
+      leaveTime = #{leavetime,jdbcType=TIMESTAMP},
+      tradeDate = #{tradedate,jdbcType=TIMESTAMP},
+      carNumber = #{carnumber,jdbcType=CHAR},
+      tradeNumber = #{tradenumber,jdbcType=VARCHAR},
+      stopType = #{stoptype,jdbcType=CHAR},
+      parkName = #{parkname,jdbcType=VARCHAR},
+      parkId = #{parkid,jdbcType=INTEGER},
+      shouldCharge = #{shouldcharge,jdbcType=INTEGER},
+      otherPay = #{otherpay,jdbcType=INTEGER},
+      discount = #{discount,jdbcType=INTEGER},
+      realPay = #{realpay,jdbcType=INTEGER},
+      arrearsPay = #{arrearspay,jdbcType=INTEGER},
+      paidMoney = #{paidmoney,jdbcType=INTEGER},
+      picturePath = #{picturepath,jdbcType=VARCHAR},
+      invoiceUrl = #{invoiceurl,jdbcType=VARCHAR},
+      carType = #{cartype,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByCarNumber" resultType="com.park.model.Njcarfeerecord">
+  	select * from njCarFeeRecord where carNumber=#{carNumber} order by id desc limit 2
+  </select>
+   <select id="selectByTradeNumber" resultType="com.park.model.Njcarfeerecord">
+  	select * from njCarFeeRecord where tradeNumber=#{tradeNumber} order by id desc
+  </select>
+  <select id="selectByCount" resultType="com.park.model.Njcarfeerecord">
+  	select * from njCarFeeRecord order by id desc limit #{count}
+  </select>
+</mapper>

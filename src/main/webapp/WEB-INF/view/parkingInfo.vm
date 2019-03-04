@@ -1,0 +1,26 @@
+<link href="/park/plugins/datepicker/datepicker.css" rel="stylesheet">
+<link href="/park/css/xx_list.css" rel="stylesheet"/>
+<link href="/park/css/xx_pname.css" rel="stylesheet"/>
+<script src="/park/script/utility.js"></script>
+<script src="/park/script/datepicker.js"></script>
+
+<div class="content-wrapper" >
+
+<section class="content">
+<iframe id="mainFrame" name="mainFrame" scrolling="no" onload="changeFrameHeight()"  src="/park/outsideParkStatus1"
+            frameborder="0" style="padding: 0px; width: 100%;min-height=1300px"></iframe>	
+</section>	
+</div>
+<script >
+function changeFrameHeight(){
+    var ifm= document.getElementById("mainFrame"); 
+    ifm.height=ifm.contentWindow.document.body.scrollHeight;
+	
+	if(ifm.height<800){
+	ifm.height=1300
+	}
+}
+window.onresize=function(){  
+     changeFrameHeight();  
+} 
+</script>

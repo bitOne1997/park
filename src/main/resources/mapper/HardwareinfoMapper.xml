@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.park.dao.HardwareinfoMapper" >
+  <resultMap id="BaseResultMap" type="com.park.model.Hardwareinfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="parkName" property="parkname" jdbcType="VARCHAR" />
+    <result column="parkId" property="parkid" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="mac" property="mac" jdbcType="VARCHAR" />
+    <result column="simNumber" property="simnumber" jdbcType="VARCHAR" />
+    <result column="simStatus" property="simstatus" jdbcType="VARCHAR" />
+    <result column="flow" property="flow" jdbcType="REAL" />
+    <result column="macVersion" property="macversion" jdbcType="VARCHAR" />
+    <result column="softVersion" property="softversion" jdbcType="VARCHAR" />
+    <result column="signalStatus" property="signalstatus" jdbcType="REAL" />
+    <result column="macStatus" property="macstatus" jdbcType="VARCHAR" />
+    <result column="heartStatus" property="heartstatus" jdbcType="TIMESTAMP" />
+    <result column="temperature" property="temperature" jdbcType="REAL" />
+    <result column="installTime" property="installtime" jdbcType="TIMESTAMP" />
+    <result column="other" property="other" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, parkName, parkId, type, mac, simNumber, simStatus, flow, macVersion, softVersion, 
+    signalStatus, macStatus, heartStatus, temperature, installTime, other
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from hardwareInfo
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from hardwareInfo
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.park.model.Hardwareinfo" >
+    insert into hardwareInfo (id, parkName, parkId, 
+      type, mac, simNumber, 
+      simStatus, flow, macVersion, 
+      softVersion, signalStatus, macStatus, 
+      heartStatus, temperature, installTime, 
+      other)
+    values (#{id,jdbcType=INTEGER}, #{parkname,jdbcType=VARCHAR}, #{parkid,jdbcType=INTEGER}, 
+      #{type,jdbcType=VARCHAR}, #{mac,jdbcType=VARCHAR}, #{simnumber,jdbcType=VARCHAR}, 
+      #{simstatus,jdbcType=VARCHAR}, #{flow,jdbcType=REAL}, #{macversion,jdbcType=VARCHAR}, 
+      #{softversion,jdbcType=VARCHAR}, #{signalstatus,jdbcType=REAL}, #{macstatus,jdbcType=VARCHAR}, 
+      #{heartstatus,jdbcType=TIMESTAMP}, #{temperature,jdbcType=REAL}, #{installtime,jdbcType=TIMESTAMP}, 
+      #{other,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.park.model.Hardwareinfo" >
+    insert into hardwareInfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="parkname != null" >
+        parkName,
+      </if>
+      <if test="parkid != null" >
+        parkId,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="mac != null" >
+        mac,
+      </if>
+      <if test="simnumber != null" >
+        simNumber,
+      </if>
+      <if test="simstatus != null" >
+        simStatus,
+      </if>
+      <if test="flow != null" >
+        flow,
+      </if>
+      <if test="macversion != null" >
+        macVersion,
+      </if>
+      <if test="softversion != null" >
+        softVersion,
+      </if>
+      <if test="signalstatus != null" >
+        signalStatus,
+      </if>
+      <if test="macstatus != null" >
+        macStatus,
+      </if>
+      <if test="heartstatus != null" >
+        heartStatus,
+      </if>
+      <if test="temperature != null" >
+        temperature,
+      </if>
+      <if test="installtime != null" >
+        installTime,
+      </if>
+      <if test="other != null" >
+        other,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="parkname != null" >
+        #{parkname,jdbcType=VARCHAR},
+      </if>
+      <if test="parkid != null" >
+        #{parkid,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="mac != null" >
+        #{mac,jdbcType=VARCHAR},
+      </if>
+      <if test="simnumber != null" >
+        #{simnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="simstatus != null" >
+        #{simstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="flow != null" >
+        #{flow,jdbcType=REAL},
+      </if>
+      <if test="macversion != null" >
+        #{macversion,jdbcType=VARCHAR},
+      </if>
+      <if test="softversion != null" >
+        #{softversion,jdbcType=VARCHAR},
+      </if>
+      <if test="signalstatus != null" >
+        #{signalstatus,jdbcType=REAL},
+      </if>
+      <if test="macstatus != null" >
+        #{macstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="heartstatus != null" >
+        #{heartstatus,jdbcType=TIMESTAMP},
+      </if>
+      <if test="temperature != null" >
+        #{temperature,jdbcType=REAL},
+      </if>
+      <if test="installtime != null" >
+        #{installtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="other != null" >
+        #{other,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.park.model.Hardwareinfo" >
+    update hardwareInfo
+    <set >
+      <if test="parkname != null" >
+        parkName = #{parkname,jdbcType=VARCHAR},
+      </if>
+      <if test="parkid != null" >
+        parkId = #{parkid,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="mac != null" >
+        mac = #{mac,jdbcType=VARCHAR},
+      </if>
+      <if test="simnumber != null" >
+        simNumber = #{simnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="simstatus != null" >
+        simStatus = #{simstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="flow != null" >
+        flow = #{flow,jdbcType=REAL},
+      </if>
+      <if test="macversion != null" >
+        macVersion = #{macversion,jdbcType=VARCHAR},
+      </if>
+      <if test="softversion != null" >
+        softVersion = #{softversion,jdbcType=VARCHAR},
+      </if>
+      <if test="signalstatus != null" >
+        signalStatus = #{signalstatus,jdbcType=REAL},
+      </if>
+      <if test="macstatus != null" >
+        macStatus = #{macstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="heartstatus != null" >
+        heartStatus = #{heartstatus,jdbcType=TIMESTAMP},
+      </if>
+      <if test="temperature != null" >
+        temperature = #{temperature,jdbcType=REAL},
+      </if>
+      <if test="installtime != null" >
+        installTime = #{installtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="other != null" >
+        other = #{other,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.park.model.Hardwareinfo" >
+    update hardwareInfo
+    set parkName = #{parkname,jdbcType=VARCHAR},
+      parkId = #{parkid,jdbcType=INTEGER},
+      type = #{type,jdbcType=VARCHAR},
+      mac = #{mac,jdbcType=VARCHAR},
+      simNumber = #{simnumber,jdbcType=VARCHAR},
+      simStatus = #{simstatus,jdbcType=VARCHAR},
+      flow = #{flow,jdbcType=REAL},
+      macVersion = #{macversion,jdbcType=VARCHAR},
+      softVersion = #{softversion,jdbcType=VARCHAR},
+      signalStatus = #{signalstatus,jdbcType=REAL},
+      macStatus = #{macstatus,jdbcType=VARCHAR},
+      heartStatus = #{heartstatus,jdbcType=TIMESTAMP},
+      temperature = #{temperature,jdbcType=REAL},
+      installTime = #{installtime,jdbcType=TIMESTAMP},
+      other = #{other,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="getAll" resultType="com.park.model.Hardwareinfo">
+  select * from hardwareInfo 
+  </select>
+  <select id="getByParkId" resultType="com.park.model.Hardwareinfo">
+  select * from hardwareInfo where parkId=#{parkId}
+  </select>
+  
+  
+</mapper>

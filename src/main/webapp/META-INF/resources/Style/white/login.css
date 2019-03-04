@@ -1,0 +1,131 @@
+body{
+    font-size: 12px;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+}
+.loginbg {
+    text-align:center;
+}
+.img_gy {
+    position:absolute;
+    top:0px;
+    left:0px;
+    cursor:pointer;
+}
+.img_loginlogo {
+    position:absolute;
+    top:50px;
+    left:100px;
+    cursor:pointer;
+}
+.loginContrain {
+    position: absolute;
+    left:0px;
+    top:0px;
+    width:100%;
+}
+.loginContent{
+    position: relative;
+    text-align: center;
+    margin:150px auto 30px auto;
+    width:451px;
+    height:353px;
+    background:url("../../Images/login/white/loginbox_gy.png"/*tpa=http://120.25.83.194:3010/Images/login/white/loginbox_gy.png*/) no-repeat;
+    display:none;
+    z-index:3;
+}
+.occupying {
+    height:100px;
+}
+.loginh{
+    margin:12px auto;
+	width:353px;
+	height:48px;
+	position:relative;
+    background:url("../../Images/login/white/userbox.png"/*tpa=http://120.25.83.194:3010/Images/login/white/userbox.png*/) no-repeat;
+}
+.loginInput{
+    vertical-align:middle;
+    font-size: 16px;
+	font-family:Microsoft YaHei;
+    height: 46px;
+	line-height:46px;
+    width: 290px;
+	border:0;
+	margin:0 0 0 45px;
+    background:none;
+    color: #7A828E;
+    padding-left:17px;
+}
+
+.login{
+	background-image:url("../../Images/login/white/loginbtn.png"/*tpa=http://120.25.83.194:3010/Images/login/white/loginbtn.png*/) ;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    height: 52px;
+	margin:22px auto;
+    width: 353px;
+}	
+.inlogin{
+	background-image:url("../../Images/login/white/inloginbotton.png"/*tpa=http://120.25.83.194:3010/Images/login/white/inloginbotton.png*/);
+    background-repeat: no-repeat;
+    cursor: pointer;
+    height: 52px;
+	margin:22px auto;
+    width: 353px;
+}
+
+.loginLine{
+	border:1px solid #4BA9E9;
+    background-color:#fff;
+	border-radius:3px;
+}
+	
+.msg{
+	position: absolute;
+	background-color:#f1504f;
+	color:#fff;
+	height:40px;
+	line-height:40px;
+	border-radius:2px;
+    display:none;
+}	
+.msg span{
+	margin:0 15px 0 50px;
+	}
+.loginArrow{
+	position:absolute;
+	background:url("../../Images/login/loginArrow.png"/*tpa=http://120.25.83.194:3010/Images/login/loginArrow.png*/) no-repeat;
+	width:8px;
+	height:11px;
+	top:15px;
+	left:-8px;}
+.msgCion{
+	position:absolute;
+	width:20px;
+	height:20px;
+	top:12px;
+	left:20px;
+	background-image:url("../../Images/login/msg.png"/*tpa=http://120.25.83.194:3010/Images/login/msg.png*/);}	
+.userCion{
+	
+	width:30px;
+	height:22px;
+	top:15px;
+	left:17px;
+	position:absolute;
+     color: #a5a5a5;
+     font-size:14px;
+	}	
+.psdCion{
+	width:30px;
+	height:22px;
+	top:15px;
+     color: #a5a5a5;
+	left:17px;
+	position:absolute;
+     font-size:14px;
+	}
+
+

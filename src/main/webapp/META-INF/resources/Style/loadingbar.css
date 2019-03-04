@@ -1,0 +1,32 @@
+ #loadingbar {
+                position: absolute;
+                z-index: 2147483647;
+                left: -6px;
+                top:73px;
+                width: 1%;
+                height: 3px;
+                background: #4BA9E9;
+                -moz-border-radius: 1px;
+                -webkit-border-radius: 1px;
+                -moz-transition: all 500ms ease-in-out;
+                -ms-transition: all 500ms ease-in-out;
+                -o-transition: all 500ms ease-in-out;
+                -webkit-transition: all 500ms ease-in-out;
+                transition: all 500ms ease-in-out;
+            } #loadingbar.waiting dd, #loadingbar.waiting dt {
+                -moz-animation: pulse 2s ease-out 0s infinite;
+                -ms-animation: pulse 2s ease-out 0s infinite;
+                -o-animation: pulse 2s ease-out 0s infinite;
+                -webkit-animation: pulse 2s ease-out 0s infinite;
+                animation: pulse 2s ease-out 0s infinite;
+            } #loadingbar dt {
+                opacity: .6;
+                width: 180px;
+                right: -80px;
+                clip: rect(-6px, 90px, 14px, -6px);
+            } #loadingbar dd {
+                opacity: .6;
+                width: 20px;
+                right: 0;
+                clip: rect(-6px, 22px, 14px, 10px);
+            }

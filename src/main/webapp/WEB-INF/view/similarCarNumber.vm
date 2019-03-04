@@ -1,0 +1,151 @@
+
+<script src="/park/script/similarCarNumber.js?v=1.1"></script>
+<script src="/park/script/service/textModalService.js"></script>
+
+<div class="content-wrapper" ng-app="similarCarNumberApp"
+	ng-controller="similarCarNumberCtrl">
+	<section class="content-header">
+		<h1>
+			相似车牌管理 <small></small>
+		</h1>
+
+	</section>
+
+	<section class="content">
+		<div class="row">
+			<div class="col-xs-12" style="padding: 0 5px 0 5px;">
+				<div class="box">
+					<div class="box-header">
+						<h3 class="box-title"></h3>
+					</div>
+					<!-- /.box-header -->
+					<div class="box-body" style="padding: 0px;">
+						<div class="btn-group" style="margin-left: 10px;">
+							<button #if(!$isAdmin) disabled#end
+								ng-click="refreshSimilarCarNumber()" type="button"
+								class="btn btn-info"
+								style="border-radius: 25px; margin-right: 5px;">
+								<span class="glyphicon glyphicon-refresh"></span>刷新
+							</button>
+							<button #if(!$isAdmin) disabled#end
+								ng-click="insertSimilarCarNumber()" type="button"
+								class="btn btn-primary"
+								style="border-radius: 25px; margin-right: 5px;">
+								<span class="glyphicon glyphicon-pencil"></span>添加
+							</button>
+							<button #if(!$isAdmin) disabled#end
+								ng-click="updateSimilarCarNumber()" type="button"
+								class="btn btn-warning"
+								style="border-radius: 25px; margin-right: 5px;">
+								<span class="glyphicon glyphicon-edit"></span> 更新
+							</button>
+							<button #if(!$isAdmin) disabled#end
+								ng-click="deleteSimilarCarNumber()" type="button"
+								class="btn btn-danger"
+								style="border-radius: 25px; margin-right: 5px;">
+								<span class="glyphicon glyphicon-remove"></span> 删除
+							</button>
+						</div>
+						<div class="pull-right">
+							<select class="form-control"
+								style="padding: 1px; font-size: 14px; height: 35px"
+								id="searchPark" ng-model="selectValue"
+								ng-options="park.name for park in parks"
+								ng-change="parkselectChange()">
+								<option value=-1>所有停车场</option>
+							</select>
+						</div>
+						<br /> <br />
+						<div>
+							<table
+								class="table table-striped table-bordered table-hover table-condensed"
+								id='parkTable' style="font-size: 12px">
+
+								<tr class="success">
+									<th><span style="">选择</span></th>
+									<th hidden><span style="padding-left: 15%" >Id</span></th>
+									<th><span style="padding-left: 15%">相似车牌</span></th>
+									<th><span style="padding-left: 15%">真实车牌</span></th>
+									<th><span style="padding-left: 15%">说明</span></th>
+								</tr>
+								<tbody id="parkBody"></tbody>
+								<tr ng-repeat="similarCarNumber in similarCarNumbers"
+									ng-click="selectChange($index)">
+									<td><input type="checkbox"
+										ng-model="similarCarNumber.checked" /></td>
+									<td ng-bind="similarCarNumber.id" hidden></td>
+									<td ng-bind="similarCarNumber.similarnumber"></td>
+									<td ng-bind="similarCarNumber.realnumber"></td>
+									<td ng-bind="similarCarNumber.other"></td>
+								</tr>
+							</table>
+						</div>
+						<tm-pagination conf="paginationConf"></tm-pagination>
+					</div>
+					<div class="box-footer clearfix">
+						<div id='pagination'></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<script type="text/ng-template" id="similarCarNumberModel">
+<div class='modal-content'>
+<div class="modal-header">
+	<button type='button' class='close' ng-click="close()" aria-hidden='true'>&times;</button>				
+	<h3 class="modal-title text-center" >相似车牌</h3>
+</div>
+<div class="modal-body">
+	<form class="form-horizontal" role="form">
+		<div class="form-group">
+			<label class="col-sm-2 control-label" >易错车牌</label>
+			<div class="col-sm-9">
+				<input type="text" class="form-control" placeholder="输入易错车牌" ng-model="tmpSimilarCarNumber.similarnumber">
+			</div>		
+			
+		</div>
+		<div class="form-group">
+		<label class="col-sm-2 control-label" >真实车牌</label>
+			<div class="col-sm-9">
+				<input type="text" class="form-control" placeholder="请输入对应的真实车牌" ng-model="tmpSimilarCarNumber.realnumber">
+			</div>
+		</div>
+		<div class="form-group">
+            <label class="col-sm-2 control-label" >选择停车场</label>
+            <div class="col-sm-9">
+                <select class="form-control" style="padding:1px;font-size:14px;height:35px" ng-model="selectPark" ng-options="park.id as park.name for park in parks" >
+	                		 <option value=-1>所有停车场</option>						
+	                	</select>
+            </div>
+        </div>  
+		<div class="form-group">
+            <label class="col-sm-2 control-label" >说明</label>
+            <div class="col-sm-9">
+                <textarea rows=5  class="form-control"  ng-model="tmpSimilarCarNumber.other"></textarea>
+            </div>
+        </div>    			
+		<div class="alert alert-info" ng-show="loading || submitted">
+			<span  ng-show='loading' > <i class="fa fa-spinner"></i></span>
+			<span ng-show='submitted'>{{result}}</span>
+		</div>								
+</form>
+</div>
+
+<div class="modal-footer">
+	<button ng-click="close()" type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+	<button ng-click="submit()"  type="button" class="btn btn-primary">确定</button>
+</div>
+</div>
+
+</script>
+
+
+</div>
+
+
+
+
+<script>
+	
+</script>

@@ -1,0 +1,191 @@
+<script src="/park/script/feecriterionToPark.js?v=1.0"></script>
+
+<script src="/park/script/utility.js"></script>
+<script src="/park/script/service/textModalService.js"></script>
+<style>
+.page-list .pagination {
+	float: left;
+}
+
+.page-list .pagination span {
+	cursor: pointer;
+}
+
+.page-list .pagination .separate span {
+	cursor: default;
+	border-top: none;
+	border-bottom: none;
+}
+
+.page-list .pagination .separate span:hover {
+	background: none;
+}
+
+.page-list .page-total {
+	float: left;
+	margin: 25px 20px;
+}
+
+.page-list .page-total input, .page-list .page-total select {
+	height: 26px;
+	border: 1px solid #ddd;
+}
+
+.page-list .page-total input {
+	width: 40px;
+	padding-left: 3px;
+}
+
+.page-list .page-total select {
+	width: 50px;
+}
+</style>
+<div class="content-wrapper" ng-app="feecriterionToParkApp"
+	ng-controller="feecriterionToParkCtrl">
+	<section class="content-header">
+		<h1>
+			停车场多计费标准 <small></small>
+		</h1>
+
+	</section>
+
+	<section class="content">
+		<div class="row">
+			<div class="col-xs-12" style="padding: 0 5px 0 5px;">
+				<div class="box">
+					<div class="box-header">
+						<h3 class="box-title"></h3>
+					</div>
+					<!-- /.box-header -->
+					<div class="box-body" style="padding: 0px;">
+						<div class="btn-group" style="margin-left: 10px;">
+							<button ng-click="refreshFeecriterionToPark()" type="button"
+								class="btn btn-info"
+								style="border-radius: 25px; margin-right: 5px;">
+								<span class="glyphicon glyphicon-refresh"></span> 刷新
+							</button>
+							<button ng-click="insertFeecriterionToPark()" type="button"
+								class="btn btn-primary"
+								style="border-radius: 25px; margin-right: 5px;">
+								<span class="glyphicon glyphicon-pencil"></span> 添加
+							</button>
+							<button ng-click="updateFeecriterionToPark()" type="button"
+								class="btn btn-warning"
+								style="border-radius: 25px; margin-right: 5px;">
+								<span class="glyphicon glyphicon-edit"></span> 修改
+							</button>
+							<button ng-click="deleteFeecriterionToPark()" type="button"
+								class="btn  btn-danger"
+								style="border-radius: 25px; margin-right: 5px;">
+								<span class="glyphicon glyphicon-remove"></span> 删除
+							</button>
+					
+						</div>
+						<div class="pull-right">
+							<select class="form-control"
+								style="padding: 1px; font-size: 14px; height: 35px"
+								ng-options="park.id as park.name for park in parks"
+								ng-model="parkId"
+								ng-change="parkselectChange(parkId)">							
+							</select>
+						</div>
+						<br /> <br />
+						<div>
+							<table
+								class="table table-bordered table-hover table-condensed table-striped text-center"
+								style="font-size: 12px">
+								<tr class="info" style="height: 30px; line-height: 30px;">
+									<th><span style="">选择</span></th>
+									<th hidden><span style="padding-left: 15%" >Id</span></th>
+									<th><span style="padding-left: 15%">计费标准</span></th>
+									<th><span style="padding-left: 15%">车辆类型</span></th>
+									<th><span style="padding-left: 15%">说明</span></th>
+								</tr>
+
+								<tbody id="parkBody"></tbody>
+								<tr ng-repeat="feeCritionToPark in feeCritionToParks" ng-click="selectChange($index)">
+									<td><input type="checkbox" ng-model="feeCritionToPark.checked"
+										 /></td>
+									<td ng-bind="feeCritionToPark.id" hidden></td>
+									<td ng-bind="feeCritionToPark.name"></td>
+									<td ng-if="feeCritionToPark.carType==9">临停车</td>
+									<td ng-if="feeCritionToPark.carType==0">包月车</td>
+									<td ng-if="feeCritionToPark.carType==8">包月过期车</td>
+									<td ng-if="feeCritionToPark.carType==1">包月类型A</td>
+									<td ng-if="feeCritionToPark.carType==2">包月类型B</td>
+									<td ng-if="feeCritionToPark.carType==3">包月类型C</td>
+									<td ng-if="feeCritionToPark.carType==4">包月类型D</td>
+									<td ng-bind="feeCritionToPark.other"></td>
+								</tr>
+							</table>
+						</div>
+					
+					<div class="box-footer clearfix">
+
+						
+					</div>
+					</div>
+					</div>
+					</div>
+					</div>
+	</section>
+	
+			
+
+
+<script type="text/ng-template" id="feecriterionToParkModel">
+
+<div class="modal-header">
+    <button type='button' class='close' ng-click="close()" aria-hidden='true'>
+        &times;
+    </button>
+    <h4 class="modal-title" >{{selectParkName}}多计费标准</h4>
+
+</div>
+
+<div class="modal-body">
+    <form class="form-horizontal" role="form">
+        
+
+    <div class="form-group">
+    <label class="col-sm-2 control-label" >计费标准</label>
+    <div class="col-sm-8">
+    <select class="form-control" ng-options="feecriterion.id as feecriterion.name for feecriterion in feecriterions" ng-model="tmpfeecriterionToPark.criterionid"></select>
+    </div>
+    </div>
+    
+    <div class="form-group">
+    <label class="col-sm-2 control-label" >车辆类型</label>
+    <div class="col-sm-8">
+    <select ng-model="tmpfeecriterionToPark.cartype" ng-options="carType.id as carType.name for carType in carTypes" class="form-control">
+    </select>
+    </div>
+    </div>
+    
+	
+ 	<div class="form-group">
+            <label class="col-sm-2 control-label" >说明</label>
+            <div class="col-sm-8">
+                <textarea rows=5  class="form-control"  ng-model="tmpfeecriterionToPark.other"></textarea>
+            </div>
+     </div>   
+   
+ 
+        <div class="alert alert-info" ng-show="(loading || submitted)">
+            <span  ng-show='loading'  skip-ng-show= "yes" ng-activity-indicator= "CircledGrey"></span>
+            <span ng-show='submitted'>{{result}}</span>
+        </div>
+
+    </form>
+</div>
+
+<div class="modal-footer">
+    <button ng-click="close()" type="button" class="btn btn-default" data-dismiss="modal">
+        取消
+    </button>
+    <button ng-click="submit()"  type="button" class="btn btn-primary">
+        确定
+    </button>
+</div>
+</script>
+</div>

@@ -1,0 +1,19 @@
+    <link rel="stylesheet" href="/park/bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/fontawesome/4.4.0/css/font-awesome.min.css">
+  
+    <!-- Theme style -->
+    <link rel="stylesheet" href="/park/dist/css/AdminLTE.min.css">
+
+    <link rel="stylesheet" href="/park/dist/css/skins/skin-blue.min.css">
+
+    <script src="/park/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="/park/bootstrap/js/bootstrap.min.js"></script>
+	<script src="/park/plugins/angular/angular.min.js"></script>
+   	<script src="/park/plugins/angular/angular-animate.min.js"></script>
+    <script src="/park/plugins/angular/angular-cookies.min.js"></script>
+     <script src="/park/plugins/angular/angular-ui-router.min.js"></script>
+    <script src="/park/plugins/angular/ocLazyLoad.min.js"></script>  
+    <script src="/park/plugins/angular/ui-bootstrap-tpls.min.js"></script>
+		$screen_content

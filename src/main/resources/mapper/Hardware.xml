@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.park.dao.HardwareDAO">
+  	<resultMap id="HardwareMapper" type="com.park.model.Hardware">
+		<id property="id" column="id" />
+		<result property="mac" column="mac" />
+		<result property="type" column="type" />
+		<result property="status" column="status"/>
+		<result property="description" column="description" />
+		<result property="date" column="date"/>
+	</resultMap>    
+ 	<resultMap id="HardwareDetailMapper" type="com.park.model.HardwareDetail">
+		<id property="id" column="id" />
+		<result property="mac" column="mac" />
+		<result property="type" column="type" />
+		<result property="status" column="status"/>
+		<result property="description" column="description" />
+		<result property="date" column="date"/>
+	</resultMap> 
+
+ 	<select id="getHardwares" resultMap="HardwareMapper">
+		select * from hardware
+	</select> 
+	
+	<select id="getHardwareById" resultMap="HardwareMapper">
+		select * from hardware where id = #{param1}
+	</select> 
+	<select id="getHardwareByMac" resultMap="HardwareMapper">
+		select * from hardware where mac = #{mac}
+	</select> 
+	
+	<select id="getHardwareByMacAndType" resultMap="HardwareMapper">
+		select * from hardware where mac = #{mac} and type= #{type}
+	</select> 
+	
+	<select id="getUnusedHardwares" resultMap="HardwareMapper">
+		select * from hardware where status = 1
+	</select> 
+	
+	<select id="getUnboundHardwares" resultMap="HardwareMapper">
+		select * from hardware where status = 1 and type = #{param1} 
+	</select>
+	
+	<select id="getHardwareDetail" resultMap="HardwareDetailMapper">
+		select * from hardware limit #{low}, #{count}
+	</select>
+	
+	<select id="getHardwareCount"  resultType="int">
+		select count(*) from hardware
+	</select>
+	
+	<select id="macToId" resultType="int">
+		select id from hardware where mac = #{mac}
+	</select>
+	<select id="macToType" resultType="int">
+	SELECT type FROM hardware WHERE mac = #{mac}
+	</select>
+	
+	<select id="getInfoByMac" resultType="java.util.HashMap">
+	 SELECT channel.parkId AS parkID,channel.channelFlag as channelFlag, park.name AS NAME,hardware.mac AS mac,hardware.id as macId FROM hardware 
+	 LEFT JOIN channel ON channel.macId=hardware.id 
+	 LEFT JOIN park ON park.id=channel.parkId
+	 WHERE mac=#{mac} order by channel.id desc
+	</select>
+	<select id="getInfoByMacCarport" resultType="java.util.HashMap">
+	 SELECT businessCarport.parkId AS parkID, park.name AS NAME,hardware.mac AS mac,hardware.id as macId FROM hardware 
+	 LEFT JOIN businessCarport ON businessCarport.macId=hardware.id 
+	 LEFT JOIN park ON park.id=businessCarport.parkId
+	 WHERE mac=#{mac} order by channel.id desc
+	</select>
+	<select id="searchHardware" resultMap="HardwareMapper">
+	select * from hardware where mac = #{param1}
+	</select>
+
+	<select id="searchHardwareByKeywords" resultMap="HardwareMapper" statementType="STATEMENT">
+	select * from hardware where mac like '%${mac}%' or description like '%${mac}%'
+	</select>
+	<insert id="insertHardware"  useGeneratedKeys="true" parameterType="com.park.model.Hardware" keyProperty="id">
+		insert into hardware(mac, type, status, description, date) values(#{mac}, #{type}, #{status}, #{description}, #{date})
+	</insert>
+	
+	<update id="updateHardware" parameterType="com.park.model.Hardware" >
+		update hardware set mac = #{mac}, type = #{type}, status = #{status}, description = #{description}, date = #{date} where id = #{id}
+	</update> 
+	
+ 	<delete id="deleteHardware" parameterType="int">
+		delete from hardware where id = #{id}
+	</delete> 
+        
+          
+</mapper>

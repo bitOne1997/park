@@ -1,0 +1,607 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.park.dao.ChargedataParkMapper" >
+  <resultMap id="BaseResultMap" type="com.park.model.ChargedataPark" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="carNumber" property="carnumber" jdbcType="CHAR" />
+    <result column="parkId" property="parkid" jdbcType="INTEGER" />
+    <result column="parkDesc" property="parkdesc" jdbcType="VARCHAR" />
+    <result column="portNumber" property="portnumber" jdbcType="VARCHAR" />
+    <result column="operatorId" property="operatorid" jdbcType="VARCHAR" />
+    <result column="posId" property="posid" jdbcType="VARCHAR" />
+    <result column="chargeMoney" property="chargemoney" jdbcType="INTEGER" />
+    <result column="paidMoney" property="paidmoney" jdbcType="INTEGER" />
+    <result column="unPaidMoney" property="unpaidmoney" jdbcType="INTEGER" />
+    <result column="givenMoney" property="givenmoney" jdbcType="INTEGER" />
+    <result column="changeMoney" property="changemoney" jdbcType="INTEGER" />
+    <result column="isOneTimeExpense" property="isonetimeexpense" jdbcType="BIT" />
+    <result column="paidCompleted" property="paidcompleted" jdbcType="BIT" />
+    <result column="isLargeCar" property="islargecar" jdbcType="BIT" />
+    <result column="entranceDate" property="entrancedate" jdbcType="TIMESTAMP" />
+    <result column="exitDate" property="exitdate" jdbcType="TIMESTAMP" />
+    <result column="inPictureUrl" property="inpictureurl" jdbcType="VARCHAR" />
+    <result column="outPirctureUrl" property="outpirctureurl" jdbcType="VARCHAR" />
+    <result column="rejectReason" property="rejectreason" jdbcType="VARCHAR" />
+    <result column="payType" property="paytype" jdbcType="TINYINT" />
+    <result column="discount" property="discount" jdbcType="INTEGER" />
+    <result column="discountType" property="discounttype" jdbcType="VARCHAR" />
+    <result column="reserve1" property="reserve1" jdbcType="INTEGER" />
+    <result column="reserve2" property="reserve2" jdbcType="VARCHAR" />
+    <result column="other" property="other" jdbcType="INTEGER" />
+    <result column="other2" property="other2" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, carNumber, parkId, parkDesc, portNumber, operatorId, posId, chargeMoney, paidMoney, 
+    unPaidMoney, givenMoney, changeMoney, isOneTimeExpense, paidCompleted, isLargeCar, 
+    entranceDate, exitDate, inPictureUrl, outPirctureUrl, rejectReason, payType, discount, 
+    discountType, reserve1, reserve2, other, other2
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from chargedata_park
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from chargedata_park
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.park.model.ChargedataPark" >
+    insert into chargedata_park (id, carNumber, parkId, 
+      parkDesc, portNumber, operatorId, 
+      posId, chargeMoney, paidMoney, 
+      unPaidMoney, givenMoney, changeMoney, 
+      isOneTimeExpense, paidCompleted, isLargeCar, 
+      entranceDate, exitDate, inPictureUrl, 
+      outPirctureUrl, rejectReason, payType, 
+      discount, discountType, reserve1, 
+      reserve2, other, other2
+      )
+    values (#{id,jdbcType=INTEGER}, #{carnumber,jdbcType=CHAR}, #{parkid,jdbcType=INTEGER}, 
+      #{parkdesc,jdbcType=VARCHAR}, #{portnumber,jdbcType=VARCHAR}, #{operatorid,jdbcType=VARCHAR}, 
+      #{posid,jdbcType=VARCHAR}, #{chargemoney,jdbcType=INTEGER}, #{paidmoney,jdbcType=INTEGER}, 
+      #{unpaidmoney,jdbcType=INTEGER}, #{givenmoney,jdbcType=INTEGER}, #{changemoney,jdbcType=INTEGER}, 
+      #{isonetimeexpense,jdbcType=BIT}, #{paidcompleted,jdbcType=BIT}, #{islargecar,jdbcType=BIT}, 
+      #{entrancedate,jdbcType=TIMESTAMP}, #{exitdate,jdbcType=TIMESTAMP}, #{inpictureurl,jdbcType=VARCHAR}, 
+      #{outpirctureurl,jdbcType=VARCHAR}, #{rejectreason,jdbcType=VARCHAR}, #{paytype,jdbcType=TINYINT}, 
+      #{discount,jdbcType=INTEGER}, #{discounttype,jdbcType=VARCHAR}, #{reserve1,jdbcType=INTEGER}, 
+      #{reserve2,jdbcType=VARCHAR}, #{other,jdbcType=INTEGER}, #{other2,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.park.model.ChargedataPark" >
+    insert into chargedata_park
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="carnumber != null" >
+        carNumber,
+      </if>
+      <if test="parkid != null" >
+        parkId,
+      </if>
+      <if test="parkdesc != null" >
+        parkDesc,
+      </if>
+      <if test="portnumber != null" >
+        portNumber,
+      </if>
+      <if test="operatorid != null" >
+        operatorId,
+      </if>
+      <if test="posid != null" >
+        posId,
+      </if>
+      <if test="chargemoney != null" >
+        chargeMoney,
+      </if>
+      <if test="paidmoney != null" >
+        paidMoney,
+      </if>
+      <if test="unpaidmoney != null" >
+        unPaidMoney,
+      </if>
+      <if test="givenmoney != null" >
+        givenMoney,
+      </if>
+      <if test="changemoney != null" >
+        changeMoney,
+      </if>
+      <if test="isonetimeexpense != null" >
+        isOneTimeExpense,
+      </if>
+      <if test="paidcompleted != null" >
+        paidCompleted,
+      </if>
+      <if test="islargecar != null" >
+        isLargeCar,
+      </if>
+      <if test="entrancedate != null" >
+        entranceDate,
+      </if>
+      <if test="exitdate != null" >
+        exitDate,
+      </if>
+      <if test="inpictureurl != null" >
+        inPictureUrl,
+      </if>
+      <if test="outpirctureurl != null" >
+        outPirctureUrl,
+      </if>
+      <if test="rejectreason != null" >
+        rejectReason,
+      </if>
+      <if test="paytype != null" >
+        payType,
+      </if>
+      <if test="discount != null" >
+        discount,
+      </if>
+      <if test="discounttype != null" >
+        discountType,
+      </if>
+      <if test="reserve1 != null" >
+        reserve1,
+      </if>
+      <if test="reserve2 != null" >
+        reserve2,
+      </if>
+      <if test="other != null" >
+        other,
+      </if>
+      <if test="other2 != null" >
+        other2,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="carnumber != null" >
+        #{carnumber,jdbcType=CHAR},
+      </if>
+      <if test="parkid != null" >
+        #{parkid,jdbcType=INTEGER},
+      </if>
+      <if test="parkdesc != null" >
+        #{parkdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="portnumber != null" >
+        #{portnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorid != null" >
+        #{operatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="posid != null" >
+        #{posid,jdbcType=VARCHAR},
+      </if>
+      <if test="chargemoney != null" >
+        #{chargemoney,jdbcType=INTEGER},
+      </if>
+      <if test="paidmoney != null" >
+        #{paidmoney,jdbcType=INTEGER},
+      </if>
+      <if test="unpaidmoney != null" >
+        #{unpaidmoney,jdbcType=INTEGER},
+      </if>
+      <if test="givenmoney != null" >
+        #{givenmoney,jdbcType=INTEGER},
+      </if>
+      <if test="changemoney != null" >
+        #{changemoney,jdbcType=INTEGER},
+      </if>
+      <if test="isonetimeexpense != null" >
+        #{isonetimeexpense,jdbcType=BIT},
+      </if>
+      <if test="paidcompleted != null" >
+        #{paidcompleted,jdbcType=BIT},
+      </if>
+      <if test="islargecar != null" >
+        #{islargecar,jdbcType=BIT},
+      </if>
+      <if test="entrancedate != null" >
+        #{entrancedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="exitdate != null" >
+        #{exitdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inpictureurl != null" >
+        #{inpictureurl,jdbcType=VARCHAR},
+      </if>
+      <if test="outpirctureurl != null" >
+        #{outpirctureurl,jdbcType=VARCHAR},
+      </if>
+      <if test="rejectreason != null" >
+        #{rejectreason,jdbcType=VARCHAR},
+      </if>
+      <if test="paytype != null" >
+        #{paytype,jdbcType=TINYINT},
+      </if>
+      <if test="discount != null" >
+        #{discount,jdbcType=INTEGER},
+      </if>
+      <if test="discounttype != null" >
+        #{discounttype,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve1 != null" >
+        #{reserve1,jdbcType=INTEGER},
+      </if>
+      <if test="reserve2 != null" >
+        #{reserve2,jdbcType=VARCHAR},
+      </if>
+      <if test="other != null" >
+        #{other,jdbcType=INTEGER},
+      </if>
+      <if test="other2 != null" >
+        #{other2,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.park.model.ChargedataPark" >
+    update chargedata_park
+    <set >
+      <if test="carnumber != null" >
+        carNumber = #{carnumber,jdbcType=CHAR},
+      </if>
+      <if test="parkid != null" >
+        parkId = #{parkid,jdbcType=INTEGER},
+      </if>
+      <if test="parkdesc != null" >
+        parkDesc = #{parkdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="portnumber != null" >
+        portNumber = #{portnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorid != null" >
+        operatorId = #{operatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="posid != null" >
+        posId = #{posid,jdbcType=VARCHAR},
+      </if>
+      <if test="chargemoney != null" >
+        chargeMoney = #{chargemoney,jdbcType=INTEGER},
+      </if>
+      <if test="paidmoney != null" >
+        paidMoney = #{paidmoney,jdbcType=INTEGER},
+      </if>
+      <if test="unpaidmoney != null" >
+        unPaidMoney = #{unpaidmoney,jdbcType=INTEGER},
+      </if>
+      <if test="givenmoney != null" >
+        givenMoney = #{givenmoney,jdbcType=INTEGER},
+      </if>
+      <if test="changemoney != null" >
+        changeMoney = #{changemoney,jdbcType=INTEGER},
+      </if>
+      <if test="isonetimeexpense != null" >
+        isOneTimeExpense = #{isonetimeexpense,jdbcType=BIT},
+      </if>
+      <if test="paidcompleted != null" >
+        paidCompleted = #{paidcompleted,jdbcType=BIT},
+      </if>
+      <if test="islargecar != null" >
+        isLargeCar = #{islargecar,jdbcType=BIT},
+      </if>
+      <if test="entrancedate != null" >
+        entranceDate = #{entrancedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="exitdate != null" >
+        exitDate = #{exitdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inpictureurl != null" >
+        inPictureUrl = #{inpictureurl,jdbcType=VARCHAR},
+      </if>
+      <if test="outpirctureurl != null" >
+        outPirctureUrl = #{outpirctureurl,jdbcType=VARCHAR},
+      </if>
+      <if test="rejectreason != null" >
+        rejectReason = #{rejectreason,jdbcType=VARCHAR},
+      </if>
+      <if test="paytype != null" >
+        payType = #{paytype,jdbcType=TINYINT},
+      </if>
+      <if test="discount != null" >
+        discount = #{discount,jdbcType=INTEGER},
+      </if>
+      <if test="discounttype != null" >
+        discountType = #{discounttype,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve1 != null" >
+        reserve1 = #{reserve1,jdbcType=INTEGER},
+      </if>
+      <if test="reserve2 != null" >
+        reserve2 = #{reserve2,jdbcType=VARCHAR},
+      </if>
+      <if test="other != null" >
+        other = #{other,jdbcType=INTEGER},
+      </if>
+      <if test="other2 != null" >
+        other2 = #{other2,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.park.model.ChargedataPark" >
+    update chargedata_park
+    set carNumber = #{carnumber,jdbcType=CHAR},
+      parkId = #{parkid,jdbcType=INTEGER},
+      parkDesc = #{parkdesc,jdbcType=VARCHAR},
+      portNumber = #{portnumber,jdbcType=VARCHAR},
+      operatorId = #{operatorid,jdbcType=VARCHAR},
+      posId = #{posid,jdbcType=VARCHAR},
+      chargeMoney = #{chargemoney,jdbcType=INTEGER},
+      paidMoney = #{paidmoney,jdbcType=INTEGER},
+      unPaidMoney = #{unpaidmoney,jdbcType=INTEGER},
+      givenMoney = #{givenmoney,jdbcType=INTEGER},
+      changeMoney = #{changemoney,jdbcType=INTEGER},
+      isOneTimeExpense = #{isonetimeexpense,jdbcType=BIT},
+      paidCompleted = #{paidcompleted,jdbcType=BIT},
+      isLargeCar = #{islargecar,jdbcType=BIT},
+      entranceDate = #{entrancedate,jdbcType=TIMESTAMP},
+      exitDate = #{exitdate,jdbcType=TIMESTAMP},
+      inPictureUrl = #{inpictureurl,jdbcType=VARCHAR},
+      outPirctureUrl = #{outpirctureurl,jdbcType=VARCHAR},
+      rejectReason = #{rejectreason,jdbcType=VARCHAR},
+      payType = #{paytype,jdbcType=TINYINT},
+      discount = #{discount,jdbcType=INTEGER},
+      discountType = #{discounttype,jdbcType=VARCHAR},
+      reserve1 = #{reserve1,jdbcType=INTEGER},
+      reserve2 = #{reserve2,jdbcType=VARCHAR},
+      other = #{other,jdbcType=INTEGER},
+      other2 = #{other2,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <insert id="insertSelectiveTable" statementType="STATEMENT" parameterType="com.park.model.ChargedataParkWithTable" >
+    insert into ${tableName}
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="carnumber != null" >
+        carNumber,
+      </if>
+      <if test="parkid != null" >
+        parkId,
+      </if>
+      <if test="parkdesc != null" >
+        parkDesc,
+      </if>
+      <if test="portnumber != null" >
+        portNumber,
+      </if>
+      <if test="operatorid != null" >
+        operatorId,
+      </if>
+      <if test="posid != null" >
+        posId,
+      </if>
+      <if test="chargemoney != null" >
+        chargeMoney,
+      </if>
+      <if test="paidmoney != null" >
+        paidMoney,
+      </if>
+      <if test="unpaidmoney != null" >
+        unPaidMoney,
+      </if>
+      <if test="givenmoney != null" >
+        givenMoney,
+      </if>
+      <if test="changemoney != null" >
+        changeMoney,
+      </if>
+      <if test="isonetimeexpense != null" >
+        isOneTimeExpense,
+      </if>
+      <if test="paidcompleted != null" >
+        paidCompleted,
+      </if>
+      <if test="islargecar != null" >
+        isLargeCar,
+      </if>
+      <if test="entrancedate != null" >
+        entranceDate,
+      </if>
+      <if test="exitdate != null" >
+        exitDate,
+      </if>
+      <if test="inpictureurl != null" >
+        inPictureUrl,
+      </if>
+      <if test="outpirctureurl != null" >
+        outPirctureUrl,
+      </if>
+      <if test="rejectreason != null" >
+        rejectReason,
+      </if>
+      <if test="paytype != null" >
+        payType,
+      </if>
+      <if test="discount != null" >
+        discount,
+      </if>
+      <if test="discounttype != null" >
+        discountType,
+      </if>
+      <if test="reserve1 != null" >
+        reserve1,
+      </if>
+      <if test="reserve2 != null" >
+        reserve2,
+      </if>
+      <if test="other != null" >
+        other,
+      </if>
+      <if test="other2 != null" >
+        other2,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ${id,jdbcType=INTEGER},
+      </if>
+      <if test="carnumber != null" >
+        #{carnumber,jdbcType=CHAR},
+      </if>
+      <if test="parkid != null" >
+        #{parkid,jdbcType=INTEGER},
+      </if>
+      <if test="parkdesc != null" >
+        #{parkdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="portnumber != null" >
+        #{portnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorid != null" >
+        #{operatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="posid != null" >
+        #{posid,jdbcType=VARCHAR},
+      </if>
+      <if test="chargemoney != null" >
+        #{chargemoney,jdbcType=INTEGER},
+      </if>
+      <if test="paidmoney != null" >
+        #{paidmoney,jdbcType=INTEGER},
+      </if>
+      <if test="unpaidmoney != null" >
+        #{unpaidmoney,jdbcType=INTEGER},
+      </if>
+      <if test="givenmoney != null" >
+        #{givenmoney,jdbcType=INTEGER},
+      </if>
+      <if test="changemoney != null" >
+        #{changemoney,jdbcType=INTEGER},
+      </if>
+      <if test="isonetimeexpense != null" >
+        #{isonetimeexpense,jdbcType=BIT},
+      </if>
+      <if test="paidcompleted != null" >
+        #{paidcompleted,jdbcType=BIT},
+      </if>
+      <if test="islargecar != null" >
+        #{islargecar,jdbcType=BIT},
+      </if>
+      <if test="entrancedate != null" >
+       #{entrancedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="exitdate != null" >
+        #{exitdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inpictureurl != null" >
+        #{inpictureurl,jdbcType=VARCHAR},
+      </if>
+      <if test="outpirctureurl != null" >
+        #{outpirctureurl,jdbcType=VARCHAR},
+      </if>
+      <if test="rejectreason != null" >
+        #{rejectreason,jdbcType=VARCHAR},
+      </if>
+      <if test="paytype != null" >
+        #{paytype,jdbcType=TINYINT},
+      </if>
+      <if test="discount != null" >
+        #{discount,jdbcType=INTEGER},
+      </if>
+      <if test="discounttype != null" >
+        #{discounttype,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve1 != null" >
+        #{reserve1,jdbcType=INTEGER},
+      </if>
+      <if test="reserve2 != null" >
+        #{reserve2,jdbcType=VARCHAR},
+      </if>
+      <if test="other != null" >
+        #{other,jdbcType=INTEGER},
+      </if>
+      <if test="other2 != null" >
+        #{other2,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+    <insert id="insertTable" statementType="STATEMENT" parameterType="com.park.model.ChargedataParkWithTable" >
+    insert into ${tableName} (id, carNumber, parkId, 
+      parkDesc, portNumber, operatorId, 
+      posId, chargeMoney, paidMoney, 
+      unPaidMoney, givenMoney, changeMoney, 
+      isOneTimeExpense, paidCompleted, isLargeCar, 
+      entranceDate, exitDate, inPictureUrl, 
+      outPirctureUrl, rejectReason, payType, 
+      discount, discountType, reserve1, 
+      reserve2, other, other2
+      )
+    values (${id}, '${carnumber}', ${parkid}, 
+      '${parkdesc}', '${portnumber}', '${operatorid}', 
+      '${posid}', ${chargemoney}, ${paidmoney}, 
+      ${unpaidmoney}, ${givenmoney}, ${changemoney}, 
+      ${isonetimeexpense}, ${paidcompleted}, ${islargecar}, 
+      ${entrancedate}, ${exitdate}, '${inpictureurl}', 
+      '${outpirctureurl}', '${rejectreason}', ${paytype}, 
+      ${discount}, '${discounttype}', '${reserve1}', 
+     '${reserve2}', ${other}, '${other2}'
+      )
+  </insert>
+    <update id="updateByPrimaryKeyTable" statementType="STATEMENT" parameterType="com.park.model.ChargedataParkWithTable" >
+    update ${tableName}
+    set carNumber = '${carnumber}',
+      parkId = ${parkid},
+      parkDesc = '${parkdesc}',
+      portNumber = '${portnumber}',
+      operatorId = '${operatorid}',
+      posId = '${posid}',
+      chargeMoney = ${chargemoney},
+      paidMoney = ${paidmoney},
+      unPaidMoney = ${unpaidmoney},
+      givenMoney = ${givenmoney},
+      changeMoney = ${changemoney},
+      isOneTimeExpense = ${isonetimeexpense},
+      paidCompleted = ${paidcompleted},
+      isLargeCar = ${islargecar},
+      entranceDate = '${entrancedate}',
+      exitDate = '${exitdate}',
+      inPictureUrl = '${inpictureurl}',
+      outPirctureUrl = '${outpirctureurl}',
+      rejectReason = '${rejectreason}',
+      payType = ${paytype},
+      discount = ${discount},
+      discountType = '${discounttype}',
+      reserve1 = ${reserve1},
+      reserve2 = '${reserve2}',
+      other = ${other},
+      other2 = '${other2}'
+    where id = ${id}
+  </update>
+  <update id="generateTable" statementType="STATEMENT">
+  	CREATE TABLE if not exists ${tableName} (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `carNumber` char(7) DEFAULT NULL,
+  `parkId` int(11) DEFAULT NULL,
+  `parkDesc` varchar(30) DEFAULT NULL,
+  `portNumber` varchar(15) DEFAULT NULL,
+  `operatorId` varchar(16) DEFAULT NULL,
+  `posId` varchar(16) DEFAULT NULL,
+  `chargeMoney` int(11) DEFAULT '0',
+  `paidMoney` int(11) DEFAULT '0',
+  `unPaidMoney` int(11) DEFAULT '0',
+  `givenMoney` int(11) DEFAULT '0',
+  `changeMoney` int(11) DEFAULT '0',
+  `isOneTimeExpense` bit(1) DEFAULT b'0',
+  `paidCompleted` bit(1) DEFAULT b'0',
+  `isLargeCar` tinyint(1) DEFAULT '0',
+  `entranceDate` datetime DEFAULT NULL,
+  `exitDate` datetime DEFAULT NULL,
+  `inPictureUrl` varchar(63) DEFAULT NULL,
+  `outPirctureUrl` varchar(63) DEFAULT NULL,
+  `rejectReason` varchar(30) DEFAULT NULL,
+  `payType` tinyint(4) DEFAULT NULL,
+  `discount` int(11) DEFAULT NULL,
+  `discountType` varchar(5) DEFAULT NULL,
+  `reserve1` int(11) DEFAULT NULL,
+  `reserve2` varchar(15) DEFAULT NULL,
+  `other` int(11) DEFAULT NULL,
+  `other2` varchar(15) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+  </update>
+</mapper>

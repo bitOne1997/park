@@ -1,0 +1,116 @@
+<script src="/park/script/service/textModalService.js"></script>
+
+<script src="/park/script/arrearage.js"></script>
+<script src="/park/script/datepicker.js"></script>
+
+<style>
+        .page-list .pagination {float:left;}
+        .page-list .pagination span {cursor: pointer;}
+        .page-list .pagination .separate span{cursor: default; border-top:none;border-bottom:none;}
+        .page-list .pagination .separate span:hover {background: none;}
+        .page-list .page-total {float:left; margin: 25px 20px;}
+        .page-list .page-total input, .page-list .page-total select{height: 26px; border: 1px solid #ddd;}
+        .page-list .page-total input {width: 40px; padding-left:3px;}
+        .page-list .page-total select {width: 50px;}
+</style>
+<div class="content-wrapper" ng-app="feeDetailApp" ng-controller="feeDetailCtrl">
+	<section class="content-header">
+          <h1>
+            今日欠费
+            <small></small>
+          </h1>     
+    </section>
+    <section class="content">
+       <div class="row">
+            <div class="col-xs-12">
+              	<div class="box">
+	                <div class="box-header">
+	                  <h3 class="box-title"></h3>
+	                </div><!-- /.box-header -->
+	                <div class="box-body">  
+		                	<div class="btn-group">
+		                		<button ng-click="detail.refresh()" type="button" class="btn bg-purple"><span class="glyphicon glyphicon-refresh"></span> 刷新</button>		                		
+		                	</div>    					
+							<div class="btn-group">
+		                		<button #if(!$isAdmin) disabled#end onclick="window.open('getExcel')" id="excelBtn" type="button" class="btn bg-purple"><span class="glyphicon glyphicon-refresh"></span> 导出excel</button>
+		             
+		                	</div>
+						<div class="pull-right">
+						 <select style="display:none" id="get_Park" class="form-control" style="padding:1px;font-size:14px;height:35px" id="searchPark">
+	                		          		#foreach( $park in $parks)
+												<option value=$park.id>$park.name</option>
+											#end
+	                	</select>
+	                	<select class="form-control" style="padding:1px;font-size:14px;height:35px" ng-options="park1.name for park1 in selectParks" ng-model="selectedPark">
+	                		#if($isAdmin) <option value=-1>所有停车场</option>#end  
+	                	</select>
+	                	</div>
+	                	<br/>   
+	                    <br/> 
+						<div>
+						 <table class="table table-hover  table-condensed" id='channelTable' style="font-size:12px">
+				            <tr>				            
+				             <th><span style=""><input type="checkbox" /></th>
+									<th><span >id</span></th>		
+										<th><span>车牌</span></th>										
+										<th><span>停车场名</span></th>
+										<th><span>车位号</span></th>
+										<th><span>操作员id</span></th>
+										<th><span>收费状态</span></th>	
+										<th><span>押金</span></th>
+										<th><span>应收费</span></th>
+										<th><span>补交</span></th>
+										<th><span>找零</span></th>	
+										<th><span>进场时间</span></th>	
+										<th><span>离场时间</span></th>
+				            </tr>
+				          <tbody id="channelBody"></tbody>
+				          	<tr  ng-repeat = "item in detail.items">
+				          		<td ><input type="checkbox" ng-model="item.checked" /></td>
+				          		<td ng-bind="item.id"></td>
+				          		<td ng-bind="item.cardNumber"></td>
+				          		<td ng-bind="item.parkDesc"></td>
+				          		<td ng-bind="item.portNumber"></td>
+				          		<td ng-bind="item.operatorId"></td>
+				          		<td ng-if="item.paidCompleted==true" class="success">已收费</td>
+								<td ng-if="item.paidCompleted==false" class="warning">未收费</td>
+				          		<td ng-bind="item.paidMoney"></td>
+				          		<td ng-bind="item.chargeMoney"></td>
+								<td ng-bind="item.givenMoney"></td>
+				          		<td ng-bind="item.changeMoney"></td>
+				          		<td ng-bind="item.entranceDate"></td>
+				          		<td ng-bind="item.exitDate"></td>
+				          		
+				          </table>
+						  <tm-pagination conf="paginationConf"></tm-pagination>
+    					</div>   					    				
+	            </div>
+            </div>
+        </div>
+
+    </section>
+
+<script type="text/ng-template" id="myModalTest"> 
+	<!-- 模态框（Modal） -->
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" 
+               data-dismiss="modal" aria-hidden="true" ng-click="texta()">
+                  &times;
+            </button>
+            <h4 class="modal-title" >  yyy     
+            </h4>
+         </div>
+         <div class="modal-body">
+			{{textaaa}}
+         </div>
+         <div class="modal-footer">
+      		<button type="button" class="btn btn-default" data-dismiss="modal" ng-click="close()">
+				关闭
+            </button>          
+         </div>
+      </div><!-- /.modal-content -->
+</div><!-- /.modal -->
+</script>
+</div>

@@ -1,0 +1,805 @@
+<script src="/park/script/service/textModalService.js"></script>
+<script src="/park/script/tm.pagination.js"></script>
+<script src="/park/script/feeCriterion.js?v=1.2"></script>
+
+<style>
+    .page-list .pagination {
+        float: left;
+    }
+
+    .page-list .pagination span {
+        cursor: pointer;
+    }
+
+    .page-list .pagination .separate span {
+        cursor: default;
+        border-top: none;
+        border-bottom: none;
+    }
+
+    .page-list .pagination .separate span:hover {
+        background: none;
+    }
+
+    .page-list .page-total {
+        float: left;
+        margin: 25px 20px;
+    }
+
+    .page-list .page-total input, .page-list .page-total select {
+        height: 26px;
+        border: 1px solid #ddd;
+    }
+
+    .page-list .page-total input {
+        width: 40px;
+        padding-left: 3px;
+    }
+
+    .page-list .page-total select {
+        width: 50px;
+    }
+</style>
+
+<div class="content-wrapper" ng-app="feeCriterionApp"
+     ng-controller="feeCriterionCtrl">
+    <section class="content-header">
+        <h1>
+            收费标准管理
+            <small></small>
+        </h1>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12" style="padding: 0 5px 0 5px;">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title"></h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body" style="padding: 0px;">
+                        <div class="btn-group" style="margin-left: 10px;">
+                            <button #if(!$isAdmin) disabled#end
+                                    ng-click="criterion.refresh()" type="button"
+                                    class="btn btn-info"
+                                    style="border-radius: 25px; margin-right: 5px;">
+                                <span class="glyphicon glyphicon-refresh"></span> 刷新
+                            </button>
+                            <button #if(!$isAdmin) disabled#end ng-click="criterion.insert()"
+                                    type="button" class="btn btn-primary"
+                                    style="border-radius: 25px; margin-right: 5px;">
+                                <span class="glyphicon glyphicon-pencil"></span> 添加
+                            </button>
+                            <button #if(!$isAdmin) disabled#end ng-click="criterion.update()"
+                                    type="button" class="btn btn-warning"
+                                    style="border-radius: 25px; margin-right: 5px;">
+                                <span class="glyphicon glyphicon-edit"></span> 更新
+                            </button>
+                            <button #if(!$isAdmin) disabled#end ng-click="criterion.remove()"
+                                    type="button" class="btn btn-danger"
+                                    style="border-radius: 25px; margin-right: 5px;">
+                                <span class="glyphicon glyphicon-remove"></span> 删除
+                            </button>
+                            <button #if(!$isAdmin) disabled#end
+                                    ng-click="criterion.insertModel1()" type="button"
+                                    class="btn bg-blue"
+                                    style="border-radius: 25px; margin-right: 5px;">
+                                <span class="glyphicon glyphicon-pencil"></span>按次收费模版添加
+                            </button>
+                            <button #if(!$isAdmin) disabled#end
+                                    ng-click="criterion.insertModel2()" type="button"
+                                    class="btn bg-maroon"
+                                    style="border-radius: 25px; margin-right: 5px;">
+                                <span class="glyphicon glyphicon-pencil"></span>白天晚上模版添加
+                            </button>
+                            <button #if(!$isAdmin) disabled#end
+                                    ng-click="criterion.insertModel4()" type="button"
+                                    class="btn bg-maroon"
+                                    style="border-radius: 25px; margin-right: 5px;">
+                                <span class="glyphicon glyphicon-pencil"></span>24小时为计费单位
+                            </button>
+                            <!-- <button type="button" class="btn  btn-default"
+                                style="border-radius: 25px; margin-right: 5px;">
+                                <a href="/park/feecriterionToPark/index"> 多计费标准管理</a>
+                            </button> -->
+                        </div>
+                        <div class="pull-right" style="margin-right: 20px">
+                            <!-- 							<div class="input-group">
+                             --><!-- 								<div class="row">
+ -->
+                            <div>
+                                <input type="search" class="form-control"
+                                       ng-model="criterion.searchKeywords"
+                                       ng-keyup="criterion.myKeyup($event)" placeholder="搜索">
+
+                            </div>
+                            <!-- <div class="col-md-3" style="margin-left: -15px;">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default btn-sm" ng-click="criterion.search()"
+                                        type="button" id="searchButton">搜索</button>
+                                </span>
+                            </div> -->
+
+                            <!-- 								</div>
+                             -->                            </div>
+                    </div>
+
+
+                    <br/>
+                    <div>
+                        <table
+                                class="table table-bordered table-hover  table-condensed table-striped text-center"
+                                id='channelTable' style="font-size: 12px">
+                            <tr class="info" style="height: 30px; line-height: 30px;">
+                                <th><span style=""><input type="checkbox"/> </span></th>
+                                <th><span>Id </span></th>
+                                <th><span>名称 </span></th>
+                                <th><span>免费时段/分 </span></th>
+                                <!--		<th><span >阶段1范围/分</div></th>
+                                <th><span >阶段2范围/分</div></th>
+                                <th><span >计费单位 /分</div></th>
+                                <th><span >计费单位2 /分</div></th>
+                                <th><span >阶段1小车计费标准 /元</div></th>
+                                <th><span >阶段2小车计费标准/元</div></th>
+                                <th><span >阶段3小车计费标准/元</div></th>
+                                <th><span >阶段1大车计费标准/元</div></th>
+                                <th><span >阶段2大车计费标准/元</div></th>
+                                <th><span >阶段3大车计费标准/元</div></th>
+                                <th><span>最高收费/元</div></th>
+                                <th><span>夜间时段</div></th>
+                                <th><span>是否按次收费</div></th>
+                                <th><span>价格/次</div></th> -->
+                                <th><span>收费说明 </span></th>
+                            </tr>
+                            <tbody id="channelBody"></tbody>
+                            <tr ng-repeat="item in criterion.items">
+                                <td><input type="checkbox" ng-model="item.checked"
+                                           ng-click="criterion.checked($index)"/></td>
+                                <td ng-bind="item.id"></td>
+                                <td ng-bind="item.name"></td>
+                                <td ng-bind="item.freemins"></td>
+                                <!--	<td ng-bind="item.step1capacity"></td>
+                              <td ng-bind="item.step2capacity"></td>
+                            <td ng-bind="item.timeoutpriceinterval"></td>
+                            <td ng-bind="item.timeoutpriceinterval2"></td>
+                              <td ng-bind="item.step1price"></td>
+                            <td ng-bind="item.step2price"></td>
+                            <td ng-bind="item.step3price"></td>
+                              <td ng-bind="item.step1pricelarge"></td>
+                              <td ng-bind="item.step2pricelarge"></td>
+                            <td ng-bind="item.step3pricelarge"></td>
+                              <td ng-bind="item.maxexpense"></td>
+                              <td ng-bind="item.nightstarttime + '--' + item.nightendtime"></td>
+                              <td>
+                                  <span ng-if="item.isonetimeexpense == 0">否</span>
+                                  <span ng-if="item.isonetimeexpense == 1">是</span>
+                              </td>
+                              <td ng-bind="item.onetimeexpense"></td>  -->
+                                <td ng-bind="item.explaination|limitTo:85"></td>
+                        </table>
+
+                    </div>
+
+                    <tm-pagination conf="paginationConf"></tm-pagination>
+
+
+                </div>
+
+                <script type="text/ng-template" id="modifyFeeCriterion">
+                    <div class='modal-content' style="min-width:800px;margin-left:-100px;">
+                        <div class="modal-header">
+                            <button type='button' class='close' ng-click="close()" aria-hidden='true'>&times;</button>
+                            <h3 class="modal-title text-center">收费标准</h3>
+                        </div>
+                        <div class="modal-body">
+                            <form class="form-horizontal" role="form">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">名称</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="请输入名称"
+                                               ng-model="tempCriterion.name">
+                                    </div>
+                                    <label class="col-sm-2 control-label">免费时长/分</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="请输入免费时长/分"
+                                               ng-model="tempCriterion.freemins">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">阶段1有效范围/分</label>
+                                    <div class="col-sm-4">
+                                        <input type="number"
+                                               class="form-control" placeholder="阶段1范围/分"
+                                               ng-model="tempCriterion.step1capacity">
+                                    </div>
+                                    <label class="col-sm-2 control-label">阶段2有效范围/分</label>
+                                    <div class="col-sm-4">
+                                        <input type="number"
+                                               class="form-control" placeholder="阶段2范围/分"
+                                               ng-model="tempCriterion.step2capacity">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">白天计费单位 /分</label>
+                                    <div class="col-sm-4">
+                                        <input type="number"
+                                               class="form-control" placeholder="即多少分钟为一个计费单位"
+                                               ng-model="tempCriterion.timeoutpriceinterval">
+                                    </div>
+                                    <label class="col-sm-2 control-label">夜晚计费单位 /分</label>
+                                    <div class="col-sm-4">
+                                        <input type="number"
+                                               class="form-control" placeholder="即多少分钟为一个计费单位"
+                                               ng-model="tempCriterion.timeoutpriceinterval2">
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">阶段1小车计费 /元</label>
+                                    <div class="col-sm-4">
+                                        <input type="number" step="0.01"
+                                               onkeyup="if( ! /^\d*(?:\.\d{0,2})?$/.test(this.value)){alert('只能输入数字，小数点后只能保留两位');this.value='';}"
+                                               class="form-control" placeholder="小车第1阶段内单位计费标准"
+                                               ng-model="tempCriterion.step1price">
+                                    </div>
+                                    <label class="col-sm-2 control-label">阶段2小车计费/元</label>
+                                    <div class="col-sm-4">
+                                        <input type="number" step="0.01"
+                                               onkeyup="if( ! /^\d*(?:\.\d{0,2})?$/.test(this.value)){alert('只能输入数字，小数点后只能保留两位');this.value='';}"
+                                               class="form-control" placeholder="小车第2阶段内单位计费标准"
+                                               ng-model="tempCriterion.step2price">
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+
+                                    <label class="col-sm-2 control-label">阶段1大车计费 /元</label>
+                                    <div class="col-sm-4">
+                                        <input type="number" step="0.01"  onkeyup="if( ! /^\d*(?:\.\d{0,2})?$/.test(this.value)){alert('只能输入数字，小数点后只能保留两位');this.value='';}" class="form-control" placeholder="大车第1阶段内单位计费标准"
+                                               ng-model="tempCriterion.step1pricelarge">
+                                    </div>
+                                    <label class="col-sm-2 control-label">阶段2大车计费/元</label>
+                                    <div class="col-sm-4">
+                                        <input type="number" step="0.01"  onkeyup="if( ! /^\d*(?:\.\d{0,2})?$/.test(this.value)){alert('只能输入数字，小数点后只能保留两位');this.value='';}" class="form-control" placeholder="大车第2阶段内单位计费标准"
+                                               ng-model="tempCriterion.step2pricelarge">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">夜晚小车计费/元</label>
+                                    <div class="col-sm-4">
+                                        <input type="number" step="0.01"  onkeyup="if( ! /^\d*(?:\.\d{0,2})?$/.test(this.value)){alert('只能输入数字，小数点后只能保留两位');this.value='';}" class="form-control" placeholder="小车第3阶段内单位计费标准"
+                                               ng-model="tempCriterion.step3price">
+                                    </div>
+
+                                    <label class="col-sm-2 control-label">夜晚大车计费/元</label>
+                                    <div class="col-sm-4">
+                                        <input type="number" step="0.01"  onkeyup="if( ! /^\d*(?:\.\d{0,2})?$/.test(this.value)){alert('只能输入数字，小数点后只能保留两位');this.value='';}" class="form-control" placeholder="大车第3阶段内单位计费标准"
+                                               ng-model="tempCriterion.step3pricelarge">
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+
+                                    <label class="col-sm-2 control-label">最高收费/元</label>
+                                    <div class="col-sm-4">
+                                        <input type="number" step="0.01"  onkeyup="if( ! /^\d*(?:\.\d{0,2})?$/.test(this.value)){alert('只能输入数字，小数点后只能保留两位');this.value='';}" class="form-control" placeholder="停车最高收费"
+                                               ng-model="tempCriterion.maxexpense">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">夜晚开始时间</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="夜晚开始时间，HH:mm"
+                                               ng-model="tempCriterion.nightstarttime">
+                                    </div>
+
+                                    <label class="col-sm-2 control-label">夜晚结束时间</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="夜晚结束时间，HH:mm"
+                                               ng-model="tempCriterion.nightendtime">
+                                    </div>
+                                </div>
+
+                                <div class="form-group" hidden>
+                                    <label class="col-sm-2 control-label">是否按次收费</label>
+                                    <div class="col-sm-4" style="padding-top:8px">
+                                        <input type="checkbox" ng-true-value="1" ng-false-value="0"
+                                               ng-model="tempCriterion.isonetimeexpense">
+                                    </div>
+                                    <label class="col-sm-2 control-label">价格(元)/每次</label>
+                                    <div class="col-sm-4">
+                                        <input type="number" step="0.01"  onkeyup="if( ! /^\d*(?:\.\d{0,2})?$/.test(this.value)){alert('只能输入数字，小数点后只能保留两位');this.value='';}" class="form-control" placeholder=""
+                                               ng-model="tempCriterion.onetimeexpense">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">收费说明</label>
+                                    <div class="col-sm-10">
+                                        <textarea rows=3 class="form-control"
+                                                  ng-model="tempCriterion.explaination"></textarea>
+                                    </div>
+                                </div>
+
+
+                                <div class="alert alert-info" ng-show="loading || submitted">
+                                    <span ng-show='loading'> <i class="fa fa-spinner"></i></span>
+                                    <span ng-show='submitted'>{{result}}</span>
+                                </div>
+
+                            </form>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button ng-click="close()" type="button" class="btn btn-default" data-dismiss="modal">取消
+                            </button>
+                            <button ng-click="submit()" type="button" class="btn btn-primary">确定</button>
+                        </div>
+                    </div>
+
+                </script>
+
+                <script type="text/ng-template" id="FeeCriterionModel4">
+                    <div class='modal-content' style="min-width:800px;margin-left:-100px;">
+                        <div class="modal-header">
+                            <button type='button' class='close' ng-click="close()" aria-hidden='true'>&times;</button>
+                            <h3 class="modal-title text-center">收费标准</h3>
+                        </div>
+                        <div class="modal-body">
+                            <form class="form-horizontal" role="form">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">名称</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="请输入名称"
+                                               ng-model="tempCriterion.name">
+                                    </div>
+                                    <label class="col-sm-2 control-label">免费时长/分</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="请输入免费时长/分"
+                                               ng-model="tempCriterion.freemins">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">阶段1有效范围/分</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="阶段1范围/分"
+                                               ng-model="tempCriterion.step1capacity">
+                                    </div>
+                                    <label class="col-sm-2 control-label">阶段2有效范围/分</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="阶段2范围/分"
+                                               ng-model="tempCriterion.step2capacity">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">白天计费单位 /分</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="即多少分钟为一个计费单位"
+                                               ng-model="tempCriterion.timeoutpriceinterval">
+                                    </div>
+                                    <label class="col-sm-2 control-label">夜晚计费单位 /分</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="即多少分钟为一个计费单位"
+                                               ng-model="tempCriterion.timeoutpriceinterval2">
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">阶段1小车计费 /元</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="小车第1阶段内单位计费标准"
+                                               ng-model="tempCriterion.step1price">
+                                    </div>
+                                    <label class="col-sm-2 control-label">阶段2小车计费/元</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="小车第2阶段内单位计费标准"
+                                               ng-model="tempCriterion.step2price">
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+
+                                    <label class="col-sm-2 control-label">阶段1大车计费 /元</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="大车第1阶段内单位计费标准"
+                                               ng-model="tempCriterion.step1pricelarge">
+                                    </div>
+                                    <label class="col-sm-2 control-label">阶段2大车计费/元</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="大车第2阶段内单位计费标准"
+                                               ng-model="tempCriterion.step2pricelarge">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">夜晚小车计费/元</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="小车第3阶段内单位计费标准"
+                                               ng-model="tempCriterion.step3price">
+                                    </div>
+
+                                    <label class="col-sm-2 control-label">夜晚大车计费/元</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="大车第3阶段内单位计费标准"
+                                               ng-model="tempCriterion.step3pricelarge">
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+
+                                    <label class="col-sm-2 control-label">最高收费/元</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="停车最高收费"
+                                               ng-model="tempCriterion.maxexpense">
+                                    </div>
+                                </div>
+
+                                <div class="form-group" style="display:none">
+                                    <label class="col-sm-2 control-label">夜晚开始时间</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="夜晚开始时间，HH:mm"
+                                               ng-model="tempCriterion.nightstarttime">
+                                    </div>
+
+                                    <label class="col-sm-2 control-label">夜晚结束时间</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="夜晚结束时间，HH:mm"
+                                               ng-model="tempCriterion.nightendtime">
+                                    </div>
+                                </div>
+
+                                <div class="form-group" hidden>
+                                    <label class="col-sm-2 control-label">是否按次收费</label>
+                                    <div class="col-sm-4" style="padding-top:8px">
+                                        <input type="checkbox" ng-true-value="1" ng-false-value="0"
+                                               ng-model="tempCriterion.isonetimeexpense">
+                                    </div>
+                                    <label class="col-sm-2 control-label">价格(元)/每次</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder=""
+                                               ng-model="tempCriterion.onetimeexpense">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">收费说明</label>
+                                    <div class="col-sm-10">
+                                        <textarea rows=3 class="form-control"
+                                                  ng-model="tempCriterion.explaination"></textarea>
+                                    </div>
+                                </div>
+
+
+                                <div class="alert alert-info" ng-show="loading || submitted">
+                                    <span ng-show='loading'> <i class="fa fa-spinner"></i></span>
+                                    <span ng-show='submitted'>{{result}}</span>
+                                </div>
+
+                            </form>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button ng-click="close()" type="button" class="btn btn-default" data-dismiss="modal">取消
+                            </button>
+                            <button ng-click="submit()" type="button" class="btn btn-primary">确定</button>
+                        </div>
+                    </div>
+
+                </script>
+                <script type="text/ng-template" id="FeeCriterionModel1">
+                    <div class='modal-content' style="min-width:800px;margin-left:-100px;">
+                        <div class="modal-header">
+                            <button type='button' class='close' ng-click="close()" aria-hidden='true'>&times;</button>
+                            <h3 class="modal-title text-center">按次收费标准</h3>
+                        </div>
+                        <div class="modal-body">
+                            <form class="form-horizontal" role="form">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">名称</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="请输入名称"
+                                               ng-model="tempCriterion.name">
+                                    </div>
+                                    <label class="col-sm-2 control-label">是否隔天计费</label>
+                                    <div class="col-sm-4" style="padding-top:8px">
+                                        <input type="checkbox" ng-true-value="1" ng-false-value="0"
+                                               ng-model="tempCriterion.isonetimeexpense">
+                                    </div>
+                                </div>
+
+                                <div class="form-group" hidden>
+                                    <label class="col-sm-2 control-label">阶段1有效范围/分</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="阶段1范围/分"
+                                               ng-model="tempCriterion.step1capacity">
+                                    </div>
+                                    <label class="col-sm-2 control-label">阶段2有效范围/分</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="阶段2范围/分"
+                                               ng-model="tempCriterion.step2capacity">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">免费时长/分</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="请输入免费时长/分"
+                                               ng-model="tempCriterion.freemins">
+                                    </div>
+                                    <label class="col-sm-2 control-label">计费单位 /分</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="即多少分钟为一个计费单位"
+                                               ng-model="tempCriterion.timeoutpriceinterval">
+                                    </div>
+                                    <label class="col-sm-2 control-label" hidden>计费单位2 /分</label>
+                                    <div class="col-sm-4" hidden>
+                                        <input type="text" class="form-control" placeholder="即多少分钟为一个计费单位"
+                                               ng-model="tempCriterion.timeoutpriceinterval2">
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">每次小车费用 /元</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="小车第1阶段内单位计费标准"
+                                               ng-model="tempCriterion.step1price">
+                                    </div>
+                                    <label class="col-sm-2 control-label">每次大车费用 /元</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="大车第1阶段内单位计费标准"
+                                               ng-model="tempCriterion.step1pricelarge">
+                                    </div>
+                                    <label class="col-sm-2 control-label" hidden>阶段2小车计费/元</label>
+                                    <div class="col-sm-4" hidden>
+                                        <input type="text" class="form-control" placeholder="小车第2阶段内单位计费标准"
+                                               ng-model="tempCriterion.step2price">
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+
+
+                                    <label class="col-sm-2 control-label" hidden>阶段2大车计费/元</label>
+                                    <div class="col-sm-4" hidden>
+                                        <input type="text" class="form-control" placeholder="大车第2阶段内单位计费标准"
+                                               ng-model="tempCriterion.step2pricelarge">
+                                    </div>
+                                </div>
+                                <div class="form-group" hidden>
+                                    <label class="col-sm-2 control-label">阶段3小车计费/元</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="小车第3阶段内单位计费标准"
+                                               ng-model="tempCriterion.step3price">
+                                    </div>
+
+                                    <label class="col-sm-2 control-label">阶段3大车计费/元</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="大车第3阶段内单位计费标准"
+                                               ng-model="tempCriterion.step3pricelarge">
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group" hidden>
+
+                                    <label class="col-sm-2 control-label">最高收费/元</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="停车最高收费"
+                                               ng-model="tempCriterion.maxexpense">
+                                    </div>
+                                </div>
+
+                                <div class="form-group" hidden>
+                                    <label class="col-sm-2 control-label">夜晚开始时间</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="夜晚开始时间，HH:mm"
+                                               ng-model="tempCriterion.nightstarttime">
+                                    </div>
+
+                                    <label class="col-sm-2 control-label">夜晚结束时间</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="夜晚结束时间，HH:mm"
+                                               ng-model="tempCriterion.nightendtime">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+
+                                    <label class="col-sm-2 control-label" hidden>价格(元)/每次</label>
+                                    <div class="col-sm-4" hidden>
+                                        <input type="text" class="form-control" placeholder=""
+                                               ng-model="tempCriterion.onetimeexpense">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">收费说明</label>
+                                    <div class="col-sm-10">
+                                        <textarea rows=5 class="form-control"
+                                                  ng-model="tempCriterion.explaination"></textarea>
+                                    </div>
+                                </div>
+
+
+                                <div class="alert alert-info" ng-show="loading || submitted">
+                                    <span ng-show='loading'> <i class="fa fa-spinner"></i></span>
+                                    <span ng-show='submitted'>{{result}}</span>
+                                </div>
+
+                            </form>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button ng-click="close()" type="button" class="btn btn-default" data-dismiss="modal">取消
+                            </button>
+                            <button ng-click="submit()" type="button" class="btn btn-primary">确定</button>
+                        </div>
+                    </div>
+
+                </script>
+                <script type="text/ng-template" id="FeeCriterionModel2">
+                    <div class='modal-content' style="min-width:800px;margin-left:-100px;">
+
+                        <div class="modal-header">
+                            <button type='button' class='close' ng-click="close()" aria-hidden='true'>&times;</button>
+                            <h3 class="modal-title text-center">白天晚上收费模版</h3>
+                        </div>
+                        <div class="modal-body">
+                            <form class="form-horizontal" role="form">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">名称</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="请输入名称"
+                                               ng-model="tempCriterion.name">
+                                    </div>
+                                    <label class="col-sm-2 control-label">免费时长/分</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="请输入免费时长/分"
+                                               ng-model="tempCriterion.freemins">
+                                    </div>
+                                </div>
+
+                                <div class="form-group" hidden>
+                                    <label class="col-sm-2 control-label">阶段1有效范围/分</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="阶段1范围/分"
+                                               ng-model="tempCriterion.step1capacity">
+                                    </div>
+                                    <label class="col-sm-2 control-label">阶段2有效范围/分</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="阶段2范围/分"
+                                               ng-model="tempCriterion.step2capacity">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">白天计费单位 /分</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="即多少分钟为一个计费单位"
+                                               ng-model="tempCriterion.timeoutpriceinterval">
+                                    </div>
+                                    <label class="col-sm-2 control-label">夜晚计费单位 /分</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="即多少分钟为一个计费单位"
+                                               ng-model="tempCriterion.timeoutpriceinterval2">
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">白天小车计费 /元</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="小车第1阶段内单位计费标准"
+                                               ng-model="tempCriterion.step1price">
+                                    </div>
+                                    <label class="col-sm-2 control-label">夜晚小车计费/元</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="小车第2阶段内单位计费标准"
+                                               ng-model="tempCriterion.step3price">
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+
+                                    <label class="col-sm-2 control-label">白天大车计费 /元</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="大车第1阶段内单位计费标准"
+                                               ng-model="tempCriterion.step1pricelarge">
+                                    </div>
+                                    <label class="col-sm-2 control-label">夜晚大车计费/元</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="大车第2阶段内单位计费标准"
+                                               ng-model="tempCriterion.step3pricelarge">
+                                    </div>
+                                </div>
+                                <div class="form-group" hidden>
+                                    <label class="col-sm-2 control-label">阶段3小车计费/元</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="小车第3阶段内单位计费标准"
+                                               ng-model="tempCriterion.step3price">
+                                    </div>
+
+                                    <label class="col-sm-2 control-label">阶段3大车计费/元</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="大车第3阶段内单位计费标准"
+                                               ng-model="tempCriterion.step3pricelarge">
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+
+                                    <label class="col-sm-2 control-label">最高收费/元</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="停车最高收费"
+                                               ng-model="tempCriterion.maxexpense">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">夜晚开始时间</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="夜晚开始时间，HH:mm"
+                                               ng-model="tempCriterion.nightstarttime">
+                                    </div>
+
+                                    <label class="col-sm-2 control-label">夜晚结束时间</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="夜晚结束时间，HH:mm"
+                                               ng-model="tempCriterion.nightendtime">
+                                    </div>
+                                </div>
+
+                                <div class="form-group" hidden>
+                                    <label class="col-sm-2 control-label">夜晚是否按次收费</label>
+                                    <div class="col-sm-4" style="padding-top:8px">
+                                        <input type="checkbox" ng-true-value="1" ng-false-value="0"
+                                               ng-model="tempCriterion.isonetimeexpense">
+                                    </div>
+                                    <label class="col-sm-2 control-label">价格(元)/每次</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder=""
+                                               ng-model="tempCriterion.onetimeexpense">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">收费说明</label>
+                                    <div class="col-sm-10">
+                                        <textarea rows=5 class="form-control"
+                                                  ng-model="tempCriterion.explaination"></textarea>
+                                    </div>
+                                </div>
+
+
+                                <div class="alert alert-info" ng-show="loading || submitted">
+                                    <span ng-show='loading'> <i class="fa fa-spinner"></i></span>
+                                    <span ng-show='submitted'>{{result}}</span>
+                                </div>
+
+                            </form>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button ng-click="close()" type="button" class="btn btn-default" data-dismiss="modal">取消
+                            </button>
+                            <button ng-click="submit()" type="button" class="btn btn-primary">确定</button>
+                        </div>
+                    </div>
+
+                    </div>
+
+
+                </script>
+            </div>
+        </div>
+</div>
+
+</section>
+
+</div>

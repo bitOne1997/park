@@ -1,0 +1,13 @@
+<h2>List of Users</h2>
+<table>
+<th>
+	<td>username</td>
+	<td>phone</td>
+#foreach($user in $users)
+	<tr>
+		<td>${user.Id}</td>
+		<td>${user.userName}</td>
+		<td>${user.number}</td>
+	</tr>
+#end
+</table>

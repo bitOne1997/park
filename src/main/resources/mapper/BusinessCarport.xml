@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.park.dao.BusinessCarportDAO">
+  	<resultMap id="BusinessCarportMapper" type="com.park.model.BusinessCarport">
+		<id property="id" column="id" />
+		<result property="parkId" column="parkId" />
+		<result property="carportNumber" column="carportNumber" />
+		<result property="macId" column="macId"/>
+		<result property="status" column="status" />
+		<result property="floor" column="floor" />
+		<result property="position" column="position"/>
+		<result property="description" column="description" />
+		<result property="date" column="date"/>
+	</resultMap>  
+	<resultMap id="BusinessCarportDetailMapper" type="com.park.model.BusinessCarportDetail">
+		<id property="id" column="id" />
+		<result property="parkName" column="name" />
+		<result property="parkId" column="parkId" />
+		<result property="carportNumber" column="carportNumber" />
+		<result property="macId" column="macId"/>
+		<result property="mac" column="hardware_mac"/>
+		<result property="status" column="status" />
+		<result property="floor" column="floor" />
+		<result property="position" column="position"/>
+		<result property="description" column="description" />
+		<result property="date" column="date"/>
+	</resultMap>  
+
+
+	<select id="getBusinessCarports" resultMap="BusinessCarportMapper">
+		select * from businessCarport
+	</select>
+	
+	<select id="getBusinessCarportById" resultMap="BusinessCarportMapper">
+		select * from businessCarport where id = #{param1}
+	</select>
+	
+	<select id="getBusinessCarportByParkId" resultMap="BusinessCarportMapper">
+		select * from businessCarport where parkId = #{param1} limit #{param2}, #{param3}
+	</select>
+	
+	<select id="getParkLeftPort" resultType="int">
+		select count(*) from businessCarport where status = 0 and parkId = #{param1};
+	</select>
+	
+	<select id="checkMacExist" resultType="int">
+		select count(*) from businessCarport where macId = #{param2} and parkId = #{param1};
+	</select>
+	
+	<select id="getBusinessCarportByMacId" resultMap="BusinessCarportMapper">
+		select * from businessCarport where macId = #{param1}
+	</select>
+	
+ 	<select id="getBusinessCarportDetail" resultMap="BusinessCarportDetailMapper">
+ 		select businessCarport.id, businessCarport.parkId, park.name, businessCarport.carportNumber, businessCarport.macId,  
+ 		hardware.mac as hardware_mac, businessCarport.status, businessCarport.floor, businessCarport.position, businessCarport.description, businessCarport.date from businessCarport 
+ 		left join park on businessCarport.parkId = park.Id  
+ 		left join hardware on businessCarport.macId = hardware.id 
+ 		order by businessCarport.carportNumber 
+ 		limit #{low}, #{count}
+		
+	</select>
+  
+	<select id="getParkBusinessCarportDetail" resultMap="BusinessCarportDetailMapper">
+ 		select businessCarport.id, businessCarport.parkId, park.name, businessCarport.carportNumber, businessCarport.macId,  
+ 		hardware.mac as hardware_mac, businessCarport.status, businessCarport.floor, businessCarport.position, businessCarport.description, businessCarport.date from businessCarport 
+ 		left join park on businessCarport.parkId = park.Id  
+ 		left join hardware on businessCarport.macId = hardware.id 
+ 		where park.Id = #{parkId}
+ 		order by businessCarport.carportNumber 
+ 		limit #{low}, #{count}
+	</select>
+	
+	<select id="getBusinessCarportCount"  resultType="int">
+		select count(*) from businessCarport
+	</select>
+	 
+	<select id="getParkBusinessCarportCount"  resultType="int">
+		select count(*) from businessCarport where businessCarport.parkId = #{param1}
+	</select>
+	
+	<insert id="insertBusinessCarport"  useGeneratedKeys="true" parameterType="com.park.model.BusinessCarport" keyProperty="id">
+		insert into businessCarport(parkId, carportNumber, macId, status, floor, position, description, date) 
+		values(#{parkId}, #{carportNumber}, #{macId}, #{status}, #{floor}, #{position}, #{description}, #{date})
+	</insert>
+	
+	<update id="updateBusinessCarport" parameterType="com.park.model.BusinessCarport" >
+		update businessCarport set carportNumber = #{carportNumber}, macId = #{macId}, floor = #{floor}, 
+		position = #{position}, status = #{status}, description = #{description}, date = #{date} where id = #{id}
+	</update> 
+	
+	<update id="updateBusinessCarportStatus" >
+		update businessCarport set status=#{param2}, date=#{param3} where macId = #{param1}
+	</update>
+	
+	<insert id="insertBusinessCarportNum">
+		insert into businessCarport(parkId,carportNumber,date) values (#{parkId},#{carportnum},NOW()) 
+	</insert>
+	
+	<delete id="deleteBusinessCarport" parameterType="int">
+		delete from businessCarport where id = #{id}
+	</delete>
+       
+          
+</mapper>

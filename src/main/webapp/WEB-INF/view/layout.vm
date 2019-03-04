@@ -1,0 +1,467 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>停车云</title>
+    <link rel="shortcut icon" href="/park/img/logo.png">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta
+            content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+            name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="/park/bootstrap/css/bootstrap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="/park/dist/css/AdminLTE.css">
+    <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
+                page. However, you can choose any other skin. Make sure you
+                apply the skin class to the body tag so the changes take effect.
+          -->
+    <link rel="stylesheet" href="/park/dist/css/skins/skin-blue.min.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- jQuery 2.1.4 -->
+    <script src="/park/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="/park/bootstrap/js/bootstrap.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="/park/dist/js/app.min.js"></script>
+    <script src="/park/script/jquery.cookie.js"></script>
+
+    <script src="/park/dist/js/demo.js"></script>
+    <script src="/park/plugins/angular/angular.min.js"></script>
+    <script src="/park/plugins/angular/angular-animate.min.js"></script>
+    <script src="/park/plugins/angular/angular-cookies.min.js"></script>
+    <script src="/park/plugins/angular/angular-ui-router.min.js"></script>
+    <script src="/park/plugins/angular/ocLazyLoad.min.js"></script>
+    <script src="/park/plugins/angular/ui-bootstrap-tpls.min.js"></script>
+
+    <!--<script src="/park/script/layout.js?v=1.4"></script>-->
+    <script src="/park/script/utility.js?v=1.2"></script>
+    <script src="/park/script/jquery.shCircleLoader-min.js"></script>
+    <script src="/park/script/jquery.json-2.4.min.js"></script>
+    <script src="/park/script/tm.pagination.js"></script>
+    <script src="https://use.fontawesome.com/a416e9e97f.js"></script>
+    <style>
+        .skin-blue .sidebar-menu > li.header {
+            color: #4b646f;
+            background: #3c8dbc;
+        }
+
+        body {
+            color: #3c8dbc;
+            background: #3c8dbc;
+        }
+        .skin-blue .sidebar a {
+            color: #eee;
+        }
+        .user-panel {
+            padding: 20px;
+        }
+        .skin-blue .sidebar-menu>li:hover>a{
+            background: #185a9d;
+        }
+        /*.skin-blue .sidebar-menu > li:hover > a, .skin-blue .sidebar-menu > li.active > a {*/
+            /*background: #337ab7;*/
+            /*border-left-color: #3c8dbc;*/
+        /*}*/
+
+        /*.skin-blue .sidebar-menu > li > .treeview-menu {*/
+            /*margin: 0 1px;*/
+            /*background: #3c8dbc;*/
+        /*}*/
+
+        .skin-blue .treeview-menu > li > a {
+            color: #9ff;
+        }
+
+        /*li:hover {*/
+            /*color: #ff67ff;*/
+        /*}*/
+
+        .xh {
+            text-align: center;
+            border: 1px solid #99CCCC;
+            background-color: rgba(103, 171, 210, 0.87);
+            width: 80px;
+        }
+
+        .required {
+            color: red;
+            font-size: 150%;
+            float: right;
+        }
+
+        .btn-primary a {
+            color: #fff;
+        }
+    </style>
+    <link rel="stylesheet" href="/park/css/stylexh.css">
+
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini fixed">
+<div class="wrapper">
+    <!-- Main Header -->
+    <header class="main-header">
+        <!-- Logo -->
+        <a href="#" class="logo"> <!-- mini logo for sidebar mini 50x50 pixels -->
+            <span class="logo-mini"></span> <!-- logo for regular state and mobile devices -->
+            <span id="onlyforcss" class="logo-lg"><b>停车云</b></span>
+        </a>
+
+        <!-- Header Navbar -->
+        <nav class="navbar navbar-static-top" role="navigation">
+            <!-- Sidebar toggle button-->
+            <a href="#" class="sidebar-toggle" data-toggle="offcanvas"
+               role="button"> <span class="sr-only">Toggle navigation</span>
+            </a>
+            <div class="btn-group pull-right" style="margin-top: 3px;">
+                <button type="button" class="btn btn-primary"
+                        onclick="window.history.go(-1)">
+                    <span>返回</span>
+                </button>
+                <button type="button" class="btn btn-primary" onclick="location.href='/park/login'">
+                    <a href="/park/login" style="color: #ffffff"> <i
+                            class="fa fa-sign-out" aria-hidden="true"></i> <span
+                            style="font-weight: bold">退出</span>
+                    </a>
+                </button>
+
+                <!-- Navbar Right Menu -->
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown user user-menu"><a href="#"
+                                                               class="dropdown-toggle" data-toggle="dropdown"> </a></li>
+
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <aside class="main-sidebar"
+           style="background: #3c8dbc; border-left: 1px solid rgba(0, 0, 0, 0.5); border-right: 1px solid rgba(255, 255, 255, 0.5);">
+
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+
+            <!-- Sidebar user panel (optional) -->
+            <div class="user-panel">
+                <div class="pull-left image">
+                    <img src="/park/img/admin.png" class="img-circle"
+                         alt="User Image">
+                </div>
+                <div class="pull-left info">
+                    <p id="shenfen">#if(!$isAdmin) 行业客户 #else 管理员 #end</p>
+                    <!-- Status -->
+                    <a href="#"><i class="fa fa-circle text-success"></i> 在线</a>
+                </div>
+            </div>
+            <!-- Sidebar Menu -->
+            <ul class="sidebar-menu"
+                style="background: #3c8dbc; border-left: 1px solid rgba(0, 0, 0, 0.5); border-right: 1px solid rgba(255, 255, 255, 0.5);">
+
+                <!-- Optionally, you can add icons to the links -->
+                <li class="treeview">
+                    <a href="/park/clouddata">
+                        <i class="fa fa-map-marker"></i> <span>停车云数据</span>
+                        <span class="pull-right-container">
+                        <i class="fa fa-angle-right pull-right"></i>
+                        </span>
+                    </a>
+                </li>
+                <li class="treeview" hidden>
+                    <a href="/park/parkBigData">
+                        <i class="fa fa-map"></i> <span>停车大数据</span>
+                        <span class="pull-right-container">
+                        <i class="fa fa-angle-right pull-right"></i>
+                        </span>
+                    </a>
+                </li>
+                <li class="treeview">
+                    <a href="/park/presentData">
+                        <i class="fa fa-street-view"></i> <span>今日数据</span>
+                        <span class="pull-right-container">
+                        <i class="fa fa-angle-right pull-right"></i>
+                        </span>
+                    </a>
+                </li>
+
+                <li class="treeview" hidden>
+                    <a href="/park/udp/">
+                        <i class="fa fa-file-text-o"></i> <span>UDP测试</span>
+                        <span class="pull-right-container">
+                        <i class="fa fa-angle-right pull-right"></i>
+                        </span>
+                    </a>
+                </li>
+                <li class="treeview">
+                    <a href="/park/outsideParks2">
+                        <i class="fa fa-car"></i> <span>停车场管理</span>
+                        <span class="pull-right-container">
+                        <i class="fa fa-angle-right pull-right"></i>
+                        </span>
+                    </a>
+                </li>
+                <li class="treeview">
+                    <a href="/park/outsideParkStatusAdmin">
+                        <i class="fa fa-calculator"></i> <span>今日概况</span>
+                        <span class="pull-right-container">
+                        <i class="fa fa-angle-right pull-right"></i>
+                        </span>
+                    </a>
+                </li>
+                <li class="treeview" id="cwgl" style="display: none">
+                    <a href="/park/businessCarportAngular">
+                        <i class="fa fa-cogs"></i> <span>车位管理</span>
+                        <span class="pull-right-container">
+                        <i class="fa fa-angle-right pull-right"></i>
+                        </span>
+                    </a>
+                </li>
+                <li class="treeview" id="cwzt"  style="display: none">
+                    <a href="/park/businessCarportStatus">
+                        <i class="fa fa-cubes"></i> <span>车位状态</span>
+                        <span class="pull-right-container">
+                        <i class="fa fa-angle-right pull-right"></i>
+                        </span>
+                    </a>
+                </li>
+                <li class="treeview">
+                    <a href="/park/pos/charge/reconciliation2">
+                        <i class="fa fa-desktop"></i> <span>财务管理</span>
+                        <span class="pull-right-container">
+                        <i class="fa fa-angle-right pull-right"></i>
+                        </span>
+                    </a>
+                </li>
+                <!--<li class="treeview">-->
+                    <!--<a href="/park/channel2">-->
+                        <!--<i class="fa fa-feed"></i> <span>硬件管理</span>-->
+                        <!--<span class="pull-right-container">-->
+                        <!--<i class="fa fa-angle-right pull-right"></i>-->
+                        <!--</span>-->
+                    <!--</a>-->
+                <!--</li>-->
+                <li class="treeview">
+                    <a href="/park/parkUsers2">
+                        <i class="fa fa-snowflake-o"></i> <span>用户管理</span>
+                        <span class="pull-right-container">
+                        <i class="fa fa-angle-right pull-right"></i>
+                        </span>
+                    </a>
+                </li>
+                <!--<li class="treeview">-->
+                    <!--<a href="/park/repair/repair2">-->
+                        <!--<i class="fa fa-sticky-note-o"></i> <span>工单管理</span>-->
+                        <!--<span class="pull-right-container">-->
+                        <!--<i class="fa fa-angle-right pull-right"></i>-->
+                        <!--</span>-->
+                    <!--</a>-->
+                <!--</li>-->
+
+
+                <!--<li class="treeview"-->
+                    <!--style="background: #3c8dbc; color: #3c8dbc"><a-->
+                        <!--href="/park/demo"><i class="fa fa-fw fa-eercast"></i> <span>首页面</span>-->
+                    <!--<i class="fa fa-angle-left pull-right"></i></a>-->
+                    <!--<ul class="treeview-menu"-->
+                        <!--style="background: #3c8dbc; color: #3c8dbc">-->
+                        <!--<li id="tcdsj"><a-->
+                                <!--href="/park/parkBigData"><i class="fa fa-map"></i>停车大数据</a></li>-->
+                        <!--<li id="presentData"><a href="/park/presentData"><i-->
+                                <!--class="fa fa-street-view"></i>今日数据</a></li>-->
+                        <!--<li id="jrsj2"><a-->
+                                <!--href="/park/clouddata"><i class="fa fa-map-marker"></i>停车云数据</a></li>-->
+                        <!--<li id="udpcs" hidden><a-->
+                                <!--href="/park/udp/"><i class="fa fa-file-text-o"></i>UDP测试</a></li>-->
+                    <!--</ul>-->
+                <!--</li>-->
+                <!--<li class="treeview"-->
+                    <!--style="background: #3c8dbc; color: #3c8dbc"><a href="#"><i-->
+                        <!--class="fa fa-fw fa-folder-open-o"></i> <span>参数设置</span> <i-->
+                        <!--class="fa fa-angle-left pull-right"></i></a>-->
+                    <!--<ul class="treeview-menu"-->
+                        <!--style="background: #3c8dbc; color: #3c8dbc">-->
+                        <!--&lt;!&ndash; <li id="s" #if(!$isAdmin && !$park_zoneCenter) hidden#end><a href="/park/zoneCenter"><i class="fa fa-car"></i>市</a></li>-->
+  <!--<li id="q" #if(!$isAdmin && !$park_area) hidden#end><a href="/park/area"><i class="fa fa-car"></i>区</a></li>-->
+  <!--<li id="ld" #if(!$isAdmin && !$park_street) hidden#end><a href="/park/street"><i class="fa fa-car"></i>路段</a></li>-->
+  <!--<li id="tcc" #if(!$isAdmin && !$park_outsideParks) hidden#end><a href="/park/outsideParks"><i class="fa fa-car"></i>停车场</a></li> &ndash;&gt;-->
+                        <!--<li id="tcc2"><a-->
+                                <!--href="/park/outsideParks2"><i class="fa fa-car"></i>停车场管理</a></li>-->
+                        <!--&lt;!&ndash; <li id="jfbzgl" #if(!$isAdmin && !$park_fee_criterion_index) hidden#end ><a href="/park/fee/criterion/index"><i class="fa fa-file-text-o"></i>计费标准管理</a></li>-->
+  <!--<li id="sczdgl" #if(!$isAdmin && !$park_pos) hidden#end><a href="/park/pos"><i class="fa fa-gear"></i>手持终端管理</a></li>-->
+  <!--<li id="byyhgl" #if(!$isAdmin && !$park_monthUser) hidden#end><a href="/park/monthUser"><i class="fa fa-user-plus"></i>包月用户管理</a></li>-->
+  <!--<li id="yygl" #if(!$isAdmin && !$park_monthUser) hidden#end><a href="/park/monthUser/order"><i class="fa fa-user-plus"></i>预约管理</a></li>-->
+  <!--<li id="yhqgl" #if(!$isAdmin && !$park_feeOperator_2) hidden#end><a href="/park/coupons"><i class="fa fa-file-text-o"></i>优惠券管理</a></li>-->
+  <!--<li id="hbmdgl" #if(!$isAdmin && !$park_feeOperator_2) hidden#end><a href="/park/blackList"><i class="fa fa-file-text-o"></i>黑白名单管理</a></li>-->
+  <!--<li id="sfrygl" #if(!$isAdmin && !$park_feeOperator) hidden#end><a href="/park/feeOperator"><i class="fa fa-user-plus"></i>收费人员管理</a></li>-->
+  <!--<li id="xjygl" #if(!$isAdmin && !$park_feeOperator_2) hidden#end><a href="/park/feeOperator/2"><i class="fa fa-user-plus"></i>巡检员管理</a></li> &ndash;&gt;-->
+
+                    <!--</ul>-->
+                <!--</li>-->
+                <!--<li class="treeview"><a href="#"><i-->
+                        <!--class="fa fa-fw fa-bar-chart"></i> <span>数据查看</span> <i-->
+                        <!--class="fa fa-angle-left pull-right"></i></a>-->
+                    <!--<ul class="treeview-menu">-->
+                        <!--<li id="jrgk2"><a href="/park/outsideParkStatus2"><i-->
+                                <!--class="fa fa-calculator"></i>今日概况</a></li>-->
+                        <!--&lt;!&ndash;<li id="jrtcfx" #if(!$isAdmin && !$park_outsideParkStatusAdmin)&ndash;&gt;-->
+                        <!--&lt;!&ndash;hidden#end><a href="/park/outsideParkStatusAdmin"><i&ndash;&gt;-->
+                        <!--&lt;!&ndash;class="fa fa-pie-chart"></i>今日停车分析</a></li>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<li id="zdsyfx" #if(!$isAdmin && !$park_pos_carportUsage)&ndash;&gt;-->
+                        <!--&lt;!&ndash;hidden#end><a href="/park/pos/carportUsage"><i&ndash;&gt;-->
+                        <!--&lt;!&ndash;class="fa fa-pie-chart"></i>车位使用分析</a></li>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<li id="zdsfgk" #if(!$isAdmin && !$park_outsideParkStatus)&ndash;&gt;-->
+                        <!--&lt;!&ndash;hidden#end><a href="/park/outsideParkStatus"><i&ndash;&gt;-->
+                        <!--&lt;!&ndash;class="fa fa-pie-chart"></i>站点收费概况</a></li>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<li id="jrqf" #if(!$isAdmin && !$park_pos_charge_arrearage)&ndash;&gt;-->
+                        <!--&lt;!&ndash;hidden#end><a href="/park/pos/charge/arrearage"><i&ndash;&gt;-->
+                        <!--&lt;!&ndash;class="fa fa-pie-chart"></i>今日欠费</a></li>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<li id="zdzt" hidden #if(!$isAdmin && !$park_posStatus)&ndash;&gt;-->
+                        <!--&lt;!&ndash;hidden#end><a href="/park/posStatus"><i&ndash;&gt;-->
+                        <!--&lt;!&ndash;class="fa fa-pie-chart"></i>终端状态</a></li>&ndash;&gt;-->
+                        <!--<li id="cwgl" style="display: none"><a-->
+                                <!--href="/park/businessCarportAngular"><i class="fa fa-cogs"></i>车位管理</a></li>-->
+                        <!--<li id="cwzt" style="display: none"><a-->
+                                <!--href="/park/businessCarportStatus"><i class="fa fa-cubes"></i>车位状态</a></li>-->
+                    <!--</ul>-->
+                <!--</li>-->
+
+                <!-- <li class="treeview active" hidden><a href="#"><i
+                        class="fa fa-fw fa-cab"></i> <span>基础信息</span> <i
+                        class="fa fa-angle-left pull-right"></i></a>
+                    <ul class="treeview-menu">
+                        <li id="bwgk" #if(!$isAdmin && !$park_carportstatus) hidden#end><a
+                            href="/park/carportstatus"><i class="fa fa-area-chart"></i>泊位概况</a></li>
+                    </ul></li> -->
+
+                <!--<li class="treeview"><a href="#"><i-->
+                        <!--class="fa fa-fw fa-dashboard"></i> <span>对账相关</span> <i-->
+                        <!--class="fa fa-angle-left pull-right"></i></a>-->
+                    <!--<ul class="treeview-menu">-->
+                        <!--<li id="cwdz2"><a href="/park/pos/charge/reconciliation2"><i-->
+                                <!--class="fa fa-desktop"></i>财务管理</a></li>-->
+                    <!--</ul>-->
+                <!--</li>-->
+
+                <li class="treeview" hidden><a href="#"><i
+                        class="fa fa-fw fa-key"></i> <span>硬件相关</span> <i
+                        class="fa fa-angle-left pull-right"></i></a>
+                    <ul class="treeview-menu">
+                        <li id="crkgl2"><a
+                                href="/park/channel2"><i class="fa fa-feed"></i>硬件管理</a></li>
+                    </ul>
+                </li>
+
+                <li class="treeview active" hidden><a href="#"><i
+                        class="fa fa-dollar"></i> <span>计费管理</span> <i
+                        class="fa fa-angle-left pull-right"></i></a>
+                    <ul class="treeview-menu">
+                        <li id="fymx" #if(!$isAdmin && !$park_pos_chargeDetail)
+                            hidden#end><a href="/park/pos/chargeDetail"><i
+                                class="fa fa-credit-card"></i>费用明细</a></li>
+                        <li id="zfbxx" #if(!$isAdmin && !$park_pos_chargeDetail)
+                            hidden#end><a href="/park/alipayInfo/index"><i
+                                class="fa fa-credit-card"></i>支付宝信息</a></li>
+                    </ul>
+                </li>
+
+                <li class="treeview" hidden><a href="#"><i
+                        class="fa fa-fw fa-user-circle"></i> <span>用户管理</span> <i
+                        class="fa fa-angle-left pull-right"></i></a>
+                    <ul class="treeview-menu">
+                        <!-- 新加页面 -->
+                        <li id="wzyhgl2"><a
+                                href="/park/parkUsers2"><i class="fa fa-snowflake-o"></i>用户管理</a></li>
+
+                    </ul>
+                </li>
+
+                <!--<li class="treeview " id="llgl"><a href="#"><i-->
+                <!--class="fa fa-fw fa-steam"></i> <span>流量管理</span> <i-->
+                <!--class="fa fa-angle-left pull-right"></i></a>-->
+                <!--<ul class="treeview-menu">-->
+                <!--<li id="llkgl" #if(!$isAdmin && !$park_dataUsage) hidden#end><a-->
+                <!--href="/park/dataUsage"><i class="fa fa-cc-diners-club"></i>流量卡管理</a></li>-->
+                <!--<li id="llt" #if(!$isAdmin && !$park_chart) hidden#end><a-->
+                <!--href="/park/chart"><i class="fa fa-file-image-o"></i>流量图</a></li>-->
+                <!--<li id="llzd" #if(!$isAdmin && !$park_flow) hidden#end><a-->
+                <!--href="/park/flow"><i class="fa fa-plus-square"></i>流量诊断</a></li>-->
+                <!--</ul></li>-->
+                <!--<li class="treeview active" hidden><a href="#"><i-->
+                <!--class="fa fa-bar-chart"></i> <span>停车位利用率</span> <i-->
+                <!--class="fa fa-angle-left pull-right"></i></a>-->
+                <!--<ul class="treeview-menu">-->
+
+                <!--</ul></li>-->
+
+                <li class="treeview" hidden><a href="#"><i
+                        class="fa fa-telegram"></i> <span>运维管理</span> <i
+                        class="fa fa-angle-left pull-right"></i></a>
+                    <ul class="treeview-menu">
+                        <!--  <li id="gdgl" #if(!$isAdmin && !$park_repair) hidden#end><a href="/park/repair"><i class="fa fa-file"></i>工单管理</a></li> -->
+                        <li id="gdgl2"><a
+                                href="/park/repair/repair2"><i class="fa fa-sticky-note-o"></i>工单管理</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+            <!-- /.sidebar-menu -->
+        </section>
+        <!-- /.sidebar -->
+    </aside>
+
+
+    <div id="content">
+        $screen_content
+        <div>
+            <footer class="main-footer" id="footer">
+                <!-- To the right -->
+                <div class="pull-right hidden-xs"></div>
+                <!-- Default to the left -->
+                <strong> &copy; 2016 <a href="#"></a>.
+                </strong> 保留所有解释权。 <strong><a
+                    href="http://www.miitbeian.gov.cn/">豫ICP备18031066号-1  </a></strong>
+            </footer>
+            <!-- Control Sidebar -->
+            <div ng-include="'template/sidebar.html'"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $("#lunei").bind("click", function () {
+        $.cookie("insideRoad", "true");
+        lunei();
+    });
+    $("#luwai").bind("click", function () {
+        $.cookie("insideRoad", "false");
+        luwai();
+    });
+    function lunei() {
+        var x = $.cookie('insideRoad');
+        if (x == "true") {
+            $('#cwgl').show();
+            $('#cwzt').show();
+        }
+    }
+    function luwai() {
+        var x = $.cookie('insideRoad');
+        if (x == "false") {
+            $('#cwgl').hide();
+            $('#cwzt').hide();
+        }
+    }
+</script>
+</body>
+
+</html>

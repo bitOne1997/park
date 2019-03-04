@@ -1,0 +1,180 @@
+<script src="/park/script/mac.js?v=1.0"></script>
+
+
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>
+			硬件设备管理 <small></small>
+		</h1>
+
+	</section>
+
+	<section class="content">
+		<div class="row">
+			<div class="col-md-12" style="padding: 0 5px 0 5px;">
+				<div class="box">
+					<div class="box-header">
+						<h3 class="box-title"></h3>
+					</div>
+					<!-- /.box-header -->
+					<div class="box-body" style="padding: 0px;">
+						<div class="btn-group" style="margin-left: 10px;">
+							<button #if(!$isAdmin) disabled#end id="refresh" type="button"
+								class="btn btn-info"
+								style="border-radius: 25px; margin-right: 5px;">
+								<span class="glyphicon glyphicon-refresh"></span> 刷新
+							</button>
+							<button #if(!$isAdmin) disabled#end id='addMac' type="button"
+								class="btn btn-primary"
+								style="border-radius: 25px; margin-right: 5px;">
+								<span class="glyphicon glyphicon-pencil"></span> 添加
+							</button>
+							<button #if(!$isAdmin) disabled#end id='updateMac' type="button"
+								class="btn btn-warning"
+								style="border-radius: 25px; margin-right: 5px;">
+								<span class="glyphicon glyphicon-edit"></span> 更新
+							</button>
+							<button #if(!$isAdmin) disabled#end id='deleteMac' type="button"
+								class="btn btn-danger"
+								style="border-radius: 25px; margin-right: 5px;">
+								<span class="glyphicon glyphicon-remove"></span> 删除
+							</button>
+						</div>
+						<div style="display: inline-block;">
+							<input type="search" id="searmacinput" class="form-control"
+								style="min-width: 70px;" placeholder="搜索"></input>
+						</div>
+						<div class="pull-right">
+							<select class="form-control"
+								style="padding: 1px; font-size: 14px; height: 35px"
+								id="searchPark"> #if($isAdmin)
+								<option value=-1>所有停车场</option>#end
+							</select>
+						</div>
+
+<!-- 
+						<div class="col-md-3 col-md-offset-1">
+							<div class="row">
+								<div class="col-md-9">
+									<input type="text" id="searmacinput" class="form-control"></input>
+								</div>
+								<div class="col-md-3">
+									<button type="button" id="searchmacbtn" class="btn btn-default">搜索</button>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<select class="form-control"
+								style="padding: 1px; font-size: 14px; height: 35px"
+								id="searchPark"> #if($isAdmin)
+								<option value=-1>所有停车场</option>#end
+							</select>
+						</div>
+ -->
+
+
+
+						<br /> <br />
+						<div>
+							<table
+								class="table table-bordered table-hover table-condensed table-striped text-center"
+								id='macTable' style="font-size: 12px">
+								<tr class="info" style="height: 30px; line-height: 30px;">
+									<th><span><input type="checkbox" /> </span></th>
+									<th><span>Id </span></th>
+									<th><span>mac </span></th>
+									<th><span>类型 </span></th>
+
+									<th><span>状态 </span></th>
+
+									<th><span>描述 </span></th>
+									<th><span>日期 </span></th>
+								</tr>
+								<tbody id="macBody"></tbody>
+							</table>
+						</div>
+					</div>
+					<div class="box-footer clearfix">
+						<div id='pagination'></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+
+
+
+
+<div class="modal fade" id="addMacModal" tabindex="-1" role="dialog"
+	aria-labelledby='addMacLabel' aria-hidden='true'>
+	<div class='modal-dialog'>
+		<div class='modal-content'>
+
+			<div class='modal-header'>
+				<button type='button' class='close' data-dismiss='modal'
+					aria-hidden='true'>&times;</button>
+				<h3 class='modal-title text-center' id='addMacLabel'>硬件信息</h3>
+			</div>
+
+			<div class='modal-body'>
+				<form class='form-horizontal' id='addMacForm' role='form'>
+					<div class='form-group'>
+						<label class='col-sm-2 control-label' for='mac'>MAC</label>
+						<div class='col-sm-3'>
+							<input type='text' class='form-control' id='mac'
+								placeholder='MAC地址'>
+						</div>
+						<label class='col-sm-2 control-label' for='macType'>type</label>
+						<div class='col-sm-3'>
+
+							<select class='form-control' id='macType'>
+								<option value=1>车流量探测器</option>
+								<option value=2>剩余泊位指示牌</option>
+								<option value=0>停车位探测器</option>
+								<option value=3>道闸控制器</option>
+							</select>
+						</div>
+					</div>
+
+					<div class='form-group'>
+						<label class='col-sm-2 control-label' for='macStatus'>状态</label>
+						<div class='col-sm-3'>
+							<select class='form-control disabled' id='macStatus'
+								disabled="true">
+								<option value=1>未使用</option>
+								<option value=0>已使用</option>
+							</select>
+						</div>
+						<label class='col-sm-2 control-label' for='macDesc'>描述</label>
+						<div class='col-sm-3'>
+							<input type='text' class='form-control' id='macDesc'
+								placeholder='请输入描述信息'>
+						</div>
+					</div>
+				</form>
+			</div>
+
+			<div class='modal-footer'>
+				<button type='button' class='btn btn-default' data-dismiss='modal'>关闭</button>
+				<button id="submitMacBtn" type='button' class='btn btn-primary'>提交</button>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+
+
+
+<div id='showMessage'></div>
+
+<div id='showErrorMessage'></div>
+
+<script>
+	$(document).ready(function() {
+		$.fn.mac.initial();
+	});
+</script>
+
+</script>

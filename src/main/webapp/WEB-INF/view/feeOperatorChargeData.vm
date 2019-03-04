@@ -1,0 +1,76 @@
+<script src="/park/script/service/textModalService.js"></script>
+<script src="/park/script/utility.js"></script>
+<script src="/park/script/feeOperatorChargeData.js"></script>
+
+
+<div class="content-wrapper" ng-app="feeOperatorChargeDataApp" ng-controller="feeOperatorChargeDataCtrl">
+	<section class="content-header">
+          <h1>
+           收费员业绩统计
+            <small></small>
+          </h1>     
+    </section>
+    <section class="content">
+       <div class="row">
+            <div class="col-xs-12">
+              	<div class="box">
+	                <div class="box-header">
+	                  <h3 class="box-title"></h3>
+	                </div><!-- /.box-header -->
+	               <div class="box-body">  
+					<div class="panel panel-default">
+						<div class="panel-body">
+		                	<div class="row">
+								<div class="col-md-2">
+		                		<button ng-click="refresh()" type="button" class="btn bg-purple"><span class="glyphicon glyphicon-refresh"></span> 刷新</button>		                		
+                                </div>
+								<div class="col-md-2">
+		                		<button ng-click="refresh()" type="button" class="btn bg-purple"></span> 日业绩</button>		                		
+                                </div>
+								<div class="col-md-2">
+		                		<button ng-click="weekData()" type="button" class="btn bg-primary"></span> 周业绩</button>		                		
+                                </div>
+								<div class="col-md-2">
+		                		<button ng-click="monthData()" type="button" class="btn bg-info"></span> 月业绩</button>		                		
+                                </div>
+								<div class="col-md-2">
+		                		<button ng-click="yearData()" type="button" class="btn bg-warning"></span> 年业绩</button>		                		
+                                </div>
+		                	</div>
+							
+						  </div>
+						</div>	
+	                	<br/>   
+	                    <br/> 
+						<div>
+						 <table class="table table-hover  table-condensed" id='channelTable' style="font-size:12px">
+				            <tr>				            
+				           										
+										<th><span>收费员ID</span></th>										
+										<th><span>收费员</span></th>
+										<th><span>应收金额</span></th>
+										<th><span>押金金额</span></th>
+										<th><span>补交金额</span></th>	
+										<th><span>找零金额</span></th>
+										<th><span>入场车辆</span></th>
+										<th><span>总收入金额</span></th>
+									
+				            </tr>
+				          	<tr  ng-repeat = "item in items">
+				          		<td ng-bind="item.operatorId"></td>
+				          		<td ng-bind="item.feeOperator"></td>
+				          		<td ng-bind="item.chargeMoney"></td>
+				          		<td ng-bind="item.paidMoney"></td>
+				          		<td ng-bind="item.givenMoney"></td>				         		
+				          		<td ng-bind="item.changeMoney"></td>
+				          		<td ng-bind="item.count"></td>
+								<td>{{item.paidMoney+item.givenMoney-item.changeMoney}}</td>
+				          		
+				          </table>
+    					</div>   					   
+
+	            </div>
+            </div>
+        </div>
+    </section>
+</div>

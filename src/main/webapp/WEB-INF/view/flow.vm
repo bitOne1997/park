@@ -1,0 +1,73 @@
+#set($layout = "nullLayout.vm")
+<div id="chart-header">
+	<div class="row">
+		
+		<div class="col-md-3">
+			<div class="form-group">
+				<label for="park-select" class="control-label">停车场</label>
+				<select id="park-select" class="form-control">
+					#foreach( $park in $parks)
+						<option value=$park.id>$park.name</option>
+					#end
+				</select>
+			</div>
+
+		</div>
+
+		<div class="col-md-2">
+			<div class="form-group">
+				<label for="date" class="control-label">日期</label>
+				<input type="text" id="date"  class="form-control">
+					
+			</div>
+		</div>
+		<div class="col-md-4 ">
+			<label for="autocompletetag" class="control-label">关键字搜索</label>
+			<div class="row">
+				<div class="col-md-9">
+				<input type="text" id="autocompletetag" class="form-control"></input>
+				</div>
+                <div class="col-md-3">
+				<button type="button" id="autocompletebtn" class="btn btn-danger">查看</button>	
+				</div>
+				
+            </div>
+			
+			
+        </div>
+		
+		<div class="col-md-2 col-md-offset-1">
+			<div class="form-group">
+				<label for="theme" class="control-label">主题</label>
+				<select id="theme" class="form-control">
+					<option value=0>默认</option>
+					<option value=1 selected="selected">灰色</option>
+					<option value=2>深蓝色</option>
+					<option value=3>深绿色</option>
+					<option value=4>黑色</option>
+					<option value=5>网格</option>
+				</select>
+					
+			</div>
+
+		</div>
+	</div>
+	
+</div>
+<div id="chart-content" style="min-height:1400px"></div>
+
+<script src="/park/script/chartFlow.js"></script>
+ <link rel="stylesheet" href="/park/css/jquery-ui.css">
+<script src="/park/script/jquery-ui.min.js"></script>
+<script src="/park/script/jquery.cookie.js"></script>
+ <link rel="stylesheet" href="/park/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="/park/dist/css/AdminLTE.min.css">
+ <script href="/park/script/jquery.min.js"></script>
+    </script>
+<script>
+$(document).ready(function(){
+	$.fn.parkChart.initial();
+	
+});
+
+</script>

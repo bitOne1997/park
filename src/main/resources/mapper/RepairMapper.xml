@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.park.dao.RepairDAO" >
+  <resultMap id="BaseResultMap" type="com.park.model.Repair" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="hardwareType" property="hardwaretype" jdbcType="INTEGER" />
+    <result column="faultType" property="faulttype" jdbcType="INTEGER" />
+    <result column="location" property="location" jdbcType="VARCHAR" />
+    <result column="parkId" property="parkid" jdbcType="INTEGER" />
+    <result column="submitWorker" property="submitworker" jdbcType="VARCHAR" />
+    <result column="solveWorker" property="solveworker" jdbcType="VARCHAR" />
+    <result column="submitTime" property="submittime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, hardwareType, faultType, location, parkId, submitWorker, solveWorker, submitTime, 
+    status, description
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from repair
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from repair
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.park.model.Repair" >
+    insert into repair (id, hardwareType, faultType, 
+      location, parkId, submitWorker, 
+      solveWorker, submitTime, status, 
+      description)
+    values (#{id,jdbcType=INTEGER}, #{hardwaretype,jdbcType=INTEGER}, #{faulttype,jdbcType=INTEGER}, 
+      #{location,jdbcType=VARCHAR}, #{parkid,jdbcType=INTEGER}, #{submitworker,jdbcType=VARCHAR}, 
+      #{solveworker,jdbcType=VARCHAR}, #{submittime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, 
+      #{description,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.park.model.Repair" >
+    insert into repair
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="hardwaretype != null" >
+        hardwareType,
+      </if>
+      <if test="faulttype != null" >
+        faultType,
+      </if>
+      <if test="location != null" >
+        location,
+      </if>
+      <if test="parkid != null" >
+        parkId,
+      </if>
+      <if test="submitworker != null" >
+        submitWorker,
+      </if>
+      <if test="solveworker != null" >
+        solveWorker,
+      </if>
+      <if test="submittime != null" >
+        submitTime,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="hardwaretype != null" >
+        #{hardwaretype,jdbcType=INTEGER},
+      </if>
+      <if test="faulttype != null" >
+        #{faulttype,jdbcType=INTEGER},
+      </if>
+      <if test="location != null" >
+        #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="parkid != null" >
+        #{parkid,jdbcType=INTEGER},
+      </if>
+      <if test="submitworker != null" >
+        #{submitworker,jdbcType=VARCHAR},
+      </if>
+      <if test="solveworker != null" >
+        #{solveworker,jdbcType=VARCHAR},
+      </if>
+      <if test="submittime != null" >
+        #{submittime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.park.model.Repair" >
+    update repair
+    <set >
+      <if test="hardwaretype != null" >
+        hardwareType = #{hardwaretype,jdbcType=INTEGER},
+      </if>
+      <if test="faulttype != null" >
+        faultType = #{faulttype,jdbcType=INTEGER},
+      </if>
+      <if test="location != null" >
+        location = #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="parkid != null" >
+        parkId = #{parkid,jdbcType=INTEGER},
+      </if>
+      <if test="submitworker != null" >
+        submitWorker = #{submitworker,jdbcType=VARCHAR},
+      </if>
+      <if test="solveworker != null" >
+        solveWorker = #{solveworker,jdbcType=VARCHAR},
+      </if>
+      <if test="submittime != null" >
+        submitTime = #{submittime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.park.model.Repair" >
+    update repair
+    set hardwareType = #{hardwaretype,jdbcType=INTEGER},
+      faultType = #{faulttype,jdbcType=INTEGER},
+      location = #{location,jdbcType=VARCHAR},
+      parkId = #{parkid,jdbcType=INTEGER},
+      submitWorker = #{submitworker,jdbcType=VARCHAR},
+      solveWorker = #{solveworker,jdbcType=VARCHAR},
+      submitTime = #{submittime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
+      description = #{description,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id= "getAll" resultType="com.park.model.Repair">
+  	select * from repair
+  </select>
+</mapper>

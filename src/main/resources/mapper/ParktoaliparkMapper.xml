@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.park.dao.ParktoaliparkMapper" >
+  <resultMap id="BaseResultMap" type="com.park.model.Parktoalipark" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="parkId" property="parkid" jdbcType="INTEGER" />
+    <result column="aliparkingId" property="aliparkingid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, parkId, aliparkingId
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from parkToAliPark
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from parkToAliPark
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.park.model.Parktoalipark" >
+    insert into parkToAliPark (id, parkId, aliparkingId
+      )
+    values (#{id,jdbcType=INTEGER}, #{parkid,jdbcType=INTEGER}, #{aliparkingid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.park.model.Parktoalipark" >
+    insert into parkToAliPark
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="parkid != null" >
+        parkId,
+      </if>
+      <if test="aliparkingid != null" >
+        aliparkingId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="parkid != null" >
+        #{parkid,jdbcType=INTEGER},
+      </if>
+      <if test="aliparkingid != null" >
+        #{aliparkingid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.park.model.Parktoalipark" >
+    update parkToAliPark
+    <set >
+      <if test="parkid != null" >
+        parkId = #{parkid,jdbcType=INTEGER},
+      </if>
+      <if test="aliparkingid != null" >
+        aliparkingId = #{aliparkingid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.park.model.Parktoalipark" >
+    update parkToAliPark
+    set parkId = #{parkid,jdbcType=INTEGER},
+      aliparkingId = #{aliparkingid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="getByAliParkId" resultType="com.park.model.Parktoalipark">
+  	select * from parkToAliPark where aliparkingId=#{aliparkingId}
+  </select>
+  <select id="getByParkId" resultType="com.park.model.Parktoalipark">
+  	select * from parkToAliPark where parkId=#{parkId}
+  </select>
+</mapper>

@@ -1,0 +1,135 @@
+<script src="/park/script/service/textModalService.js"></script>
+<link href="/park/plugins/datepicker/datepicker.css" rel="stylesheet">
+<script src="/park/script/flowbill.js?v=1.0"></script>
+<script src="/park/script/datepicker.js"></script>
+<style>
+.page-list .pagination {
+	float: left;
+}
+
+.page-list .pagination span {
+	cursor: pointer;
+}
+
+.page-list .pagination .separate span {
+	cursor: default;
+	border-top: none;
+	border-bottom: none;
+}
+
+.page-list .pagination .separate span:hover {
+	background: none;
+}
+
+.page-list .page-total {
+	float: left;
+	margin: 25px 20px;
+}
+
+.page-list .page-total input, .page-list .page-total select {
+	height: 26px;
+	border: 1px solid #ddd;
+}
+
+.page-list .page-total input {
+	width: 40px;
+	padding-left: 3px;
+}
+
+.page-list .page-total select {
+	width: 50px;
+}
+</style>
+<div class="content-wrapper" ng-app="feeDetailApp"
+	ng-controller="feeDetailCtrl">
+	<section class="content-header">
+		<h1>
+			财务流水账单 <small></small>
+		</h1>
+	</section>
+	<section class="content">
+		<div class="row">
+			<div class="col-md-12" style="padding: 0 5px 0 5px;">
+				<div class="box">
+					<div class="box-header">
+						<h3 class="box-title"></h3>
+					</div>
+					<!-- /.box-header -->
+					<div class="box-body" style="padding: 0px;">
+
+						<div>
+							<table
+								class="table table-hover table-bordered table-striped table-condensed text-center"
+								id='channelTable' style="font-size: 12px">
+								<tr class="info" style="height: 30px; line-height: 30px;">
+									<th hidden><span style=""><input type="checkbox" /></span></th>
+									<th><span>id</span></th>
+									<th><span>车牌</span></th>
+									<th><span>停车场名</span></th>
+									<th><span>车位号</span></th>
+									<th><span>操作员id</span></th>
+									<th><span>收费状态</span></th>
+									<th><span>应收费</span></th>
+									<th><span>进场时间</span></th>
+									<th><span>离场时间</span></th>
+									<th><span>缴费渠道</span></th>
+									<th><span>未缴理由</span></th>
+									<th><span>查看图片</span></th>
+								</tr>
+								<tbody id="channelBody"></tbody>
+								<tr ng-repeat="item in detail.items |orderBy:'id':true">
+									<td hidden><input type="checkbox" ng-model="item.checked" /></td>
+									<td ng-bind="item.id"></td>
+									<td ng-bind="item.cardNumber"></td>
+									<td ng-bind="item.parkDesc"></td>
+									<td ng-bind="item.portNumber"></td>
+									<td ng-bind="item.operatorId"></td>
+									<td ng-if="item.paidCompleted==true" class="success">已收费</td>
+									<td ng-if="item.paidCompleted==false" class="warning">未收费</td>
+									<td ng-bind="item.chargeMoney|number:2"></td>
+									<td ng-bind="item.entranceDate"></td>
+									<td ng-bind="item.exitDate"></td>
+									<td ng-if="item.paidCompleted==false">无</td>
+									<td ng-if="item.paidCompleted==true&&item.payType==0">支付宝</td>
+									<td ng-if="item.paidCompleted==true&&item.payType==1">微信</td>
+									<td ng-if="item.paidCompleted==true&&item.payType==2">现金</td>
+									<td ng-if="item.paidCompleted==true&&item.payType==3">工行</td>
+									<td ng-if="item.paidCompleted==true&&item.payType==4">app</td>
+									<td ng-if="item.paidCompleted==true&&item.payType==9">现金</td>
+									<td ng-bind="item.rejectReason"></td>
+									<td ng-if="item.url!=''"><a href={{item.url}}
+										target="_blank">查看 </a></td>
+									<td ng-if="item.url==''">暂无</td>
+							</table>
+						</div>
+						<tm-pagination conf="paginationConf"></tm-pagination>
+				</div>
+			</div>
+		</div>
+	</div>
+	</section>
+
+	<script type="text/ng-template" id="myModalTest"> 
+	<!-- 模态框（Modal） -->
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" 
+               data-dismiss="modal" aria-hidden="true" ng-click="texta()">
+                  &times;
+            </button>
+            <h4 class="modal-title" >  yyy     
+            </h4>
+         </div>
+         <div class="modal-body">
+			{{textaaa}}
+         </div>
+         <div class="modal-footer">
+      		<button type="button" class="btn btn-default" data-dismiss="modal" ng-click="close()">
+				关闭
+            </button>          
+         </div>
+      </div><!-- /.modal-content -->
+</div><!-- /.modal -->
+</script>
+</div>

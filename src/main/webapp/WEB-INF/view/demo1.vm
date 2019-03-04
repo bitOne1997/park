@@ -1,0 +1,261 @@
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+
+<script src="https://use.fontawesome.com/a416e9e97f.js"></script>
+<script type="text/javascript"
+	src="http://api.map.baidu.com/api?v=2.0&ak=u1q1g4e2kT3rG5xIY8R9HprMfmcSt6PK"></script>
+<script type="text/javascript" src="/park/script/demo1.js"></script>
+<script type="text/javascript" src="/park/script/demo1angular.js"></script>
+<style>
+.anchorBL {
+	display: none;
+}
+</style>
+<div class="content-wrapper" ng-app="outsideParkStatus1App"
+	ng-controller="outsideParkStatus1Ctrl">
+	<section class="content-header">
+		<h1>平台停车交易概况</h1>
+	</section>
+	<section class="content">
+		<div class="row">
+			<div class="col-md-3">
+				<div class="box box-info" style="height: 330px;">
+					<div class="box-header with-border">
+						<h3 class="box-title">相关信息</h3>
+						<div class="box-tools pull-right">
+							<button type="button" class="btn btn-box-tool">
+                <a href="/park/pos/charge/demo3"><i class="fa fa-plus"></i> 更多</a>
+							</button>
+						</div>
+					</div>
+					<!-- /.box-header -->
+					<div class="box-body">
+						<div class="media">
+							<div class="media-left">
+								<a href="#"> </a>
+							</div>
+							<div class="media-body">
+								<div class="col-md-6">
+									<span>今日金额</span>
+								</div>
+								<div class="col-md-6">
+									<span>8888元</span>
+								</div>
+							</div>
+						</div>
+						<div class="media">
+							<div class="media-left">
+								<a href="#"> </a>
+							</div>
+							<div class="media-body">
+								<div class="col-md-6">
+									<span>今日订单</span>
+								</div>
+								<div class="col-md-6">
+									<span>8888笔</span>
+								</div>
+							</div>
+						</div>
+						<div class="media">
+							<div class="media-left">
+								<a href="#"> </a>
+							</div>
+							<div class="media-body">
+								<div class="col-md-6">
+									<span>历史金额</span>
+								</div>
+								<div class="col-md-6">
+									<span>8888元</span>
+								</div>
+							</div>
+						</div>
+						<div class="media">
+							<div class="media-left">
+								<a href="#"> </a>
+							</div>
+							<div class="media-body">
+								<div class="col-md-6">
+									<span>历史订单</span>
+								</div>
+								<div class="col-md-6">
+									<span>8888笔</span>
+								</div>
+							</div>
+						</div>
+						<div class="media">
+							<div class="media-left">
+								<a href="#"> </a>
+							</div>
+							<div class="media-body">
+								<div class="col-md-6">
+									<span>总停车场数</span>
+								</div>
+								<div class="col-md-6">
+									<span>8888个</span>
+								</div>
+							</div>
+						</div>
+						<div class="media">
+							<div class="media-left">
+								<a href="#"> </a>
+							</div>
+							<div class="media-body">
+								<div class="col-md-6">
+									<span>在线停车场</span>
+								</div>
+								<div class="col-md-6">
+									<span>8888个</span>
+								</div>
+							</div>
+						</div>
+						<div class="media">
+							<div class="media-left">
+								<a href="#"> </a>
+							</div>
+							<div class="media-body">
+								<div class="col-md-6">
+									<span>总泊位数</span>
+								</div>
+								<div class="col-md-6">
+									<span>8888个</span>
+								</div>
+							</div>
+						</div>
+						<div class="media">
+							<div class="media-left">
+								<a href="#"> </a>
+							</div>
+							<div class="media-body">
+								<div class="col-md-6">
+									<span>在线泊位</span>
+								</div>
+								<div class="col-md-6">
+									<span>8888个</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- /.box-body -->
+				</div>
+				<!-- /.box -->
+			</div>
+			<!-- Map box -->
+			<div class="col-md-9">
+				<div class="box box-solid bg-light-blue-gradient">
+					<div class="box-body">
+						<section>
+							<div id="container"
+								style="min-width: 850px; height: 310px; position: relative; box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1)">
+							</div>
+							<div class="small-box"
+								style="height: 50px; min-width: 850px; position: absolute; top: 10px; left: 10px;">
+								<form class="form-horizontal" role="form">
+									<div class="form-group ">
+										<div class="col-md-3">
+											<select class="form-control">
+												<option value="">南京市</option>
+											</select>
+										</div>
+										<div class="col-md-3">
+											<select class="form-control">
+												<option value="">江宁区</option>
+
+											</select>
+										</div>
+										<div class="col-md-3">
+											<select class="form-control">
+												<option value="">金盛路段</option>
+
+											</select>
+										</div>
+										<div class="col-md-3">
+											<select class="form-control">
+												<option value="">碧水湾停车场</option>
+
+											</select>
+										</div>
+									</div>
+								</form>
+
+							</div>
+						</section>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-12" style="height: 300px;">
+
+				<table
+					class="table table-bordered table-hover table-condensed table-striped text-center"
+					style="font-size: 12px">
+					<tr class="info" style="height: 30px; line-height: 30px;">
+						<th><span>序号</span></th>
+						<th><span>停车场名称 </span></th>
+						<th><span>应收金额 </span></th>
+						<th><span>实收金额 </span></th>
+						<th><span>入场数 </span></th>
+						<th><span>出场数 </span></th>
+						<th><span>剩余泊位 </span></th>
+					</tr>
+					<tbody>
+						<tr>
+							<td>1</td>
+							<td><a href="/park/pos/charge/demo2">江宁碧水湾停车场</a></td>
+							<td>3456</td>
+							<td>3456</td>
+							<td>234</td>
+							<td>134</td>
+							<td>45</td>
+						</tr>
+						<tr>
+							<td>2</td>
+							<td><a href="/park/pos/charge/demo2">金峰大厦</a></td>
+							<td>1235</td>
+							<td>1235</td>
+							<td>235</td>
+							<td>135</td>
+							<td>23</td>
+						</tr>
+						<tr>
+							<td>3</td>
+							<td><a href="/park/pos/charge/demo2">润和创智中心</a></td>
+							<td>3425</td>
+							<td>3425</td>
+							<td>236</td>
+							<td>216</td>
+							<td>56</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</section>
+</div>
+<script>
+	var map = new BMap.Map("container");
+	var point = new BMap.Point(116.331398, 39.897445);
+	map.centerAndZoom(point, 12);
+
+	function myFun(result) {
+		var cityName = result.name;
+		map.setCenter(cityName);
+	}
+	var myCity = new BMap.LocalCity();
+	myCity.get(myFun);
+	/* map.setMapStyle({
+	 styleJson:[
+	 {
+	 "featureType": "land",
+	 "elementType": "all",
+	 "stylers": {
+	 "color": "#3c8dbc"
+	 }
+	 },
+	 {
+	 "featureType": "water",
+	 "elementType": "all",
+	 "stylers": {
+	 "visibility": "off"
+	 }
+	 }
+	 ]
+	 }); */
+</script>

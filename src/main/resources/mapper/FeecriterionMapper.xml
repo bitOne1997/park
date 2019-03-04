@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.park.dao.FeeCriterionDAO" >
+  <resultMap id="BaseResultMap" type="com.park.model.FeeCriterion" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="CHAR" />
+    <result column="freeMins" property="freemins" jdbcType="INTEGER" />
+    <result column="step1Price" property="step1price" jdbcType="REAL" />
+    <result column="step2Price" property="step2price" jdbcType="REAL" />
+    <result column="step3Price" property="step3price" jdbcType="REAL" />
+    <result column="step1PriceLarge" property="step1pricelarge" jdbcType="REAL" />
+    <result column="step2PriceLarge" property="step2pricelarge" jdbcType="REAL" />
+    <result column="step3PriceLarge" property="step3pricelarge" jdbcType="REAL" />
+    <result column="step1Capacity" property="step1capacity" jdbcType="INTEGER" />
+    <result column="step2Capacity" property="step2capacity" jdbcType="INTEGER" />
+    <result column="timeoutPriceInterval" property="timeoutpriceinterval" jdbcType="INTEGER" />
+    <result column="timeoutPriceInterval2" property="timeoutpriceinterval2" jdbcType="INTEGER" />
+    <result column="maxExpense" property="maxexpense" jdbcType="REAL" />
+    <result column="nightStartTime" property="nightstarttime" jdbcType="CHAR" />
+    <result column="nightEndTime" property="nightendtime" jdbcType="CHAR" />
+    <result column="isOneTimeExpense" property="isonetimeexpense" jdbcType="INTEGER" />
+    <result column="oneTimeExpense" property="onetimeexpense" jdbcType="REAL" />
+    <result column="explaination" property="explaination" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="other" property="other" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, freeMins, step1Price, step2Price, step3Price, step1PriceLarge, step2PriceLarge, 
+    step3PriceLarge, step1Capacity, step2Capacity, timeoutPriceInterval, timeoutPriceInterval2, 
+    maxExpense, nightStartTime, nightEndTime, isOneTimeExpense, oneTimeExpense, explaination, 
+    type, other
+  </sql>
+ 
+  <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from feeCriterion
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="operatorValidationid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from feeCriterion
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="get" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from feeCriterion
+  	</select>
+  <delete id="delete" parameterType="java.lang.Integer" >
+    delete from feeCriterion
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.park.model.FeeCriterion" >
+   insert into feeCriterion (id, name, freeMins, 
+      step1Price, step2Price, step3Price, 
+      step1PriceLarge, step2PriceLarge, step3PriceLarge, 
+      step1Capacity, step2Capacity, timeoutPriceInterval, 
+      timeoutPriceInterval2, maxExpense, nightStartTime, 
+      nightEndTime, isOneTimeExpense, oneTimeExpense, 
+      explaination, type, other
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=CHAR}, #{freemins,jdbcType=INTEGER}, 
+      #{step1price,jdbcType=REAL}, #{step2price,jdbcType=REAL}, #{step3price,jdbcType=REAL}, 
+      #{step1pricelarge,jdbcType=REAL}, #{step2pricelarge,jdbcType=REAL}, #{step3pricelarge,jdbcType=REAL}, 
+      #{step1capacity,jdbcType=INTEGER}, #{step2capacity,jdbcType=INTEGER}, #{timeoutpriceinterval,jdbcType=INTEGER}, 
+      #{timeoutpriceinterval2,jdbcType=INTEGER}, #{maxexpense,jdbcType=REAL}, #{nightstarttime,jdbcType=CHAR}, 
+      #{nightendtime,jdbcType=CHAR}, #{isonetimeexpense,jdbcType=INTEGER}, #{onetimeexpense,jdbcType=REAL}, 
+      #{explaination,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{other,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.park.model.FeeCriterion" >
+    insert into feeCriterion
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="freemins != null" >
+        freeMins,
+      </if>
+      <if test="step1price != null" >
+        step1Price,
+      </if>
+      <if test="step2price != null" >
+        step2Price,
+      </if>
+      <if test="step3price != null" >
+        step3Price,
+      </if>
+      <if test="step1pricelarge != null" >
+        step1PriceLarge,
+      </if>
+      <if test="step2pricelarge != null" >
+        step2PriceLarge,
+      </if>
+      <if test="step3pricelarge != null" >
+        step3PriceLarge,
+      </if>
+      <if test="step1capacity != null" >
+        step1Capacity,
+      </if>
+      <if test="step2capacity != null" >
+        step2Capacity,
+      </if>
+      <if test="timeoutpriceinterval != null" >
+        timeoutPriceInterval,
+      </if>
+      <if test="timeoutpriceinterval2 != null" >
+        timeoutPriceInterval2,
+      </if>
+      <if test="maxexpense != null" >
+        maxExpense,
+      </if>
+      <if test="nightstarttime != null" >
+        nightStartTime,
+      </if>
+      <if test="nightendtime != null" >
+        nightEndTime,
+      </if>
+      <if test="isonetimeexpense != null" >
+        isOneTimeExpense,
+      </if>
+      <if test="onetimeexpense != null" >
+        oneTimeExpense,
+      </if>
+      <if test="explaination != null" >
+        explaination,
+      </if>
+       <if test="type != null" >
+        type,
+      </if>
+      <if test="other != null" >
+        other,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=CHAR},
+      </if>
+      <if test="freemins != null" >
+        #{freemins,jdbcType=INTEGER},
+      </if>
+      <if test="step1price != null" >
+        #{step1price,jdbcType=REAL},
+      </if>
+      <if test="step2price != null" >
+        #{step2price,jdbcType=REAL},
+      </if>
+      <if test="step3price != null" >
+        #{step3price,jdbcType=REAL},
+      </if>
+      <if test="step1pricelarge != null" >
+        #{step1pricelarge,jdbcType=REAL},
+      </if>
+      <if test="step2pricelarge != null" >
+        #{step2pricelarge,jdbcType=REAL},
+      </if>
+      <if test="step3pricelarge != null" >
+        #{step3pricelarge,jdbcType=REAL},
+      </if>
+      <if test="step1capacity != null" >
+        #{step1capacity,jdbcType=INTEGER},
+      </if>
+      <if test="step2capacity != null" >
+        #{step2capacity,jdbcType=INTEGER},
+      </if>
+      <if test="timeoutpriceinterval != null" >
+        #{timeoutpriceinterval,jdbcType=INTEGER},
+      </if>
+      <if test="timeoutpriceinterval2 != null" >
+        #{timeoutpriceinterval2,jdbcType=INTEGER},
+      </if>
+      <if test="maxexpense != null" >
+        #{maxexpense,jdbcType=REAL},
+      </if>
+      <if test="nightstarttime != null" >
+        #{nightstarttime,jdbcType=CHAR},
+      </if>
+      <if test="nightendtime != null" >
+        #{nightendtime,jdbcType=CHAR},
+      </if>
+      <if test="isonetimeexpense != null" >
+        #{isonetimeexpense,jdbcType=INTEGER},
+      </if>
+      <if test="onetimeexpense != null" >
+        #{onetimeexpense,jdbcType=REAL},
+      </if>
+      <if test="explaination != null" >
+        #{explaination,jdbcType=VARCHAR},
+      </if>
+       <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="other != null" >
+        #{other,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="modify" parameterType="com.park.model.FeeCriterion" >
+    update feeCriterion
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=CHAR},
+      </if>
+      <if test="freemins != null" >
+        freeMins = #{freemins,jdbcType=INTEGER},
+      </if>
+      <if test="step1price != null" >
+        step1Price = #{step1price,jdbcType=REAL},
+      </if>
+      <if test="step2price != null" >
+        step2Price = #{step2price,jdbcType=REAL},
+      </if>
+      <if test="step3price != null" >
+        step3Price = #{step3price,jdbcType=REAL},
+      </if>
+      <if test="step1pricelarge != null" >
+        step1PriceLarge = #{step1pricelarge,jdbcType=REAL},
+      </if>
+      <if test="step2pricelarge != null" >
+        step2PriceLarge = #{step2pricelarge,jdbcType=REAL},
+      </if>
+      <if test="step3pricelarge != null" >
+        step3PriceLarge = #{step3pricelarge,jdbcType=REAL},
+      </if>
+      <if test="step1capacity != null" >
+        step1Capacity = #{step1capacity,jdbcType=INTEGER},
+      </if>
+      <if test="step2capacity != null" >
+        step2Capacity = #{step2capacity,jdbcType=INTEGER},
+      </if>
+      <if test="timeoutpriceinterval != null" >
+        timeoutPriceInterval = #{timeoutpriceinterval,jdbcType=INTEGER},
+      </if>
+      <if test="timeoutpriceinterval2 != null" >
+        timeoutPriceInterval2 = #{timeoutpriceinterval2,jdbcType=INTEGER},
+      </if>
+      <if test="maxexpense != null" >
+        maxExpense = #{maxexpense,jdbcType=REAL},
+      </if>
+      <if test="nightstarttime != null" >
+        nightStartTime = #{nightstarttime,jdbcType=CHAR},
+      </if>
+      <if test="nightendtime != null" >
+        nightEndTime = #{nightendtime,jdbcType=CHAR},
+      </if>
+      <if test="isonetimeexpense != null" >
+        isOneTimeExpense = #{isonetimeexpense,jdbcType=INTEGER},
+      </if>
+      <if test="onetimeexpense != null" >
+        oneTimeExpense = #{onetimeexpense,jdbcType=REAL},
+      </if>
+      <if test="explaination != null" >
+        explaination = #{explaination,jdbcType=VARCHAR},
+      </if>
+       <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="other != null" >
+        other = #{other,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.park.model.FeeCriterion" >
+    update feeCriterion
+    set name = #{name,jdbcType=CHAR},
+      freeMins = #{freemins,jdbcType=INTEGER},
+      step1Price = #{step1price,jdbcType=REAL},
+      step2Price = #{step2price,jdbcType=REAL},
+      step3Price = #{step3price,jdbcType=REAL},
+      step1PriceLarge = #{step1pricelarge,jdbcType=REAL},
+      step2PriceLarge = #{step2pricelarge,jdbcType=REAL},
+      step3PriceLarge = #{step3pricelarge,jdbcType=REAL},
+      step1Capacity = #{step1capacity,jdbcType=INTEGER},
+      step2Capacity = #{step2capacity,jdbcType=INTEGER},
+      timeoutPriceInterval = #{timeoutpriceinterval,jdbcType=INTEGER},
+      timeoutPriceInterval2 = #{timeoutpriceinterval2,jdbcType=INTEGER},
+      maxExpense = #{maxexpense,jdbcType=REAL},
+      nightStartTime = #{nightstarttime,jdbcType=CHAR},
+      nightEndTime = #{nightendtime,jdbcType=CHAR},
+      isOneTimeExpense = #{isonetimeexpense,jdbcType=INTEGER},
+      oneTimeExpense = #{onetimeexpense,jdbcType=REAL},
+      explaination = #{explaination,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      other = #{other,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="getByKeyWords" resultMap="BaseResultMap" >
+  	select * from feeCriterion where name like '%${keywords}%'
+  </select>
+</mapper>

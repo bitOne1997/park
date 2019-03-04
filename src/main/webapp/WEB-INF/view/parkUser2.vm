@@ -1,0 +1,46 @@
+<script src="/park/script/parkUser.js?v=1.2"></script>
+<script src="/park/script/parkUserAngular.js?v=1.2"></script>
+<link rel="stylesheet" type="text/css" href="/park/css/button.css" />
+
+
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>
+			网站用户管理 <small></small>
+		</h1>
+
+	</section>
+
+	<section class="content">
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="box">
+					<!--  <div class="box-header">
+	                  <h3 class="box-title"></h3>
+	                </div> -->
+					<!-- /.box-header -->
+					<div class="box-body" style="height: 580px;padding: 150px 100px">
+						<a href="/park/parkUsers"><button class="button park" style="vertical-align:middle"><span>添加用户 </span></button></a>
+						<a href="/park/page/permission/roles"><button class="button charge" style="vertical-align:middle"><span>角色管理 </span></button></a>
+						<a href="/park/page/permission/role/allocate"><button class="button hardware" style="vertical-align:middle"><span>权限管理 </span></button></a>
+						<a href="#"><button class="button poscharge" style="vertical-align:middle"><span>更多信息 </span></button></a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</section>
+
+</div>
+
+
+<div id='showMessage'></div>
+
+<div id='showErrorMessage'></div>
+
+
+<script>
+	$(document).ready(function() {
+		$("#userBody").user.initial();
+	});
+</script>

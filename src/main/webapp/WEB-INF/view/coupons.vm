@@ -1,0 +1,181 @@
+<script src="/park/script/coupons.js"></script>
+<script src="/park/script/utility.js"></script>
+<script src="/park/script/service/textModalService.js"></script>
+<div class="content-wrapper" ng-app="monthUserApp" ng-controller="monthUserCtrl">
+	<section class="content-header">
+          <h1>
+           优惠券管理
+            <small></small>
+          </h1>
+       
+    </section>
+
+    <section class="content">
+       <div class="row">
+            <div class="col-xs-12">
+              	<div class="box">	               
+	             <div class="box-body"> 
+					<div class="btn-group">
+		                		<button #if(!$isAdmin) disabled#end  ng-click="refreshUser()" type="button" class="btn bg-purple"><span class="glyphicon glyphicon-refresh"></span> 刷新</button>
+		                		<button #if(!$isAdmin) disabled#end  ng-click="insertUser()" type="button" class="btn bg-olive"><span class="glyphicon glyphicon-pencil"></span> 增加优惠券</button>
+		                		<button #if(!$isAdmin) disabled#end  ng-click="updateUser()" type="button" class="btn bg-navy"><span class="glyphicon glyphicon-edit"></span> 账户充值</button>
+		                		<button #if(!$isAdmin) disabled#end  ng-click="deleteUser()" type="button" class="btn  bg-orange"><span class="glyphicon glyphicon-remove"></span> 删除优惠券</button>
+								<button #if(!$isAdmin) disabled#end  ng-click="updateUserPark()" type="button" class="btn  bg-olive"><span class="glyphicon glyphicon-edit"></span> 所属停车场</button>
+		                	</div>	
+								<div class="pull-right">
+								        		
+	                	</select>
+	                	</div>
+	                    <br/>   
+	                    <br/>    	
+						<div>
+							  <table class="table table-bordered table-hover table-condensed" style="font-size:12px">
+					          
+					            <tr>					            
+										<th ><span style="padding-left:15%">商家昵称</div></th>								
+										<th><span style="padding-left:15%">停车场名</div></th>
+										<th><span style="padding-left:15%">优惠方式</div></th>
+										<th><span style="padding-left:15%">优惠额度</div></th>
+										<th><span style="padding-left:15%">开始日期</div></th>
+										<th><span style="padding-left:15%">结束日期</div></th>
+										<th><span style="padding-left:15%">领取渠道</div></th>	
+										<th><span style="padding-left:15%">领取时间</div></th>
+										<th><span style="padding-left:15%">消费车牌</div></th>
+										<th><span style="padding-left:15%">抵扣金额</div></th>	
+										<th><span style="padding-left:15%">消费时间</div></th>	
+										<th><span style="padding-left:15%">状态</div></th>							
+					            </tr>
+					          
+					          <tbody id="parkBody"></tbody>
+							  <tr ng-repeat="user in users">
+							  <td ng-bind="user.id"></td>
+							  <td ng-bind="user.parkname"></td>
+							  <td ng-bind="user.cardnumber"></td>
+							  <td ng-bind="user.owner"></td>
+							  <td ng-bind="user.platenumber"></td>
+							  <td ng-bind="user.platecolor"></td>
+							  <td ng-bind="user.certificatetype"></td>
+							  <td ng-bind="user.certificatenumber"></td>
+							  <td ng-bind="user.starttime"></td>
+							  <td ng-bind="user.endtime"></td>
+							   <td ng-bind="user.starttime1"></td>
+							  <td ng-bind="user.endtime1"></td>
+							  </tr>
+					          </table>
+    					</div>
+    				</div>
+    				<div class="box-footer clearfix">
+      					<div id='pagination'></div>
+      				</div>
+	            </div>
+            </div>
+        </div>
+
+    </section>
+						
+
+
+
+
+
+<script  type="text/ng-template" id="modifyUser">
+
+<div class="modal-header">
+    <button type='button' class='close' ng-click="close()" aria-hidden='true'>
+        &times;
+    </button>
+    <h4 class="modal-title" >优惠券</h4>
+
+</div>
+
+<div class="modal-body">
+    <form class="form-horizontal" role="form">
+        
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" >商家昵称</label>
+            <div class="col-sm-8">
+                <select class="form-control" ng-options="park.id as park.name for park in parks" ng-model="tempUser.parkid"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" >停车场名</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" placeholder="请输入停车场名" ng-model="tempUser.cardnumber">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" >优惠方式</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" placeholder="请输入优惠方式" ng-model="tempUser.owner">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" >优惠额度</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" placeholder="请输入优惠额度" ng-model="tempUser.platenumber">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" >开始日期</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" placeholder="YYYY-MM-DD hh:mm:ss" ng-model="tempUser.platecolor">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" >结束日期</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" placeholder="请输入结束日期" ng-model="tempUser.certificatetype">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" >领取渠道</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" placeholder="请输入领取渠道" ng-model="tempUser.certificatenumber">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" >领取时间</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" placeholder="YYYY-MM-DD hh:mm:ss" ng-model="tempUser.starttime">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" >消费车牌</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control"  ng-model="tempUser.endtime">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" >抵扣金额</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" placeholder="请输入抵扣金额" ng-model="tempUser.payment">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" >状态</label>
+            <div class="col-sm-8">
+                <select ng-model="tempUser.status" ng-options="status.value as status.text for status in statuses" class="form-control">
+
+                </select>
+            </div>
+        </div>
+        <div class="alert alert-info" ng-show="(showResult || showLoader)">
+            <span  ng-show='showLoader'  skip-ng-show= "yes" ng-activity-indicator= "CircledGrey"></span>
+            <span ng-show='showResult'>{{result}}</span>
+        </div>
+
+    </form>
+</div>
+
+<div class="modal-footer">
+    <button ng-click="close()" type="button" class="btn btn-default" data-dismiss="modal">
+        取消
+    </button>
+    <button ng-click="submit()"  type="button" class="btn btn-primary">
+        确定
+    </button>
+</div>
+</script>
+</div>

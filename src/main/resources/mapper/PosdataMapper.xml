@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.park.dao.PosdataDAO" >
+  <resultMap id="BaseResultMap" type="com.park.model.Posdata" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="CredenceSnr" property="credencesnr" jdbcType="VARCHAR" />
+    <result column="CardSnr" property="cardsnr" jdbcType="VARCHAR" />
+    <result column="CardType" property="cardtype" jdbcType="VARCHAR" />
+    <result column="Sitename" property="sitename" jdbcType="VARCHAR" />
+    <result column="BackByte" property="backbyte" jdbcType="VARCHAR" />
+    <result column="Mode" property="mode" jdbcType="INTEGER" />
+    <result column="UserID" property="userid" jdbcType="VARCHAR" />
+    <result column="PosSnr" property="possnr" jdbcType="VARCHAR" />
+    <result column="Money" property="money" jdbcType="DECIMAL" />
+    <result column="Giving" property="giving" jdbcType="DECIMAL" />
+    <result column="RealMoney" property="realmoney" jdbcType="DECIMAL" />
+    <result column="ReturnMoney" property="returnmoney" jdbcType="DECIMAL" />
+    <result column="StartTime" property="starttime" jdbcType="TIMESTAMP" />
+    <result column="EndTime" property="endtime" jdbcType="TIMESTAMP" />
+    <result column="SysID" property="sysid" jdbcType="VARCHAR" />
+    <result column="memo" property="memo" jdbcType="VARCHAR" />
+    <result column="isArrearage" property="isarrearage" jdbcType="BIT" />
+  </resultMap>
+
+
+  <insert id="insert" parameterType="com.park.model.Posdata" >
+    insert into posdata (id, CredenceSnr, CardSnr, 
+      CardType, Sitename, BackByte, 
+      Mode, UserID, PosSnr, 
+      Money, Giving, RealMoney, 
+      ReturnMoney, StartTime, EndTime, 
+      SysID, memo,isArrearage)
+    values (#{id,jdbcType=BIGINT}, #{credencesnr,jdbcType=VARCHAR}, #{cardsnr,jdbcType=VARCHAR}, 
+      #{cardtype,jdbcType=VARCHAR}, #{sitename,jdbcType=VARCHAR}, #{backbyte,jdbcType=VARCHAR}, 
+      #{mode,jdbcType=INTEGER}, #{userid,jdbcType=VARCHAR}, #{possnr,jdbcType=VARCHAR}, 
+      #{money,jdbcType=DECIMAL}, #{giving,jdbcType=DECIMAL}, #{realmoney,jdbcType=DECIMAL}, 
+      #{returnmoney,jdbcType=DECIMAL}, #{starttime,jdbcType=TIMESTAMP}, #{endtime,jdbcType=TIMESTAMP}, 
+      #{sysid,jdbcType=VARCHAR}, #{memo,jdbcType=VARCHAR},#{isarrearage,jdbcType=BIT})
+  </insert>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+  	select * from posdata order by id desc
+  </select>
+  <select id="selectPosdataByPage" resultMap="BaseResultMap">
+  	select * from posdata order by id desc limit #{low},#{count}
+  </select>
+  <select id="selectPosdataByPageAndPark" resultMap="BaseResultMap">
+  	select * from posdata where Sitename = #{parkName} order by id desc limit #{low},#{count}
+  </select>
+  <select id="getPosdataCountByPark" resultType="int">
+  	select count(*) from posdata where Sitename = #{parkName}
+  </select>
+  <select id="getPosdataCount" resultType="int">
+  	select count(*) from posdata
+  </select>
+  <select id="selectPosdataByParkAndRange" resultMap="BaseResultMap">
+  <![CDATA[
+  select * from posdata where StartTime <= #{endDay} and StartTime >= #{startDay} and Sitename=#{parkName} order by id desc
+  ]]>
+  </select>
+  <select id="getPosdataByCarportAndRange" resultMap="BaseResultMap">
+  <![CDATA[
+  select * from posdata where StartTime <= #{endDay} and StartTime >= #{startDay} and Sitename=#{parkName} 
+  and BackByte=#{carportid} order by id desc
+  ]]>
+  </select>
+   <select id="getCountByCard" resultType="java.util.Map">
+   	SELECT COUNT(*) AS num ,CardSnr FROM posdata GROUP BY CardSnr ORDER BY num DESC LIMIT 0,10
+   </select>
+</mapper>

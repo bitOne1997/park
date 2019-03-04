@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.park.dao.ParkshowtextMapper" >
+  <resultMap id="BaseResultMap" type="com.park.model.Parkshowtext" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="parkId" property="parkid" jdbcType="INTEGER" />
+    <result column="channel" property="channel" jdbcType="TINYINT" />
+    <result column="line1" property="line1" jdbcType="VARCHAR" />
+    <result column="line2" property="line2" jdbcType="VARCHAR" />
+    <result column="line3" property="line3" jdbcType="VARCHAR" />
+    <result column="line4" property="line4" jdbcType="VARCHAR" />
+    <result column="line5" property="line5" jdbcType="VARCHAR" />
+    <result column="other" property="other" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, parkId, channel, line1, line2, line3, line4, line5, other
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from parkShowText
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from parkShowText
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.park.model.Parkshowtext" >
+    insert into parkShowText (id, parkId, channel, 
+      line1, line2, line3, 
+      line4, line5, other
+      )
+    values (#{id,jdbcType=INTEGER}, #{parkid,jdbcType=INTEGER}, #{channel,jdbcType=TINYINT}, 
+      #{line1,jdbcType=VARCHAR}, #{line2,jdbcType=VARCHAR}, #{line3,jdbcType=VARCHAR}, 
+      #{line4,jdbcType=VARCHAR}, #{line5,jdbcType=VARCHAR}, #{other,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.park.model.Parkshowtext" >
+    insert into parkShowText
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="parkid != null" >
+        parkId,
+      </if>
+      <if test="channel != null" >
+        channel,
+      </if>
+      <if test="line1 != null" >
+        line1,
+      </if>
+      <if test="line2 != null" >
+        line2,
+      </if>
+      <if test="line3 != null" >
+        line3,
+      </if>
+      <if test="line4 != null" >
+        line4,
+      </if>
+      <if test="line5 != null" >
+        line5,
+      </if>
+      <if test="other != null" >
+        other,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="parkid != null" >
+        #{parkid,jdbcType=INTEGER},
+      </if>
+      <if test="channel != null" >
+        #{channel,jdbcType=TINYINT},
+      </if>
+      <if test="line1 != null" >
+        #{line1,jdbcType=VARCHAR},
+      </if>
+      <if test="line2 != null" >
+        #{line2,jdbcType=VARCHAR},
+      </if>
+      <if test="line3 != null" >
+        #{line3,jdbcType=VARCHAR},
+      </if>
+      <if test="line4 != null" >
+        #{line4,jdbcType=VARCHAR},
+      </if>
+      <if test="line5 != null" >
+        #{line5,jdbcType=VARCHAR},
+      </if>
+      <if test="other != null" >
+        #{other,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.park.model.Parkshowtext" >
+    update parkShowText
+    <set >
+      <if test="parkid != null" >
+        parkId = #{parkid,jdbcType=INTEGER},
+      </if>
+      <if test="channel != null" >
+        channel = #{channel,jdbcType=TINYINT},
+      </if>
+      <if test="line1 != null" >
+        line1 = #{line1,jdbcType=VARCHAR},
+      </if>
+      <if test="line2 != null" >
+        line2 = #{line2,jdbcType=VARCHAR},
+      </if>
+      <if test="line3 != null" >
+        line3 = #{line3,jdbcType=VARCHAR},
+      </if>
+      <if test="line4 != null" >
+        line4 = #{line4,jdbcType=VARCHAR},
+      </if>
+      <if test="line5 != null" >
+        line5 = #{line5,jdbcType=VARCHAR},
+      </if>
+      <if test="other != null" >
+        other = #{other,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.park.model.Parkshowtext" >
+    update parkShowText
+    set parkId = #{parkid,jdbcType=INTEGER},
+      channel = #{channel,jdbcType=TINYINT},
+      line1 = #{line1,jdbcType=VARCHAR},
+      line2 = #{line2,jdbcType=VARCHAR},
+      line3 = #{line3,jdbcType=VARCHAR},
+      line4 = #{line4,jdbcType=VARCHAR},
+      line5 = #{line5,jdbcType=VARCHAR},
+      other = #{other,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="getByPark" resultType="com.park.model.Parkshowtext">
+  	select * from parkShowText where parkId=#{parkId}
+  </select>
+    <delete id="deleteByPark" parameterType="java.lang.Integer" >
+    delete from parkShowText
+    where parkId = #{parkId}
+  </delete>
+</mapper>

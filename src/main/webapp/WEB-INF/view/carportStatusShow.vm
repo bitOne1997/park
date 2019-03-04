@@ -1,0 +1,311 @@
+#set($layout = "loginlayout.vm")
+
+<html>
+<head>
+    <title> 路边停车 </title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/lbty_style.css" />
+	<script src="/park/script/jquery.min.js"></script>
+	<script src="/park/script/carportStatusShow.js"></script>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row" style="padding-top:20px;padding-bottom:25px">
+		<div class="col-md-3">
+		<select class="form-control" style="padding:1px;font-size:14px;height:35px" id="searchPark">                		          		
+	    </select>
+        </div>		
+	</div>
+	
+    <div class="lb-car row">
+        <div class="col-xs-1">
+            <img id="lbImg001" alt="车位" src="img/rcar.png">
+            <p>001 <span id="lbSpan001" class="glyphicon glyphicon-remove">占用</p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg002" alt="车位" src="img/rcar.png">
+            <p>002 <span id="lbSpan002" class="glyphicon glyphicon-remove" >占用</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg003" alt="车位" src="img/gcar.png">
+            <p>003 <span id="lbSpan003" class="glyphicon glyphicon-ok">空闲</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg004" alt="车位" src="img/gcar.png">
+            <p>004 <span id="lbSpan004" class="glyphicon glyphicon-ok">空闲</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg005" alt="车位" src="img/rcar.png">
+            <p>005 <span id="lbSpan005" class="glyphicon glyphicon-remove">占用</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg006" alt="车位" src="img/gcar.png">
+            <p>006 <span id="lbSpan006" class="glyphicon glyphicon-ok">空闲</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg007" alt="车位" src="img/rcar.png">
+            <p>007 <span id="lbSpan007" class="glyphicon glyphicon-remove">占用</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg008" alt="车位" src="img/rcar.png">
+            <p>008 <span id="lbSpan008" class="glyphicon glyphicon-remove">占用</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg009" alt="车位" src="img/rcar.png">
+            <p>009 <span id="lbSpan009" class="glyphicon glyphicon-remove">占用</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg010" alt="车位" src="img/rcar.png">
+            <p>010 <span id="lbSpan010" class="glyphicon glyphicon-remove">占用</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg011" alt="车位" src="img/gcar.png">
+            <p>011 <span id="lbSpan011" class="glyphicon glyphicon-ok">空闲</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg012" alt="车位" src="img/rcar.png">
+            <p>012 <span id="lbSpan012" class="glyphicon glyphicon-remove">占用</span></p>
+        </div>  
+    </div>  
+    <div class="lb-road row">
+        <div class="col-xs-12">
+            <img alt="马路" src="img/road2.png">
+        </div>  
+    </div>  
+    <div class="lb-car row">
+        <div class="col-xs-1">
+            <img id="lbImg013" alt="车位" src="img/rcar.png">
+            <p>013<span id="lbSpan013" class="glyphicon glyphicon-remove">占用</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg014" alt="车位" src="img/rcar.png">
+            <p>014 <span id="lbSpan014" class="glyphicon glyphicon-remove">占用</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg015" alt="车位" src="img/rcar.png">
+            <p>015 <span id="lbSpan015" class="glyphicon glyphicon-remove">占用</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg016" alt="车位" src="img/gcar.png">
+            <p>016 <span id="lbSpan016" class="glyphicon glyphicon-ok">空闲</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg017" alt="车位" src="img/rcar.png">
+            <p>017 <span id="lbSpan017" class="glyphicon glyphicon-remove">占用</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg018" alt="车位" src="img/gcar.png">
+            <p>018 <span id="lbSpan018" class="glyphicon glyphicon-ok">空闲</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg019" alt="车位" src="img/rcar.png">
+            <p>019 <span id="lbSpan019" class="glyphicon glyphicon-remove">占用</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg020" alt="车位" src="img/rcar.png">
+            <p>020 <span id="lbSpan020" class="glyphicon glyphicon-remove">占用</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg021" alt="车位" src="img/rcar.png">
+            <p>021 <span id="lbSpan021" class="glyphicon glyphicon-remove">占用</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg022" alt="车位" src="img/rcar.png">
+            <p>022 <span id="lbSpan022" class="glyphicon glyphicon-remove">占用</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg023" alt="车位" src="img/gcar.png">
+            <p>023 <span id="lbSpan023" class="glyphicon glyphicon-ok">空闲</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg024" alt="车位" src="img/rcar.png">
+            <p>024 <span id="lbSpan024" class="glyphicon glyphicon-remove">占用</span></p>
+        </div>  
+    </div>  
+	
+	   <div class="lb-road row">
+        <div class="col-xs-12">
+            <img alt="马路" src="img/road2.png">
+        </div>  
+    </div> 
+	
+	 <div class="lb-car row">
+        <div class="col-xs-1">
+            <img id="lbImg013" alt="车位" src="img/rcar.png">
+            <p>025<span id="lbSpan013" class="glyphicon glyphicon-remove">占用</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg014" alt="车位" src="img/rcar.png">
+            <p>026 <span id="lbSpan014" class="glyphicon glyphicon-remove">占用</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg015" alt="车位" src="img/rcar.png">
+            <p>027 <span id="lbSpan015" class="glyphicon glyphicon-remove">占用</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg016" alt="车位" src="img/gcar.png">
+            <p>028 <span id="lbSpan016" class="glyphicon glyphicon-ok">空闲</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg017" alt="车位" src="img/rcar.png">
+            <p>029 <span id="lbSpan017" class="glyphicon glyphicon-remove">占用</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg018" alt="车位" src="img/gcar.png">
+            <p>030 <span id="lbSpan018" class="glyphicon glyphicon-ok">空闲</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg019" alt="车位" src="img/rcar.png">
+            <p>031 <span id="lbSpan019" class="glyphicon glyphicon-remove">占用</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg020" alt="车位" src="img/rcar.png">
+            <p>032 <span id="lbSpan020" class="glyphicon glyphicon-remove">占用</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg021" alt="车位" src="img/rcar.png">
+            <p>033 <span id="lbSpan021" class="glyphicon glyphicon-remove">占用</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg022" alt="车位" src="img/rcar.png">
+            <p>034 <span id="lbSpan022" class="glyphicon glyphicon-remove">占用</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg023" alt="车位" src="img/gcar.png">
+            <p>035 <span id="lbSpan023" class="glyphicon glyphicon-ok">空闲</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg024" alt="车位" src="img/rcar.png">
+            <p>036 <span id="lbSpan024" class="glyphicon glyphicon-remove">占用</span></p>
+        </div>  
+    </div>  
+	
+	  <div class="lb-road row">
+        <div class="col-xs-12">
+            <img alt="马路" src="img/road2.png">
+        </div>  
+    </div> 
+	
+	 <div class="lb-car row">
+        <div class="col-xs-1">
+            <img id="lbImg013" alt="车位" src="img/rcar.png">
+            <p>037<span id="lbSpan013" class="glyphicon glyphicon-remove">占用</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg014" alt="车位" src="img/rcar.png">
+            <p>038 <span id="lbSpan014" class="glyphicon glyphicon-remove">占用</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg015" alt="车位" src="img/rcar.png">
+            <p>039 <span id="lbSpan015" class="glyphicon glyphicon-remove">占用</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg016" alt="车位" src="img/gcar.png">
+            <p>040 <span id="lbSpan016" class="glyphicon glyphicon-ok">空闲</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg017" alt="车位" src="img/rcar.png">
+            <p>041 <span id="lbSpan017" class="glyphicon glyphicon-remove">占用</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg018" alt="车位" src="img/gcar.png">
+            <p>042 <span id="lbSpan018" class="glyphicon glyphicon-ok">空闲</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg019" alt="车位" src="img/rcar.png">
+            <p>043 <span id="lbSpan019" class="glyphicon glyphicon-remove">占用</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg020" alt="车位" src="img/rcar.png">
+            <p>044 <span id="lbSpan020" class="glyphicon glyphicon-remove">占用</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg021" alt="车位" src="img/rcar.png">
+            <p>045 <span id="lbSpan021" class="glyphicon glyphicon-remove">占用</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg022" alt="车位" src="img/rcar.png">
+            <p>046 <span id="lbSpan022" class="glyphicon glyphicon-remove">占用</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg023" alt="车位" src="img/gcar.png">
+            <p>047 <span id="lbSpan023" class="glyphicon glyphicon-ok">空闲</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg024" alt="车位" src="img/rcar.png">
+            <p>048 <span id="lbSpan024" class="glyphicon glyphicon-remove">占用</span></p>
+        </div>  
+    </div>  
+	
+	  <div class="lb-road row">
+        <div class="col-xs-12">
+            <img alt="马路" src="img/road2.png">
+        </div>  
+    </div> 
+	
+	 <div class="lb-car row">
+        <div class="col-xs-1">
+            <img id="lbImg013" alt="车位" src="img/rcar.png">
+            <p>049<span id="lbSpan013" class="glyphicon glyphicon-remove">占用</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg014" alt="车位" src="img/rcar.png">
+            <p>050 <span id="lbSpan014" class="glyphicon glyphicon-remove">占用</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg015" alt="车位" src="img/rcar.png">
+            <p>051 <span id="lbSpan015" class="glyphicon glyphicon-remove">占用</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg016" alt="车位" src="img/gcar.png">
+            <p>052 <span id="lbSpan016" class="glyphicon glyphicon-ok">空闲</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg017" alt="车位" src="img/rcar.png">
+            <p>053 <span id="lbSpan017" class="glyphicon glyphicon-remove">占用</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg018" alt="车位" src="img/gcar.png">
+            <p>054 <span id="lbSpan018" class="glyphicon glyphicon-ok">空闲</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg019" alt="车位" src="img/rcar.png">
+            <p>055 <span id="lbSpan019" class="glyphicon glyphicon-remove">占用</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg020" alt="车位" src="img/rcar.png">
+            <p>056 <span id="lbSpan020" class="glyphicon glyphicon-remove">占用</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg021" alt="车位" src="img/rcar.png">
+            <p>057 <span id="lbSpan021" class="glyphicon glyphicon-remove">占用</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg022" alt="车位" src="img/rcar.png">
+            <p>058 <span id="lbSpan022" class="glyphicon glyphicon-remove">占用</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg023" alt="车位" src="img/gcar.png">
+            <p>059 <span id="lbSpan023" class="glyphicon glyphicon-ok">空闲</span></p>
+        </div>  
+        <div class="col-xs-1">
+            <img id="lbImg024" alt="车位" src="img/rcar.png">
+            <p>060 <span id="lbSpan024" class="glyphicon glyphicon-remove">占用</span></p>
+        </div>  
+    </div>  
+</div>
+
+
+<script>
+
+$().ready(function(){
+$.fn.carportstatus.initial();
+}
+)
+
+
+</script>
+</body>
+</html>
+

@@ -1,0 +1,46 @@
+<script src="/park/script/udpTest.js?v=1.0"></script>
+
+<div class="content-wrapper" ng-app="udpTestApp" ng-controller="udpTestCtrl">
+	<section class="content-header">
+          <h1>
+			NB-IoT智能地锁
+            <small></small>
+          </h1>  		  
+    </section>
+	</br>
+	</br>
+	 <section class="content">
+       <div class="row">
+		<div class="col-md-3"></div>
+        <div class="col-md-2"><button ng-click="upSend()" type="button" class="btn btn-success" style="min-width:100px;min-height:70px;font-size:21px">升 起</button></div>
+		<div class="col-md-2"></div>
+		<div class="col-md-2"><button ng-click="downSend()" type="button" class="btn btn-warning" style="min-width:100px;min-height:70px;font-size:21px">落 下</button></div>
+       </div>
+	   </br>
+	   </br>
+	   <div class="row" style="padding-top:20px">
+		<div class="col-md-2"></div>
+        <div class="col-md-6">
+         <table class="table table-hover  table-condensed"  style="font-size:12px">
+         <tr>
+			<th><span>IP地址</span></th>										
+			<th><span>端口号</span></th>
+			<th><span>mac</span></th>
+			<th><span>连接时间</span></th>
+			<th><span>升起</span></th>
+			<th><span>落下</span></th>
+		 </tr>
+		 <tr ng-repeat = "item in items">
+		 <td ng-bind="item.ip"></td>
+		 <td ng-bind="item.port"></td>
+		 <td ng-bind="item.mac"></td>
+		 <td ng-bind="item.lastdate"></td>
+		 <td ><button ng-click="sendByMacUp(item.mac)" type="button" class="btn btn-success" style="font-size:12px">升 起</button></td>
+		 <td ><button ng-click="sendByMacDown(item.mac)" type="button" class="btn btn-warning" style="font-size:12px">落下</button></td>
+
+ </tr>
+		 </table>
+		</div>
+	   </div>
+     </section>
+</div>

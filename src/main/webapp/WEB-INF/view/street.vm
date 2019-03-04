@@ -1,0 +1,132 @@
+
+<script src="/park/script/street.js?v=1.2"></script>
+<script src="/park/script/service/textModalService.js"></script>
+<style>
+.page-list .pagination {
+	float: left;
+}
+
+.page-list .pagination span {
+	cursor: pointer;
+}
+
+.page-list .pagination .separate span {
+	cursor: default;
+	border-top: none;
+	border-bottom: none;
+}
+
+.page-list .pagination .separate span:hover {
+	background: none;
+}
+
+.page-list .page-total {
+	float: left;
+	margin: 25px 20px;
+}
+
+.page-list .page-total input, .page-list .page-total select {
+	height: 26px;
+	border: 1px solid #ddd;
+}
+
+.page-list .page-total input {
+	width: 40px;
+	padding-left: 3px;
+}
+
+.page-list .page-total select {
+	width: 50px;
+}
+</style>
+<div class="content-wrapper" ng-app="streetApp"
+	ng-controller="streetCtrl">
+	<section class="content-header">
+		<h1>
+			街道路段管理 <small></small>
+		</h1>
+
+	</section>
+
+	<section class="content">
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="box">
+					<div class="box-body">
+						<div class="btn-group">
+							<button #if(!$isAdmin) disabled#end ng-click="refreshStreet()"
+								type="button" class="btn btn-info">
+								<span class="glyphicon glyphicon-refresh"></span> 刷新
+							</button>
+							<button #if(!$isAdmin) disabled#end ng-click="insertStreet()"
+								type="button" class="btn btn-primary">
+								<span class="glyphicon glyphicon-pencil"></span> 添加收费路段
+							</button>
+							<button #if(!$isAdmin) disabled#end ng-click="updateStreet()"
+								type="button" class="btn btn-warning">
+								<span class="glyphicon glyphicon-edit"></span> 更新路段信息
+							</button>
+							<button #if(!$isAdmin) disabled#end ng-click="deleteStreet()"
+								type="button" class="btn btn-danger">
+								<span class="glyphicon glyphicon-remove"></span> 删除收费路段
+							</button>
+						</div>
+						<div class="pull-right"></div>
+						<br /> <br />
+						<div>
+							<table
+								class="table table-striped table-bordered table-hover table-condensed"
+								id='parkTable' style="font-size: 12px">
+
+								<tr class="info" style="height: 30px; line-height: 30px;">
+									<th><span><input type="checkbox" /> </span></th>
+									<th><span>Id </span></th>
+									<th><span>路段编号 </span></th>
+									<th><span>路段名称 </span></th>
+									<th><span>所在区 </span></th>
+									<th><span>路段类型 </span></th>
+									<th><span>联系人 </span></th>
+									<th><span>联系电话 </span></th>
+									<th><span>注册时间 </span></th>
+									<th><span>备注 </span></th>
+
+								</tr>
+
+								<tbody id="parkBody"></tbody>
+								<tr ng-repeat="street in streets">
+									<td><input type="checkbox" ng-model="street.checked" 
+										ng-click="selectChange($index)" /></td>
+									<!-- <td><input type="checkbox" ng-model="street.checked" 
+										ng-click="deleteSelection($event,street.id)" ng-checked="isSelected(street.id)" /></td>	 -->
+									<td ng-bind="street.id"></td>
+									<td ng-bind="street.number"></td>
+									<td ng-bind="street.name"></td>
+									<td ng-bind="street.areaName"></td>
+									<td><span ng-if="street.type==0">自营路段 </span> <span
+										ng-if="street.type!=0">其它路段 </span></td>
+									<td ng-bind="street.contact"></td>
+									<td ng-bind="street.phone"></td>
+									<td ng-bind="street.date"></td>
+									<td ng-bind="street.other"></td>
+								</tr>
+							</table>
+						</div>
+						<tm-pagination conf="paginationConf"></tm-pagination>
+					</div>
+					<div class="box-footer clearfix">
+						<div id='pagination'></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</section>
+
+</div>
+
+
+
+
+<script>
+	
+</script>

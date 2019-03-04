@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.park.dao.HongxingrecordMapper" >
+  <resultMap id="BaseResultMap" type="com.park.model.Hongxingrecord" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="parkKey" property="parkkey" jdbcType="VARCHAR" />
+    <result column="carNo" property="carno" jdbcType="VARCHAR" />
+    <result column="carLock" property="carlock" jdbcType="VARCHAR" />
+    <result column="orderNo" property="orderno" jdbcType="VARCHAR" />
+    <result column="CarType" property="cartype" jdbcType="VARCHAR" />
+    <result column="enterTime" property="entertime" jdbcType="VARCHAR" />
+    <result column="enterGateName" property="entergatename" jdbcType="VARCHAR" />
+    <result column="enterOperatorName" property="enteroperatorname" jdbcType="VARCHAR" />
+    <result column="enterImg" property="enterimg" jdbcType="VARCHAR" />
+    <result column="freeTime" property="freetime" jdbcType="INTEGER" />
+    <result column="freeTimeout" property="freetimeout" jdbcType="INTEGER" />
+    <result column="totalAmount" property="totalamount" jdbcType="REAL" />
+    <result column="couponAmount" property="couponamount" jdbcType="REAL" />
+    <result column="payAmount" property="payamount" jdbcType="REAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, parkKey, carNo, carLock, orderNo, CarType, enterTime, enterGateName, enterOperatorName, 
+    enterImg, freeTime, freeTimeout, totalAmount, couponAmount, payAmount
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from hongxingRecord
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from hongxingRecord
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.park.model.Hongxingrecord" >
+    insert into hongxingRecord (id, parkKey, carNo, 
+      carLock, orderNo, CarType, 
+      enterTime, enterGateName, enterOperatorName, 
+      enterImg, freeTime, freeTimeout, 
+      totalAmount, couponAmount, payAmount
+      )
+    values (#{id,jdbcType=INTEGER}, #{parkkey,jdbcType=VARCHAR}, #{carno,jdbcType=VARCHAR}, 
+      #{carlock,jdbcType=VARCHAR}, #{orderno,jdbcType=VARCHAR}, #{cartype,jdbcType=VARCHAR}, 
+      #{entertime,jdbcType=VARCHAR}, #{entergatename,jdbcType=VARCHAR}, #{enteroperatorname,jdbcType=VARCHAR}, 
+      #{enterimg,jdbcType=VARCHAR}, #{freetime,jdbcType=INTEGER}, #{freetimeout,jdbcType=INTEGER}, 
+      #{totalamount,jdbcType=REAL}, #{couponamount,jdbcType=REAL}, #{payamount,jdbcType=REAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.park.model.Hongxingrecord" >
+    insert into hongxingRecord
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="parkkey != null" >
+        parkKey,
+      </if>
+      <if test="carno != null" >
+        carNo,
+      </if>
+      <if test="carlock != null" >
+        carLock,
+      </if>
+      <if test="orderno != null" >
+        orderNo,
+      </if>
+      <if test="cartype != null" >
+        CarType,
+      </if>
+      <if test="entertime != null" >
+        enterTime,
+      </if>
+      <if test="entergatename != null" >
+        enterGateName,
+      </if>
+      <if test="enteroperatorname != null" >
+        enterOperatorName,
+      </if>
+      <if test="enterimg != null" >
+        enterImg,
+      </if>
+      <if test="freetime != null" >
+        freeTime,
+      </if>
+      <if test="freetimeout != null" >
+        freeTimeout,
+      </if>
+      <if test="totalamount != null" >
+        totalAmount,
+      </if>
+      <if test="couponamount != null" >
+        couponAmount,
+      </if>
+      <if test="payamount != null" >
+        payAmount,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="parkkey != null" >
+        #{parkkey,jdbcType=VARCHAR},
+      </if>
+      <if test="carno != null" >
+        #{carno,jdbcType=VARCHAR},
+      </if>
+      <if test="carlock != null" >
+        #{carlock,jdbcType=VARCHAR},
+      </if>
+      <if test="orderno != null" >
+        #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="cartype != null" >
+        #{cartype,jdbcType=VARCHAR},
+      </if>
+      <if test="entertime != null" >
+        #{entertime,jdbcType=VARCHAR},
+      </if>
+      <if test="entergatename != null" >
+        #{entergatename,jdbcType=VARCHAR},
+      </if>
+      <if test="enteroperatorname != null" >
+        #{enteroperatorname,jdbcType=VARCHAR},
+      </if>
+      <if test="enterimg != null" >
+        #{enterimg,jdbcType=VARCHAR},
+      </if>
+      <if test="freetime != null" >
+        #{freetime,jdbcType=INTEGER},
+      </if>
+      <if test="freetimeout != null" >
+        #{freetimeout,jdbcType=INTEGER},
+      </if>
+      <if test="totalamount != null" >
+        #{totalamount,jdbcType=REAL},
+      </if>
+      <if test="couponamount != null" >
+        #{couponamount,jdbcType=REAL},
+      </if>
+      <if test="payamount != null" >
+        #{payamount,jdbcType=REAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.park.model.Hongxingrecord" >
+    update hongxingRecord
+    <set >
+      <if test="parkkey != null" >
+        parkKey = #{parkkey,jdbcType=VARCHAR},
+      </if>
+      <if test="carno != null" >
+        carNo = #{carno,jdbcType=VARCHAR},
+      </if>
+      <if test="carlock != null" >
+        carLock = #{carlock,jdbcType=VARCHAR},
+      </if>
+      <if test="orderno != null" >
+        orderNo = #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="cartype != null" >
+        CarType = #{cartype,jdbcType=VARCHAR},
+      </if>
+      <if test="entertime != null" >
+        enterTime = #{entertime,jdbcType=VARCHAR},
+      </if>
+      <if test="entergatename != null" >
+        enterGateName = #{entergatename,jdbcType=VARCHAR},
+      </if>
+      <if test="enteroperatorname != null" >
+        enterOperatorName = #{enteroperatorname,jdbcType=VARCHAR},
+      </if>
+      <if test="enterimg != null" >
+        enterImg = #{enterimg,jdbcType=VARCHAR},
+      </if>
+      <if test="freetime != null" >
+        freeTime = #{freetime,jdbcType=INTEGER},
+      </if>
+      <if test="freetimeout != null" >
+        freeTimeout = #{freetimeout,jdbcType=INTEGER},
+      </if>
+      <if test="totalamount != null" >
+        totalAmount = #{totalamount,jdbcType=REAL},
+      </if>
+      <if test="couponamount != null" >
+        couponAmount = #{couponamount,jdbcType=REAL},
+      </if>
+      <if test="payamount != null" >
+        payAmount = #{payamount,jdbcType=REAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.park.model.Hongxingrecord" >
+    update hongxingRecord
+    set parkKey = #{parkkey,jdbcType=VARCHAR},
+      carNo = #{carno,jdbcType=VARCHAR},
+      carLock = #{carlock,jdbcType=VARCHAR},
+      orderNo = #{orderno,jdbcType=VARCHAR},
+      CarType = #{cartype,jdbcType=VARCHAR},
+      enterTime = #{entertime,jdbcType=VARCHAR},
+      enterGateName = #{entergatename,jdbcType=VARCHAR},
+      enterOperatorName = #{enteroperatorname,jdbcType=VARCHAR},
+      enterImg = #{enterimg,jdbcType=VARCHAR},
+      freeTime = #{freetime,jdbcType=INTEGER},
+      freeTimeout = #{freetimeout,jdbcType=INTEGER},
+      totalAmount = #{totalamount,jdbcType=REAL},
+      couponAmount = #{couponamount,jdbcType=REAL},
+      payAmount = #{payamount,jdbcType=REAL}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

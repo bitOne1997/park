@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.park.dao.Parkcarauthority2Mapper" >
+  <resultMap id="BaseResultMap" type="com.park.model.Parkcarauthority2" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="parkId" property="parkid" jdbcType="INTEGER" />
+    <result column="minCount" property="mincount" jdbcType="INTEGER" />
+    <result column="maxCount" property="maxcount" jdbcType="INTEGER" />
+    <result column="isMinCount" property="ismincount" jdbcType="BIT" />
+    <result column="isMaxCount" property="ismaxcount" jdbcType="BIT" />
+    <result column="count" property="count" jdbcType="INTEGER" />
+    <result column="other" property="other" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, parkId, minCount, maxCount, isMinCount, isMaxCount, count, other
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from parkCarAuthority2
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from parkCarAuthority2
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.park.model.Parkcarauthority2" >
+    insert into parkCarAuthority2 (id, parkId, minCount, 
+      maxCount, isMinCount, isMaxCount, 
+      count, other)
+    values (#{id,jdbcType=INTEGER}, #{parkid,jdbcType=INTEGER}, #{mincount,jdbcType=INTEGER}, 
+      #{maxcount,jdbcType=INTEGER}, #{ismincount,jdbcType=BIT}, #{ismaxcount,jdbcType=BIT}, 
+      #{count,jdbcType=INTEGER}, #{other,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.park.model.Parkcarauthority2" >
+    insert into parkCarAuthority2
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="parkid != null" >
+        parkId,
+      </if>
+      <if test="mincount != null" >
+        minCount,
+      </if>
+      <if test="maxcount != null" >
+        maxCount,
+      </if>
+      <if test="ismincount != null" >
+        isMinCount,
+      </if>
+      <if test="ismaxcount != null" >
+        isMaxCount,
+      </if>
+      <if test="count != null" >
+        count,
+      </if>
+      <if test="other != null" >
+        other,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="parkid != null" >
+        #{parkid,jdbcType=INTEGER},
+      </if>
+      <if test="mincount != null" >
+        #{mincount,jdbcType=INTEGER},
+      </if>
+      <if test="maxcount != null" >
+        #{maxcount,jdbcType=INTEGER},
+      </if>
+      <if test="ismincount != null" >
+        #{ismincount,jdbcType=BIT},
+      </if>
+      <if test="ismaxcount != null" >
+        #{ismaxcount,jdbcType=BIT},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="other != null" >
+        #{other,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.park.model.Parkcarauthority2" >
+    update parkCarAuthority2
+    <set >
+      <if test="parkid != null" >
+        parkId = #{parkid,jdbcType=INTEGER},
+      </if>
+      <if test="mincount != null" >
+        minCount = #{mincount,jdbcType=INTEGER},
+      </if>
+      <if test="maxcount != null" >
+        maxCount = #{maxcount,jdbcType=INTEGER},
+      </if>
+      <if test="ismincount != null" >
+        isMinCount = #{ismincount,jdbcType=BIT},
+      </if>
+      <if test="ismaxcount != null" >
+        isMaxCount = #{ismaxcount,jdbcType=BIT},
+      </if>
+      <if test="count != null" >
+        count = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="other != null" >
+        other = #{other,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.park.model.Parkcarauthority2" >
+    update parkCarAuthority2
+    set parkId = #{parkid,jdbcType=INTEGER},
+      minCount = #{mincount,jdbcType=INTEGER},
+      maxCount = #{maxcount,jdbcType=INTEGER},
+      isMinCount = #{ismincount,jdbcType=BIT},
+      isMaxCount = #{ismaxcount,jdbcType=BIT},
+      count = #{count,jdbcType=INTEGER},
+      other = #{other,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+   <select id="selectByPark" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+   select * from parkCarAuthority2 where parkId=#{parkId}
+   </select>
+</mapper>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.park.dao.AlipayinfoMapper" >
+  <resultMap id="BaseResultMap" type="com.park.model.Alipayinfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="merchant" property="merchant" jdbcType="VARCHAR" />
+    <result column="aliPayId" property="alipayid" jdbcType="CHAR" />
+    <result column="appid" property="appid" jdbcType="CHAR" />
+    <result column="privateKey" property="privatekey" jdbcType="VARCHAR" />
+    <result column="publicKey" property="publickey" jdbcType="VARCHAR" />
+    <result column="aliPublicKey" property="alipublickey" jdbcType="VARCHAR" />
+    <result column="parkId" property="parkid" jdbcType="INTEGER" />
+    <result column="outParkKey" property="outparkkey" jdbcType="VARCHAR" />
+    <result column="other" property="other" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, merchant, aliPayId, appid, privateKey, publicKey, aliPublicKey, parkId, outParkKey, 
+    other
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from alipayInfo
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from alipayInfo
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.park.model.Alipayinfo" >
+    insert into alipayInfo (id, merchant, aliPayId, 
+      appid, privateKey, publicKey, 
+      aliPublicKey, parkId, outParkKey, 
+      other)
+    values (#{id,jdbcType=INTEGER}, #{merchant,jdbcType=VARCHAR}, #{alipayid,jdbcType=CHAR}, 
+      #{appid,jdbcType=CHAR}, #{privatekey,jdbcType=VARCHAR}, #{publickey,jdbcType=VARCHAR}, 
+      #{alipublickey,jdbcType=VARCHAR}, #{parkid,jdbcType=INTEGER}, #{outparkkey,jdbcType=VARCHAR}, 
+      #{other,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.park.model.Alipayinfo" >
+    insert into alipayInfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="merchant != null" >
+        merchant,
+      </if>
+      <if test="alipayid != null" >
+        aliPayId,
+      </if>
+      <if test="appid != null" >
+        appid,
+      </if>
+      <if test="privatekey != null" >
+        privateKey,
+      </if>
+      <if test="publickey != null" >
+        publicKey,
+      </if>
+      <if test="alipublickey != null" >
+        aliPublicKey,
+      </if>
+      <if test="parkid != null" >
+        parkId,
+      </if>
+      <if test="outparkkey != null" >
+        outParkKey,
+      </if>
+      <if test="other != null" >
+        other,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="merchant != null" >
+        #{merchant,jdbcType=VARCHAR},
+      </if>
+      <if test="alipayid != null" >
+        #{alipayid,jdbcType=CHAR},
+      </if>
+      <if test="appid != null" >
+        #{appid,jdbcType=CHAR},
+      </if>
+      <if test="privatekey != null" >
+        #{privatekey,jdbcType=VARCHAR},
+      </if>
+      <if test="publickey != null" >
+        #{publickey,jdbcType=VARCHAR},
+      </if>
+      <if test="alipublickey != null" >
+        #{alipublickey,jdbcType=VARCHAR},
+      </if>
+      <if test="parkid != null" >
+        #{parkid,jdbcType=INTEGER},
+      </if>
+      <if test="outparkkey != null" >
+        #{outparkkey,jdbcType=VARCHAR},
+      </if>
+      <if test="other != null" >
+        #{other,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.park.model.Alipayinfo" >
+    update alipayInfo
+    <set >
+      <if test="merchant != null" >
+        merchant = #{merchant,jdbcType=VARCHAR},
+      </if>
+      <if test="alipayid != null" >
+        aliPayId = #{alipayid,jdbcType=CHAR},
+      </if>
+      <if test="appid != null" >
+        appid = #{appid,jdbcType=CHAR},
+      </if>
+      <if test="privatekey != null" >
+        privateKey = #{privatekey,jdbcType=VARCHAR},
+      </if>
+      <if test="publickey != null" >
+        publicKey = #{publickey,jdbcType=VARCHAR},
+      </if>
+      <if test="alipublickey != null" >
+        aliPublicKey = #{alipublickey,jdbcType=VARCHAR},
+      </if>
+      <if test="parkid != null" >
+        parkId = #{parkid,jdbcType=INTEGER},
+      </if>
+      <if test="outparkkey != null" >
+        outParkKey = #{outparkkey,jdbcType=VARCHAR},
+      </if>
+      <if test="other != null" >
+        other = #{other,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.park.model.Alipayinfo" >
+    update alipayInfo
+    set merchant = #{merchant,jdbcType=VARCHAR},
+      aliPayId = #{alipayid,jdbcType=CHAR},
+      appid = #{appid,jdbcType=CHAR},
+      privateKey = #{privatekey,jdbcType=VARCHAR},
+      publicKey = #{publickey,jdbcType=VARCHAR},
+      aliPublicKey = #{alipublickey,jdbcType=VARCHAR},
+      parkId = #{parkid,jdbcType=INTEGER},
+      outParkKey = #{outparkkey,jdbcType=VARCHAR},
+      other = #{other,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="getbyParkId" resultType="com.park.model.Alipayinfo">
+  	select * from alipayInfo where parkId = #{parkId}
+  </select>
+   <select id="getbyOutParkKey" resultType="com.park.model.Alipayinfo">
+  	select * from alipayInfo where outParkKey = #{outParkKey}
+  </select>
+  <select id="getbyCount" resultType="com.park.model.Alipayinfo">
+  	select * from alipayInfo order by id desc limit #{start},#{count}
+  </select>
+</mapper>

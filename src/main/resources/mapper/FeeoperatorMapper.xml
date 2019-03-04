@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.park.dao.FeeoperatorDAO" >
+  <resultMap id="BaseResultMap" type="com.park.model.Feeoperator" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="passwd" property="passwd" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="signStatus" property="signstatus" jdbcType="BIT" />
+    <result column="lastSignDate" property="lastsigndate" jdbcType="TIMESTAMP" />
+    <result column="lastStreetId" property="laststreetid" jdbcType="INTEGER" />
+    <result column="lastPosNum" property="lastposnum" jdbcType="VARCHAR" />
+    <result column="lastParkId" property="lastparkid" jdbcType="INTEGER" />
+    <result column="registerDate" property="registerdate" jdbcType="TIMESTAMP" />
+    <result column="other" property="other" jdbcType="VARCHAR" />
+    <result column="IDNumber" property="idnumber" jdbcType="CHAR" />
+    <result column="money" property="money" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, account, name, passwd, phone, signStatus, lastSignDate, lastStreetId, lastPosNum, 
+    lastParkId, registerDate, other, IDNumber, money
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from feeOperator
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from feeOperator
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.park.model.Feeoperator" >
+    insert into feeOperator (id, account, name, 
+      passwd, phone, signStatus, 
+      lastSignDate, lastStreetId, lastPosNum, 
+      lastParkId, registerDate, other, 
+      IDNumber, money)
+    values (#{id,jdbcType=INTEGER}, #{account,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{passwd,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{signstatus,jdbcType=BIT}, 
+      #{lastsigndate,jdbcType=TIMESTAMP}, #{laststreetid,jdbcType=INTEGER}, #{lastposnum,jdbcType=VARCHAR}, 
+      #{lastparkid,jdbcType=INTEGER}, #{registerdate,jdbcType=TIMESTAMP}, #{other,jdbcType=VARCHAR}, 
+      #{idnumber,jdbcType=CHAR}, #{money,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.park.model.Feeoperator" >
+    insert into feeOperator
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="account != null" >
+        account,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="passwd != null" >
+        passwd,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="signstatus != null" >
+        signStatus,
+      </if>
+      <if test="lastsigndate != null" >
+        lastSignDate,
+      </if>
+      <if test="laststreetid != null" >
+        lastStreetId,
+      </if>
+      <if test="lastposnum != null" >
+        lastPosNum,
+      </if>
+      <if test="lastparkid != null" >
+        lastParkId,
+      </if>
+      <if test="registerdate != null" >
+        registerDate,
+      </if>
+      <if test="other != null" >
+        other,
+      </if>
+      <if test="idnumber != null" >
+        IDNumber,
+      </if>
+      <if test="money != null" >
+        money,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="account != null" >
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="passwd != null" >
+        #{passwd,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="signstatus != null" >
+        #{signstatus,jdbcType=BIT},
+      </if>
+      <if test="lastsigndate != null" >
+        #{lastsigndate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="laststreetid != null" >
+        #{laststreetid,jdbcType=INTEGER},
+      </if>
+      <if test="lastposnum != null" >
+        #{lastposnum,jdbcType=VARCHAR},
+      </if>
+      <if test="lastparkid != null" >
+        #{lastparkid,jdbcType=INTEGER},
+      </if>
+      <if test="registerdate != null" >
+        #{registerdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="other != null" >
+        #{other,jdbcType=VARCHAR},
+      </if>
+      <if test="idnumber != null" >
+        #{idnumber,jdbcType=CHAR},
+      </if>
+      <if test="money != null" >
+        #{money,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.park.model.Feeoperator" >
+    update feeOperator
+    <set >
+      <if test="account != null" >
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="passwd != null" >
+        passwd = #{passwd,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="signstatus != null" >
+        signStatus = #{signstatus,jdbcType=BIT},
+      </if>
+      <if test="lastsigndate != null" >
+        lastSignDate = #{lastsigndate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="laststreetid != null" >
+        lastStreetId = #{laststreetid,jdbcType=INTEGER},
+      </if>
+      <if test="lastposnum != null" >
+        lastPosNum = #{lastposnum,jdbcType=VARCHAR},
+      </if>
+      <if test="lastparkid != null" >
+        lastParkId = #{lastparkid,jdbcType=INTEGER},
+      </if>
+      <if test="registerdate != null" >
+        registerDate = #{registerdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="other != null" >
+        other = #{other,jdbcType=VARCHAR},
+      </if>
+      <if test="idnumber != null" >
+        IDNumber = #{idnumber,jdbcType=CHAR},
+      </if>
+      <if test="money != null" >
+        money = #{money,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.park.model.Feeoperator" >
+    update feeOperator
+    set account = #{account,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      passwd = #{passwd,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      signStatus = #{signstatus,jdbcType=BIT},
+      lastSignDate = #{lastsigndate,jdbcType=TIMESTAMP},
+      lastStreetId = #{laststreetid,jdbcType=INTEGER},
+      lastPosNum = #{lastposnum,jdbcType=VARCHAR},
+      lastParkId = #{lastparkid,jdbcType=INTEGER},
+      registerDate = #{registerdate,jdbcType=TIMESTAMP},
+      other = #{other,jdbcType=VARCHAR},
+      IDNumber = #{idnumber,jdbcType=CHAR},
+      money = #{money,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="getCount">
+  	select count(*) from feeOperator 
+  </select>
+  <select id="getByStartAndCount" resultType="com.park.model.Feeoperator">
+  	select f.id,f.account,f.name,f.phone,f.signstatus,f.passwd,f.lastsigndate,f.laststreetid,
+  	p.name as parkname,f.lastposnum,f.registerdate,f.idnumber,f.money from feeOperator as f 
+  	left join park as p on p.id=f.lastparkid
+  	limit #{start},#{count} 
+  </select>
+  <select id="operatorValidation" resultType="com.park.model.Feeoperator">
+  	select * from feeOperator where account=#{account} and passwd=#{passwd}
+  </select>
+   <select id="getOperatorByAccount" resultType="com.park.model.Feeoperator">
+  	select * from feeOperator where account=#{account}
+  </select>
+  <select id="getByNameAndPhoneParkName" statementType="STATEMENT" resultType="com.park.model.Feeoperator">
+  	select f.id,f.account,f.name,f.phone,f.signstatus,f.passwd,f.lastsigndate,f.laststreetid,
+  	p.name as parkname,f.lastposnum,f.registerdate,f.idnumber,f.money from feeOperator as f 
+  	left join park as p on p.id=f.lastparkid 
+  	where f.name like '%${name}%' or f.phone like '%${phone}%' or p.name like '%${parkName}%'
+  </select>
+</mapper>

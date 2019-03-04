@@ -1,0 +1,30 @@
+#set($layout = "nullLayout.vm")
+
+<p id="outTradeNO">outTradeNO: $outTradeNO</p>
+<p id="tradeNO">tradeNO: $tradeNO</p>
+<p id="money">money: $money</p>
+<p id="userId">userId: $userId</p>
+
+<button id="payButton" onclick=tradePay('$tradeNO')>立即付款</button>
+<button id="closeButton">关闭支付</button>
+<script src="https://www.iotclouddashboard.com/park/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+<script type="application/javascript">
+	  
+  function tradePay(tradeNO) {			
+		alert(tradeNO);
+     // 通过传入交易号唤起快捷调用方式(注意tradeNO大小写严格)
+     AlipayJSBridge.call("tradePay", {
+        tradeNO: tradeNO
+     }, function (data) {
+       if ("9000" == data.resultCode){
+	   alert("支付成功");
+       AlipayJSBridge.call('closeWebview');
+       }
+ 
+  });
+}
+$(document).ready(function(){
+  
+	  setTimeout(tradePay("$tradeNO"),10000);
+	  })
+</script>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<link rel="stylesheet" href="/park/css/bootstrap.min.css"/>      
+	 <script type="text/javascript" src="/park/script/jquery.min.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=c7A2jm3enN7T0s5V8QbDHx85"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/library/TextIconOverlay/1.2/src/TextIconOverlay_min.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/library/MarkerClusterer/1.2/src/MarkerClusterer_min.js"></script>            
+    <script type="text/javascript" src="http://echarts.baidu.com/build/dist/echarts-all.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/library/Heatmap/2.0/src/Heatmap_min.js"></script>
+    <title>热力图功能示例</title>
+    <style type="text/css">
+		ul,li{list-style: none;margin:0;padding:0;float:left;}
+		html{height:100%}
+		body{height:100%;margin:0px;padding:0px;font-family:"微软雅黑";}
+		#container{height:500px;width:100%;}
+		#r-result{width:100%;}
+    </style>	
+</head>
+<body>
+	<div id="container"></div>
+	<div id="r-result">
+		<input type="button"  onclick="openHeatmap();" value="显示热力图"/><input type="button"  onclick="closeHeatmap();" value="关闭热力图"/>
+	</div>
+</body>
+</html>
+<script type="text/javascript">
+    var map = new BMap.Map("container");          // 创建地图实例
+
+    var point = new BMap.Point(118.8, 32.0625);
+    map.centerAndZoom(point, 15);             // 初始化地图，设置中心点坐标和地图级别
+    map.enableScrollWheelZoom(); // 允许滚轮缩放
+  
+    var points =[
+    {"lng":116.418261,"lat":39.921984,"count":50},
+    {"lng":116.423332,"lat":39.916532,"count":51},
+    {"lng":116.419787,"lat":39.930658,"count":15},
+    {"lng":116.418455,"lat":39.920921,"count":40},
+    {"lng":116.418843,"lat":39.915516,"count":100},
+    {"lng":116.42546,"lat":39.918503,"count":6},
+    {"lng":116.423289,"lat":39.919989,"count":18},
+    {"lng":116.418162,"lat":39.915051,"count":80},
+    {"lng":116.422039,"lat":39.91782,"count":11},
+    {"lng":116.41387,"lat":39.917253,"count":7},
+    {"lng":116.41773,"lat":39.919426,"count":42},
+    {"lng":116.421107,"lat":39.916445,"count":4}, 
+    {"lng":116.424579,"lat":39.914987,"count":57},
+    {"lng":116.42076,"lat":39.915251,"count":70},
+    {"lng":116.425867,"lat":39.918989,"count":8}];
+   var chart1data;
+   	heatmapOverlay = new BMapLib.HeatmapOverlay({"radius":20});
+	map.addOverlay(heatmapOverlay);
+	function getData() {
+        var data_info = [];
+        $.ajax({
+            url : '/park/getParks',
+            type : 'get',
+            contentType : 'application/json;charset=utf-8',
+            datatype : 'json',
+            success : function(data) {
+                var parkdata = data.body;
+                chart1data = [];
+                data_info = new Array(parkdata.length);
+                for (var i = 0; i < parkdata.length; i++) {
+                    var tmpdata = {};
+                    var tmparray = new Array(4);
+                    tmparray[0] = parkdata[i].longitude;
+                    tmparray[1] = parkdata[i].latitude;
+                    var v_html = '<div id="tipsjt"></div>';
+                    v_html += '    <h1 class="font14 green relative">' + parkdata[i].name + '<i class="i pointer" onclick="closeTip()"></i></h1>';
+                    v_html += '<p class="font14">空余车位：<b class="red">' + parkdata[i].portLeftCount + '</b> 个' + (parkdata[i].portLeftCount > 0 ? '<a href="#" class="but_b back_orange font18 radius_3 absolute reservation" style="right:10px;" pid="' + i + '"><i class="i"></i>预定</a>' : '') + '</p>';
+                    v_html += '<p class="green font14">收费标准：</p> ';
+                    v_html += '  <div class="color_9">';
+                    tmparray[2] = v_html;
+                    tmparray[3] = parkdata[i].portLeftCount;
+                    tmpdata['lng'] = parseFloat(tmparray[0]);
+                    tmpdata['lat'] = parseFloat(tmparray[1]);
+                    tmpdata['count'] = parseInt(tmparray[3]);
+                    data_info[i] = tmparray;
+                    if (tmpdata.lng != 0 && tmpdata.lat != 0 && tmpdata.count != 0)
+                        chart1data.push(tmpdata);
+                }
+     //           showparks(data_info);
+      //          chart1Init();
+	  heatmapOverlay.setDataSet({data:chart1data,max:50});
+            },
+        });
+    };
+  
+	//详细的参数,可以查看heatmap.js的文档 https://github.com/pa7/heatmap.js/blob/master/README.md
+	//参数说明如下:
+	/* visible 热力图是否显示,默认为true
+     * opacity 热力的透明度,1-100
+     * radius 势力图的每个点的半径大小   
+     * gradient  {JSON} 热力图的渐变区间 . gradient如下所示
+     *	{
+			.2:'rgb(0, 255, 255)',
+			.5:'rgb(0, 110, 255)',
+			.8:'rgb(100, 0, 255)'
+		}
+		其中 key 表示插值的位置, 0~1. 
+		    value 为颜色值. 
+     */
+
+	
+	//是否显示热力图
+    function openHeatmap(){
+        heatmapOverlay.show();
+    }
+	function closeHeatmap(){
+        heatmapOverlay.hide();
+    }
+	getData();
+   
+</script>

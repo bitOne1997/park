@@ -1,0 +1,195 @@
+<script src="/park/script/dataCard.js"></script>
+<script src="/park/script/jquery.json-2.4.min.js"></script>
+
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>
+			流量卡管理 <small></small>
+		</h1>
+
+	</section>
+
+	<section class="content">
+		<div class="row">
+			<div class="col-md-12" style="padding: 0 5px 0 5px;">
+				<div class="box">
+					<div class="box-header">
+						<h3 class="box-title"></h3>
+					</div>
+					<!-- /.box-header -->
+					<div class="box-body" style="padding: 0px;">
+						<div class="btn-group" style="margin-left: 10px;">
+							<button #if(!$isAdmin) disabled#end id="refresh" type="button"
+								class="btn btn-info"
+								style="border-radius: 25px; margin-right: 5px;">
+								<span class="glyphicon glyphicon-refresh"></span> 刷新
+							</button>
+							<button #if(!$isAdmin) disabled#end id='addDataCard'
+								type="button" class="btn btn-primary"
+								style="border-radius: 25px; margin-right: 5px;">
+								<span class="glyphicon glyphicon-pencil"></span> 添加
+							</button>
+							<button #if(!$isAdmin) disabled#end id='updateDataCard'
+								type="button" class="btn btn-warning"
+								style="border-radius: 25px; margin-right: 5px;">
+								<span class="glyphicon glyphicon-edit"></span> 更新
+							</button>
+							<button #if(!$isAdmin) disabled#end id='deleteDataCard'
+								type="button" class="btn btn-danger"
+								style="border-radius: 25px; margin-right: 5px;">
+								<span class="glyphicon glyphicon-remove"></span> 删除
+							</button>
+							<button #if(!$isAdmin) disabled#end
+								onclick="window.open('dataUsage/getCardExcel')" type="button"
+								class="btn btn-success"
+								style="border-radius: 25px; margin-right: 5px;">
+								<span class="glyphicon glyphicon-pencil"></span> 导出excel
+							</button>
+						</div>
+						<div style="display: inline-block;">
+							<input type="search" class="form-control" id="keywords" style="min-width: 70px;"
+								placeholder="关键字搜索">
+						</div>
+						
+						
+						
+						<div class="pull-right">
+							<select class="form-control"
+								style="padding: 1px; font-size: 14px; height: 35px"
+								id="parkNamesearch"> #foreach( $park in $parks)
+								<option value=$park.id>$park.name</option> #end
+							</select>
+						</div>
+						<!-- <div class="pull-right" style="padding-right: 40px">
+							<div class="row">
+								<div class="col-md-9">
+									<input type="text" class="form-control" id="keywords"
+										placeholder="关键字搜索">
+								</div>
+								<div class="col-md-3">
+									<button type="button" id="keywordsSearch"
+										class="btn btn-default">搜索</button>
+								</div>
+							</div>
+						</div> -->
+					</div>
+					<br />
+					<div>
+						<table
+							class="display table table-hover table-striped table-condensed text-center"
+							id='dataCardTable' style="font-size: 12px">
+							<tr class="info" style="height: 30px; line-height: 30px;">
+								<th><span><input type="checkbox" /> </span></th>
+								<th><span>Id </span></th>
+								<th><span>停车场名称 </span></th>
+								<th><span>卡号 </span></th>
+								<th><span>电话号码 </span></th>
+								<th><span>类型 </span></th>
+								<th><span>安装位置 </span></th>
+								<th><span>坐标 </span></th>
+								<th><span>状态 </span></th>
+								<th><span>本月流量 </span></th>
+							</tr>
+							<tbody id="dataCardBody"></tbody>
+						</table>
+					</div>
+				</div>
+				<div class="box-footer clearfix">
+					<div id='pagination'></div>
+				</div>
+			</div>
+		</div>
+</div>
+
+</section>
+
+</div>
+
+
+
+<div class="modal fade" id="addDataCardModal" tabindex="-1"
+	role="dialog" aria-labelledby='addDataCardLabel' aria-hidden='true'>
+	<div class='modal-dialog'>
+		<div class='modal-content'>
+			<div class='modal-header'>
+				<button type='button' class='close' data-dismiss='modal'
+					aria-hidden='true'>&times;</button>
+				<h3 class='modal-title text-center' id='addDataCardLabel'>流量卡信息</h3>
+			</div>
+
+			<div class='modal-body'>
+				<form class='form-horizontal' id='addDataCardForm' role='form'>
+					<div class='form-group'>
+						<label class='col-sm-2 control-label' for='parkName'>停车场名称</label>
+						<div class='col-sm-3'>
+							<select class='form-control' id='parkName'>
+							</select>
+						</div>
+						<div id='parkNameLoader'></div>
+						<label class='col-sm-2 control-label' for='cardNumber'>卡号</label>
+						<div class='col-sm-3'>
+							<input type='text' class='form-control' id='cardNumber'
+								placeholder='卡号'>
+						</div>
+					</div>
+					<div class='form-group'>
+						<label class='col-sm-2 control-label' for='phoneNumber'>电话号码</label>
+						<div class='col-sm-3'>
+							<input type='text' class='form-control' id='phoneNumber'
+								placeholder='电话号码'>
+						</div>
+						<label class='col-sm-2 control-label' for='type'>类型</label>
+						<div class='col-sm-3'>
+							<select class='form-control' id='type'>
+								<option value=0>出入口卡</option>
+								<option value=1>车位发布器卡</option>
+								<option value=2>室外车位卡</option>
+								<option value=3>室内车位卡</option>
+							</select>
+						</div>
+					</div>
+					<div class='form-group'>
+						<label class='col-sm-2 control-label' for='longitude'>经度</label>
+						<div class='col-sm-3'>
+							<input type='text' class='form-control' id='longitude'
+								placeholder='经度'>
+						</div>
+						<label class='col-sm-2 control-label' for='latitude'>纬度</label>
+						<div class='col-sm-3'>
+							<input type='text' class='form-control' id='latitude'
+								placeholder='纬度'>
+						</div>
+					</div>
+					<div class='form-group'>
+						<label class='col-sm-2 control-label' for='position'>安装位置</label>
+						<div class='col-sm-8'>
+							<input type='text' class='form-control' id='position'
+								placeholder='安装位置'>
+						</div>
+
+					</div>
+
+
+
+					<div id='addDataCardResult'></div>
+			</div>
+
+			<div class='modal-footer'>
+				<button type='button' class='btn btn-default' data-dismiss='modal'>关闭</button>
+				<button id="submitDataCardBtn" type='button' class='btn btn-primary'>提交</button>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+<div id='showMessage'></div>
+
+<div id='showErrorMessage'></div>
+
+<script>
+	$(document).ready(function() {
+		$.fn.dataCard.initial();
+	});
+</script>
+

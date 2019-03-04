@@ -1,0 +1,461 @@
+<link href="/park/css/xx_list.css" rel="stylesheet"/>
+<link href="/park/css/xx_pname.css" rel="stylesheet"/>
+<link href="/park/css/smallbox.css" rel="stylesheet"/>
+<link rel="stylesheet"
+      href="/park/css/SearchInfoWindow_min.css?v=0.6"/>
+<script type="text/javascript"
+        src="http://api.map.baidu.com/api?v=2.0&ak=c7A2jm3enN7T0s5V8QbDHx85"></script>
+<script type="text/javascript"
+        src="http://api.map.baidu.com/library/TextIconOverlay/1.2/src/TextIconOverlay_min.js"></script>
+<script type="text/javascript"
+        src="http://api.map.baidu.com/library/MarkerClusterer/1.2/src/MarkerClusterer_min.js"></script>
+<script type="text/javascript"
+        src="http://echarts.baidu.com/build/dist/echarts-all.js"></script>
+<script type="text/javascript"
+        src="http://api.map.baidu.com/library/Heatmap/2.0/src/Heatmap_min.js"></script>
+<script type="text/javascript" src="/park/script/utility.js"></script>
+<script src="/park/plugins/InfoBox_min.js"></script>
+<script src="/park/plugins/SearchInfoWindow_min.js?v=0.5"></script>
+<script type="text/javascript"
+        src="/park/script/clouddata.js?v=1.2"></script>
+<script type="text/javascript" src="/park/script/map2.js?v=0.2"></script>
+<style>
+  .anchorBL {
+    display: none;
+  }
+
+  .panel {
+    background-color: rgba(0, 0, 0, 0);
+  }
+
+  .panel-default {
+    border-color: #6fa8dcff
+  }
+
+  .panel-default > .panel-heading {
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.4);
+    border-color: #6fa8dcff
+  }
+
+  .panel-default > .panel-heading + .panel-collapse > .panel-body {
+    border-top-color: #6fa8dcff
+  }
+
+  .panel-default > .panel-heading .badge {
+    color: #f5f5f5;
+    background-color: #333
+  }
+
+  .panel-default > .panel-footer + .panel-collapse > .panel-body {
+    border-bottom-color: #ddd
+  }
+
+  .table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: rgba(9, 73, 131, 0.4)
+  }
+
+  .table-hover > tbody > tr:hover {
+    background-color: rgba(9, 73, 131, 0.5)
+  }
+
+  tr {
+    color: #fff;
+  }
+
+  tbody {
+    border-color: #6fa8dcff;
+  }
+
+  .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td,
+  .table > tbody > tr > td, .table > tfoot > tr > td {
+    border-top: 1px solid #6fa8dcff;
+  }
+  .infoBoxContent{font-size:20px;}
+  .infoBoxContent .title{background:#c7d9bc no-repeat;height:34px;width:270px;}
+  .infoBoxContent .title strong{font-size:16px;line-height:34px;padding:0 10px 0 15px;}
+  .infoBoxContent .title .price{color:#FFFF00;}
+  .infoBoxContent .list{width:270px;height:150px;}
+  .infoBoxContent .list ul{margin:0;padding:5px;list-style:none;}
+  .infoBoxContent .list ul li {float:left;width:255px;border-bottom:solid 1px #4FA5FC;padding:5px 0;}
+  .infoBoxContent .list ul .last{border:none;}
+  .infoBoxContent .list ul img{width:53px;height:42px;margin-right:5px;}
+  .infoBoxContent .list ul p{padding:0;margin:0;}
+  .infoBoxContent .left{float:left;padding-left: 15px;
+  }
+  .infoBoxContent .rmb{float:right;color:#EB6100;font-size:20px;font-weight:bold;padding-right: 15px;}
+  .infoBoxContent a{color:#0041D9;text-decoration:none;}
+</style>
+<div class="content-wrapper">
+  <section class="content-header">
+    <h1>云平台</h1>
+  </section>
+  <section class="content" ng-app="cloudDataApp">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="box">
+          <div class="box-body" style="height: 620px; padding: 0px;">
+            <div class="row" ng-controller="getdataCtrl">
+              <section class="col-lg-12 col-md-12 connectedSortable"
+                       style="height: 400px;">
+                <div id="container7"
+                     style="min-width: 850px; height: 610px; margin-bottom: 20px; position: relative; box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1)">
+                </div>
+                <div class="small-box"
+                     style="height: 200px; min-width: 250px; background: rgba(0, 0, 0, 0.4); margin-top: 0px; position: absolute; top: 10px; left: 20px;">
+                  <div class="row" style="padding-top: 10px;">
+                    <div class="col-xs-4 img-responsive">
+                      <img src="dist/img/money.png"
+                           style="margin: 10px 0 5px 35px;"/>
+                    </div>
+                    <div class="col-xs-8">
+                      <p>今日交易金额</p>
+                      <h3 style="margin-bottom: 0px;display: inline-block" ng-bind="clouddata.totalAmount|number:2"></h3>
+
+                      <small>元</small>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-4 img-responsive">
+                      <img src="dist/img/list.png" style="margin: 10px 0 5px 35px;"/>
+                    </div>
+                    <div class="col-xs-8">
+                      <p>今日订单数</p>
+                      <h3 style="margin-bottom: 0px;display: inline-block" ng-bind="clouddata.totalCount"></h3>
+
+                      <small>笔</small>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-4 img-responsive">
+                      <img src="dist/img/park.png" style="margin: 10px 0 5px 35px;"/>
+                    </div>
+                    <div class="col-xs-8">
+                      <p>在线停车场 / 总停车场</p>
+                      <h3 style="margin-bottom: 0px;display: inline-block" ng-bind="data.totalCount"></h3>
+                      <small>个</small>&nbsp;&nbsp;<span style="font-size: 20px">/</span>&nbsp;&nbsp;
+                      <h3 style="margin-bottom: 0px;display: inline-block" ng-bind="data.totalCount"></h3>
+                      <small>个</small>
+
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-4 img-responsive">
+                      <img src="dist/img/car.png" style="margin: 10px 0 5px 35px;"/>
+                    </div>
+                    <div class="col-xs-8">
+                      <p>在线泊位数</p>
+                      <h3 style="margin-bottom: 0px;display: inline-block" ng-bind="dayCarportCount"></h3>
+
+                      <small>个</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="panel-group" id="accordion" role="tablist"
+                     aria-multiselectable="true"
+                     style="position: absolute; top: 220px; left: 20px;display: none">
+                  <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingOne">
+                      <h4 class="panel-title">
+                        <a role="button" data-toggle="collapse" href="#collapseOne"
+                           aria-expanded="false" aria-controls="collapseOne">
+                          支付渠道占比 <span
+                            class="glyphicon glyphicon-menu-down pull-right"
+                            aria-hidden="true"></span>
+                        </a>
+                      </h4>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse in"
+                         role="tabpanel" aria-labelledby="headingOne">
+                      <div class="panel-body" id="container6"
+                           style="height: 150px; min-width: 250px;"></div>
+                    </div>
+                  </div>
+                  <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingTwo">
+                      <h4 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse"
+                           href="#collapseTwo" aria-expanded="false"
+                           aria-controls="collapseTwo"> 近七日交易额 <span
+                            class="glyphicon glyphicon-menu-down pull-right"
+                            aria-hidden="true"></span>
+                        </a>
+                      </h4>
+                    </div>
+                    <div id="collapseTwo" class="panel-collapse collapse in"
+                         role="tabpanel" aria-labelledby="headingTwo">
+                      <div class="panel-body" id="container5"
+                           style="height: 150px; min-width: 250px;"></div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div ng-controller="parkBigDataCtrl"
+                     style="padding: 0 20px 0 10px; position: absolute; top: 10px; right: 0px;">
+                  <div class="panel panel-default"
+                       style="width: 250px; min-height: 530px; background-color: rgba(0, 0, 0, 0.4) !important;">
+                    <div class="panel-heading">
+                      <h3 class="panel-title">泊位实时数据</h3>
+                    </div>
+                    <div class="panel-body" style="padding: 0;">
+                      <table class="table table-primary table-hover table-striped table-condensed text-center" style="font-size: 12px;">
+                        <tr>
+                          <th><span>车牌号</span></th>
+                          <th><span>时间</span></th>
+                          <th><span>停车场</span></th>
+                        </tr>
+                        <tr ng-repeat="item in items" ng-class="[item.isNew]">
+                          <td ng-bind="item.cardNumber"></td>
+                          <td ng-bind="item.portNumber" hidden="hidden"></td>
+                          <td ng-if="item.exitDate==undefined" hidden="hidden">入场</td>
+                          <td ng-if="item.exitDate!=undefined" hidden="hidden">出场</td>
+                          <td ng-if="item.exitDate==undefined"
+                              ng-bind="item.entranceDate"></td>
+                          <td ng-if="item.exitDate!=undefined"
+                              ng-bind="item.exitDate"></td>
+                          <td ng-if="item.paidCompleted==true" class="success"
+                              hidden="hidden">已收费
+                          </td>
+                          <td ng-if="item.paidCompleted==false" class="warning"
+                              hidden="hidden">未收费
+                          </td>
+                          <td ng-if="item.paidCompleted==true" class="warning"
+                              hidden="hidden">收费:￥{{item.chargeMoney}}
+                          </td>
+                          <td ng-if="item.paidCompleted==false" hidden="hidden">计费:￥{{item.chargeMoney}}</td>
+                          <td ng-bind="item.parkDesc"></td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+<div id='showMessage'></div>
+
+<div id='showErrorMessage'></div>
+
+<div id='showPicture'></div>
+
+
+<script type="text/javascript">
+  // 基于准备好的dom，初始化echarts实例
+  var myChart = echarts.init(document.getElementById('container5'));
+
+  // 指定图表的配置项和数据
+  var option = {
+    /* 		baseOption :
+     { */
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+
+    tooltip: {
+      trigger: 'axis'
+    },
+    grid: {
+      x: '4%',
+      y: '0%',
+      width: '90%',
+      height: '86%',
+      borderWidth: 0
+    },
+    /* 		toolbox : {
+     show : true,
+     feature : {
+     mark : {
+     show : false
+     },
+     dataView : {
+     show : true,
+     readOnly : false
+     },
+     magicType : {
+     show : true,
+     type : [ 'line', 'bar']
+     },
+     restore : {
+     show : false
+     },
+     saveAsImage : {
+     show : true
+     }
+     }
+     }, */
+    calculable: true,
+
+    xAxis: [{
+      type: 'category',
+      boundaryGap: false,
+      splitLine: {
+        show: false
+      },
+      data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+    }],
+    yAxis: [{
+      //						name: '交易额/千元',
+      type: 'value',
+      position: 'left',
+      splitLine: {
+        show: false
+      },
+      min: 0,
+      max: 5,
+      axisLabel: {
+        formatter: '{value} '
+      },
+      axisLine: {
+        lineStyle: {
+          type: 'solid',
+          color: '#999', //左边线的颜色
+          width: '0', //坐标线的宽度
+        }
+      }
+    }],
+    series: [{
+      name: '交易额',
+      type: 'line',
+      smooth: true,
+      itemStyle: {
+        normal: {
+          color: '#FF9999',
+          areaStyle: {
+            type: {
+              color: '#FF6666'
+            }
+          }
+        }
+      },
+      data: [2.600, 2.300, 2.581, 3.546, 3.214, 4.536, 4.564]
+    }, {
+      name: '订单数',
+      type: 'line',
+      smooth: true,
+      itemStyle: {
+        normal: {
+          color: '#FFCC99',
+          areaStyle: {
+            color: '#FF9900'
+          }
+        }
+      },
+      data: [1.600, 1.300, 1.581, 2.546, 2.214, 2.536, 3.564]
+    }
+
+    ]
+
+    /* 	} */
+
+    /* media: [{
+     query: {
+     maxWidth: 980 // 当容器宽度小于980 时。
+     },
+     option: {
+
+     left:'center'
+     }
+     }] */
+
+  };
+  // 使用刚指定的配置项和数据显示图表。
+  myChart.setOption(option);
+</script>
+
+<script type="text/javascript">
+  // 基于准备好的dom，初始化echarts实例
+  var myChart = echarts.init(document.getElementById('container6'));
+
+  // 指定图表的配置项和数据
+  var option = {
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    tooltip: {
+      trigger: 'item',
+      formatter: "{a} <br/>{b} : {c} ({d}%)"
+    },
+
+    visualMap: {
+      show: false,
+      min: 80,
+      max: 600,
+      inRange: {
+        colorLightness: [0, 1]
+      }
+    },
+    series: [{
+      name: '支付渠道',
+      type: 'pie',
+      radius: '55%',
+      center: ['50%', '50%'],
+      data: [{
+        value: 335,
+        name: '支付宝',
+
+      }, {
+        value: 310,
+        name: '微信'
+      }, {
+        value: 274,
+        name: '银行卡'
+      }, {
+        value: 235,
+        name: 'POS机'
+      }, {
+        value: 400,
+        name: '其它'
+      }].sort(function (a, b) {
+        return a.value - b.value;
+      }),
+      roseType: 'radius',
+      label: {
+        normal: {
+          show: true,
+          position: 'inner',
+          /* 					textStyle : {
+           color : 'rgba(255, 255, 255, 0.3)'
+           } */
+        }
+      },
+      /* 			labelLine : {
+       normal : {
+       lineStyle : {
+       color : 'rgba(255, 255, 255, 0.3)'
+       },
+       smooth : false,
+       length : 1,
+       length2 : 1
+       }
+       }, */
+      itemStyle: {
+        normal: {
+          shadowBlur: 200,
+          shadowColor: 'rgba(0, 0, 0, 0.5)'
+        }
+      },
+
+      animationType: 'scale',
+      animationEasing: 'elasticOut',
+      animationDelay: function (idx) {
+        return Math.random() * 200;
+      }
+    }]
+  };
+
+  // 使用刚指定的配置项和数据显示图表。
+  myChart.setOption(option);
+</script>
+
+
+<script>
+  $(function () {
+    $.fn.map.initial();
+    //	$.fn.platformShow.initial();
+
+  });
+</script>
+
